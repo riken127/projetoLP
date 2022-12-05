@@ -25,7 +25,24 @@ int regist(int customer[], int contCustomers) {
     customer[contCustomers] = id;
     return contCustomers + 1;
 }
+void editCustomers(int customer[], int contCustomers){
+    int id, i;
+    printf("Edit - ");
+    scanf(" %d", &id);
 
+    //verify id function.
+
+    for (i=0; i < contCustomers; i++)
+    {
+        if (customer[i] == id)
+            {
+                printf("Change %d's id:\n", id);
+                scanf(" %d", &customer[i]);
+            }
+    }
+
+
+}
 void mainMenu(int customers[], int contCustomers) {
     int option;
 
@@ -39,6 +56,7 @@ void mainMenu(int customers[], int contCustomers) {
                 contCustomers = regist(customers, contCustomers);
                 break;
             case 2:
+                editCustomers(customers, contCustomers);
                 break;
             case 3:
                 break;
