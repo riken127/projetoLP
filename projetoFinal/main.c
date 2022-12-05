@@ -17,12 +17,31 @@ int menuRead(char message[], int min, int max) {
     } while (option < min || option > max);
     return option;
 }
+int verifyCustomersId(int customer[], int contCustomers, int requestedId)
+{
+    int i = 0, count = 0;
+    for (i = 0; i < contCustomers; i++)
+        {
+        if (customer[i] == requestedId)
+            {
+                ++count;
+                break;
+            }
+        }
+
+    return count;
+}
 
 int registCustomers(int customer[], int contCustomers) {
-    int id;
+    int id, verify;
     printf("Regist - ");
     scanf("%d", &id);
-    customer[contCustomers] = id;
+    verify = verifyCustomersId(customer, contCustomers, id);
+    if (verify == 1)
+        printf("The given id is already taken.\n");
+    else
+        customer[contCustomers] = id;
+
     return contCustomers + 1;
 }
 
