@@ -25,22 +25,25 @@ int registCustomers(int customer[], int contCustomers) {
     customer[contCustomers] = id;
     return contCustomers + 1;
 }
-void editCustomers(int customer[], int contCustomers){
-    int id, i;
+
+void editCustomers(int customer[], int contCustomers) {
+    int id, i, verify;
+    do{
     printf("Edit - ");
-    scanf(" %d", &id);
+    scanf("%d", &id);
 
-    //verify id function.
-    for (i=0; i < contCustomers; i++)
-    {
-        if (customer[i] == id)
-        {
-            printf("Change %d's id:\n", id);
-            scanf(" %d", &customer[i]);
+    verify = verifyCustomersId(customer, contCustomers, id);
+    if (verify == 1) {
+        for (i = 0; i < contCustomers; i++) {
+            if (customer[i] == id) {
+                printf("Change %d's id:\n", id);
+                scanf(" %d", &customer[i]);
+            }
         }
-
-    }
+    } else printf("");
+    }while(verify != 1);
 }
+
 int deleteCustomers(int customer[], int contCustomers) {
     int id, i;
     printf("Delete - ");
@@ -61,9 +64,6 @@ void listCustomers(int customer[], int contCustomers) {
     }
     printf("\n");
 }
-
-
-
 
 void mainMenu(int customers[], int contCustomers) {
     int option;
