@@ -18,7 +18,7 @@ int menuRead(char message[], int min, int max) {
     return option;
 }
 
-int regist(int customer[], int contCustomers) {
+int registCustomers(int customer[], int contCustomers) {
     int id;
     printf("Regist - ");
     scanf("%d", &id);
@@ -31,18 +31,40 @@ void editCustomers(int customer[], int contCustomers){
     scanf(" %d", &id);
 
     //verify id function.
-
     for (i=0; i < contCustomers; i++)
     {
         if (customer[i] == id)
-            {
-                printf("Change %d's id:\n", id);
-                scanf(" %d", &customer[i]);
-            }
+        {
+            printf("Change %d's id:\n", id);
+            scanf(" %d", &customer[i]);
+        }
+
     }
-
-
 }
+int deleteCustomers(int customer[], int contCustomers) {
+    int id, i;
+    printf("Delete - ");
+    scanf("%d", &id);
+    for (i = 0; i < contCustomers; i++) {
+        if (customer[i] == id) {
+            customer[i] = customer[i + 1];
+        }
+    }
+    return contCustomers - 1;
+}
+
+void listCustomers(int customer[], int contCustomers) {
+    int i;
+    printf("\n");
+    for (i = 0; i < contCustomers; i++) {
+        printf("%d\t", customer[i]);
+    }
+    printf("\n");
+}
+
+
+
+
 void mainMenu(int customers[], int contCustomers) {
     int option;
 
@@ -53,18 +75,18 @@ void mainMenu(int customers[], int contCustomers) {
             case 0:
                 break;
             case 1:
-                contCustomers = regist(customers, contCustomers);
+                contCustomers = registCustomers(customers, contCustomers);
                 break;
             case 2:
                 editCustomers(customers, contCustomers);
                 break;
             case 3:
+                contCustomers = deleteCustomers(customers, contCustomers);
                 break;
             case 4:
+                listCustomers(customers, contCustomers);
                 break;
         }
-        printf("\n%d\n", contCustomers);
-        printf("%d\n", customers[contCustomers - 1]);
     } while (option != 0);
 }
 
