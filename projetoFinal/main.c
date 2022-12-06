@@ -48,14 +48,13 @@ void customerName(Customer customer[], int contCustomers) {
       e guarda-lo numa variavel temporaria.
      */
     scanf("%[^\n]", customer[contCustomers].name);
-    printf("%s", customer[contCustomers].name);
 }
 
-void customerAdress(Customer customer[], int contCustomers) {
+void customerAddress(Customer customer[], int contCustomers) {
     char temp;
     printf("Adress - ");
     scanf("%c", &temp);
-    scanf("%[^\n]", customer[contCustomers].adress);
+    scanf("%[^\n]", customer[contCustomers].address);
 }
 
 void customerNif(Customer customer[], int contCustomers) {
@@ -93,28 +92,26 @@ int recordCustomers(Customer customer[], int contCustomers, int curentID) {
     return contCustomers + 1;
 }
 
-/*void editCustomers(Customer customer[], int contCustomers) {
-    int id, i, verify, newValue;
+void editCustomers(Customer customer[], int contCustomers) {
+    int id, i, verify;
     do {
         printf("Edit - ");
         scanf("%d", &id);
-
+        if(id == 0)break;
         verify = verifyCustomersId(customer, contCustomers, id);
         if (verify == 1) {
             for (i = 0; i < contCustomers; i++) {
-                if (customer[i] == id) {
-                    printf("Change %d's id:\n", id);
-                    scanf("%d", &newValue);
-                    if (newValue == 0)
-                        break;
-                    else
-                        customer[i] = newValue;
+                if (customer[i].id == id) {
+                    customerName(customer, i);
+                    customerAddress(customer, i);
+                    customerNif(customer, i);
+                    customerCountry(customer, i);
                 }
             }
         } else printf("Given id was not found. Try again.\n");
     } while (verify != 1);
 }
- */
+
 int deleteCustomers(Customer customer[], int contCustomers) {
     int id, i, verify;
     do {
@@ -150,7 +147,7 @@ void listCustomers(Customer customer[], int contCustomers) {
     int i;
     printf("\n");
     for (i = 0; i < contCustomers; i++) {
-        printf("| %d | %s | %s | %d | %s |\n", customer[i].id, customer[i].name, customer[i].adress, customer[i].nif, customer[i].country);
+        printf("| %d | %s | %s | %d | %s |\n", customer[i].id, customer[i].name, customer[i].address, customer[i].nif, customer[i].country);
     }
     printf("\n");
 }
@@ -169,7 +166,7 @@ void mainMenu(Customer customer[], int contCustomers, int curentID) {
                 curentID++;
                 break;
             case 2:
-                //editCustomers(customer, contCustomers);
+                editCustomers(customer, contCustomers);
                 break;
             case 3:
                 contCustomers = deleteCustomers(customer, contCustomers);
