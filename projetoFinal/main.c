@@ -39,13 +39,23 @@ int verifyCustomersId(Customer customer[], int contCustomers, int requestedId) {
 }
 
 void customerName(Customer customer[], int contCustomers) {
+    char temp;
     printf("Name - ");
-    scanf("%s", customer[contCustomers].name);
+    scanf("%c", &temp);
+    /*É colocado o scanf da linha pois sem esta linha o compilador
+      guarda sempre o valor nulo na variavel .name .
+      Para arranjar isso é colocado o scanf para ler o valor do input buffer
+      e guarda-lo numa variavel temporaria.
+     */
+    scanf("%[^\n]", customer[contCustomers].name);
+    printf("%s", customer[contCustomers].name);
 }
 
-void customerAddress(Customer customer[], int contCustomers) {
-    printf("Address - ");
-    scanf("%s", customer[contCustomers].address);
+void customerAdress(Customer customer[], int contCustomers) {
+    char temp;
+    printf("Adress - ");
+    scanf("%c", &temp);
+    scanf("%[^\n]", customer[contCustomers].adress);
 }
 
 void customerNif(Customer customer[], int contCustomers) {
@@ -62,8 +72,10 @@ void customerNif(Customer customer[], int contCustomers) {
 }
 
 void customerCountry(Customer customer[], int contCustomers) {
+    char temp;
     printf("Country - ");
-    scanf("%s", customer[contCustomers].country);
+    scanf("%c", &temp);
+    scanf("%[^\n]", customer[contCustomers].country);
 }
 
 void customerId(Customer customer[], int contCustomers, int curentID) {
@@ -138,7 +150,7 @@ void listCustomers(Customer customer[], int contCustomers) {
     int i;
     printf("\n");
     for (i = 0; i < contCustomers; i++) {
-        printf("%d %s %s %d %s\n", customer[i].id, customer[i].name, customer[i].address, customer[i].nif, customer[i].country);
+        printf("| %d | %s | %s | %d | %s |\n", customer[i].id, customer[i].name, customer[i].adress, customer[i].nif, customer[i].country);
     }
     printf("\n");
 }

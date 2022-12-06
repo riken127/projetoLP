@@ -1,0 +1,14 @@
+Cliente:
+	-Registar
+	-Alterar
+	-Eliminar
+Cliente->ID, Nome, Morada, NIF, País.
+	>>ARRANJAR<<
+>> Arranjar problemas das strings com os espaços. [Feito].
+###################################################
+Encomendas:
+	-Registar
+	-Alterar
+	-Eliminar
+	>>FAZER<<
+>>Receber e Alterar os dados de todos os produtos a partir de um ficheiro .txt (produtos.txt).
