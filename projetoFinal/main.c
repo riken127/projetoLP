@@ -1,14 +1,15 @@
+//Macro and Library definition
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
 #define MAX_CLIENTS 20
-#define MSG_CUSTOMER_MANAGMENT_MENU  "[1] - Record.\n[2] - Edit.\n[3] - Delete.\n[4] - List."
+#define MSG_CUSTOMER_MANAGEMENT_MENU  "[1] - Record.\n[2] - Edit.\n[3] - Delete.\n[4] - List."
 #define MSG_MAIN_MENU  "[1] - User.\n[2] - Admin."
-#define MSG_ADMIN_MENU  "[1] - Clients Managment.\n[2] - Products Managment.\n[3] - Production Managment."
+#define MSG_ADMIN_MENU  "[1] - Clients Management.\n[2] - Products Management.\n[3] - Production Management."
 
 /*
- * 
+ * Struct definition
  */
 
 typedef struct {
@@ -28,7 +29,10 @@ int menuRead(char message[], int min, int max) {
     } while (option < min || option > max);
     return option;
 }
-
+/*
+ * Above function checks if the given value
+ * is between to values, if not, the cycle continues.
+*/
 int verifyCustomersId(Customer customer[], int contCustomers, int requestedId) {
     int i = 0, count = 0;
     for (i = 0; i < contCustomers; i++) {
@@ -39,18 +43,23 @@ int verifyCustomersId(Customer customer[], int contCustomers, int requestedId) {
     }
     return count;
 }
+/*
+ * Above function checks for a id in the struct array,
+ * if found, returns the value 1, if not, returns the value 0.
+*/
 
 void customerName(Customer customer[], int contCustomers) {
     char temp;
     printf("Name - ");
-    scanf("%c", &temp);
-    /*É colocado o scanf da linha pois sem esta linha o compilador
-      guarda sempre o valor nulo na variavel .name .
-      Para arranjar isso é colocado o scanf para ler o valor do input buffer
-      e guarda-lo numa variavel temporaria.
-     */
+    scanf(" %c", &temp);
     scanf("%[^\n]", customer[contCustomers].name);
 }
+/*
+ * Above function takes a given name and stores it in the struct array
+ * in the given position. The first scanf makes sure the buffer is clean,
+ * the second scanf gets the value given by the user.
+ *
+*/
 
 void customerAddress(Customer customer[], int contCustomers) {
     char temp;
@@ -58,6 +67,11 @@ void customerAddress(Customer customer[], int contCustomers) {
     scanf("%c", &temp);
     scanf("%[^\n]", customer[contCustomers].address);
 }
+/*
+ * Above function takes a given address and stores it in the struct array
+ * In the given position. The first scanf makes sure the buffer is clean,
+ * the second scanf gets the value given by the user.
+ */
 
 void customerNif(Customer customer[], int contCustomers) {
     int verifyNif;
@@ -71,7 +85,11 @@ void customerNif(Customer customer[], int contCustomers) {
             verifyNif = 1;
     } while (verifyNif != 1);
 }
-
+/*
+ * Above function takes a given integer and stores it in the struct array
+ * in the given position . checks if the given value
+ * is equal or below zero, if so, the cycle continues.
+*/
 void customerCountry(Customer customer[], int contCustomers) {
     char temp;
     printf("Country - ");
@@ -79,10 +97,19 @@ void customerCountry(Customer customer[], int contCustomers) {
     scanf("%[^\n]", customer[contCustomers].country);
 }
 
+/*
+ * Above function takes a given country name and stores it in the struct array
+ * in the given position. The first scanf makes sure the bufffer is clean,
+ * the second scanf gets the value given by the user.
+*/
 void customerId(Customer customer[], int contCustomers, int curentID) {
     customer[contCustomers].id = curentID + 1;
 }
-
+/*
+ * Above function creates an id for the user who is beeing created,
+ * the given id is equal to the last given id (from the last created user)
+ * incremented by one.
+*/
 int recordCustomers(Customer customer[], int contCustomers, int curentID) {
 
     customerId(customer, contCustomers, curentID);
@@ -93,7 +120,10 @@ int recordCustomers(Customer customer[], int contCustomers, int curentID) {
 
     return contCustomers + 1;
 }
-
+/*
+ * The above function calls other 5 functions that help create the customer,
+ * each function fills a field in the new user's position in the struct array.
+*/
 void editCustomers(Customer customer[], int contCustomers) {
     int id, i, verify;
     do {
@@ -114,7 +144,11 @@ void editCustomers(Customer customer[], int contCustomers) {
         } else printf("Given id was not found. Try again.\n");
     } while (verify != 1);
 }
-
+/*
+ * The above function edit's a line in the struct array. It gets the struct and an the amount of customers,
+ * Then asks the user for a value and loops tru the struct trying to find the given id, if found the functions used to create a user
+ * are invoked, if not an error message is displayed.
+ */
 int deleteCustomers(Customer customer[], int contCustomers) {
     int id, i, verify;
     do {
@@ -146,6 +180,12 @@ int deleteCustomers(Customer customer[], int contCustomers) {
         return contCustomers - 1;
 }
 
+/*
+ * The above function deletes a user in the struct array. It gets the struct and the amount of users by parameter
+ * then asks the user for a integer and loops tru the struct trying to find the given id, if found, the user is deleted,
+ * if not an error message is displayed.
+*/
+
 void listCustomers(Customer customer[], int contCustomers) {
     int i;
     printf("\n");
@@ -154,12 +194,14 @@ void listCustomers(Customer customer[], int contCustomers) {
     }
     printf("\n");
 }
-
-void customerManagmentMenu(Customer customer[], int contCustomers, int curentID) {
+/*
+ * The above function displays all customers.
+ */
+void customerManagementMenu(Customer customer[], int contCustomers, int curentID) {
     int option;
 
     do {
-        option = menuRead(MSG_CUSTOMER_MANAGMENT_MENU, 0, 4);
+        option = menuRead(MSG_CUSTOMER_MANAGEMENT_MENU, 0, 4);
 
         switch (option) {
             case 0:
@@ -180,7 +222,9 @@ void customerManagmentMenu(Customer customer[], int contCustomers, int curentID)
         }
     } while (option != 0);
 }
-
+/*
+ * This menu manages the customers, it loops until the integer [option] given by the user is equal to zero.
+ */
 void adminMenu(Customer customer[], int contCustomers, int curentID) {
     int option;
 
@@ -191,7 +235,7 @@ void adminMenu(Customer customer[], int contCustomers, int curentID) {
             case 0:
                 break;
             case 1:
-                customerManagmentMenu(customer, contCustomers, curentID);
+                customerManagementMenu(customer, contCustomers, curentID);
                 break;
             case 2:
                 break;
@@ -200,7 +244,9 @@ void adminMenu(Customer customer[], int contCustomers, int curentID) {
         }
     } while (option != 0);
 }
-
+/*
+ * This menu is divided into three sub-menus, it loops until the integer [option] given by the user is equal to zero.
+*/
 void mainMenu(Customer customer[], int contCustomers, int curentID) {
     int option;
 
@@ -219,7 +265,10 @@ void mainMenu(Customer customer[], int contCustomers, int curentID) {
         }
     } while (option != 0);
 }
-
+/*
+ * This is the main menu, its divided in two sides, the customer side, and the admin side, it loops until the integer
+ * [option] given by the user is equal to zero.
+ */
 int main(int argc, char** argv) {
 
     int contCustomers = 0, curentID = 0;
@@ -230,3 +279,6 @@ int main(int argc, char** argv) {
     return (EXIT_SUCCESS);
 }
 
+/*
+ * This is the main function, this is all the structs are instaciated, here the main menu is invoked.
+ */
