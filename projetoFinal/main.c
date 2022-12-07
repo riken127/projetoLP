@@ -3,7 +3,9 @@
 #include <string.h>
 
 #define MAX_CLIENTS 20
-#define MSG_MAIN_MENU  "[1] - Record.\n[2] - Edit.\n[3] - Delete.\n[4] - List."
+#define MSG_CUSTOMER_MANAGMENT_MENU  "[1] - Record.\n[2] - Edit.\n[3] - Delete.\n[4] - List."
+#define MSG_MAIN_MENU  "[1] - User.\n[2] - Admin."
+#define MSG_ADMIN_MENU  "[1] - Clients Managment.\n[2] - Products Managment.\n[3] - Production Managment."
 
 /*
  * 
@@ -97,7 +99,8 @@ void editCustomers(Customer customer[], int contCustomers) {
     do {
         printf("Edit - ");
         scanf("%d", &id);
-        if(id == 0)break;
+        if (id == 0)
+            break;
         verify = verifyCustomersId(customer, contCustomers, id);
         if (verify == 1) {
             for (i = 0; i < contCustomers; i++) {
@@ -152,11 +155,11 @@ void listCustomers(Customer customer[], int contCustomers) {
     printf("\n");
 }
 
-void mainMenu(Customer customer[], int contCustomers, int curentID) {
+void customerManagmentMenu(Customer customer[], int contCustomers, int curentID) {
     int option;
 
     do {
-        option = menuRead(MSG_MAIN_MENU, 0, 4);
+        option = menuRead(MSG_CUSTOMER_MANAGMENT_MENU, 0, 4);
 
         switch (option) {
             case 0:
@@ -173,6 +176,45 @@ void mainMenu(Customer customer[], int contCustomers, int curentID) {
                 break;
             case 4:
                 listCustomers(customer, contCustomers);
+                break;
+        }
+    } while (option != 0);
+}
+
+void adminMenu(Customer customer[], int contCustomers, int curentID) {
+    int option;
+
+    do {
+        option = menuRead(MSG_ADMIN_MENU, 0, 3);
+
+        switch (option) {
+            case 0:
+                break;
+            case 1:
+                customerManagmentMenu(customer, contCustomers, curentID);
+                break;
+            case 2:
+                break;
+            case 3:
+                break;
+        }
+    } while (option != 0);
+}
+
+void mainMenu(Customer customer[], int contCustomers, int curentID) {
+    int option;
+
+    do {
+        option = menuRead(MSG_MAIN_MENU, 0, 2);
+
+        switch (option) {
+            case 0:
+                break;
+            case 1:
+
+                break;
+            case 2:
+                adminMenu(customer, contCustomers, curentID);
                 break;
         }
     } while (option != 0);
