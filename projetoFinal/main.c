@@ -51,7 +51,7 @@ int verifyCustomersId(Customer customer[], int contCustomers, int requestedId) {
 void customerName(Customer customer[], int contCustomers) {
     char temp;
     printf("Name - ");
-    scanf(" %c", &temp);
+    scanf("%c", &temp);
     scanf("%[^\n]", customer[contCustomers].name);
 }
 /*
@@ -197,7 +197,7 @@ void listCustomers(Customer customer[], int contCustomers) {
 /*
  * The above function displays all customers.
  */
-void customerManagementMenu(Customer customer[], int contCustomers, int curentID) {
+void customerManagementMenu(Customer customer[], int *contCustomers, int curentID) {
     int option;
 
     do {
@@ -207,17 +207,17 @@ void customerManagementMenu(Customer customer[], int contCustomers, int curentID
             case 0:
                 break;
             case 1:
-                contCustomers = recordCustomers(customer, contCustomers, curentID);
+                *(contCustomers) = recordCustomers(customer, *contCustomers, curentID);
                 curentID++;
                 break;
             case 2:
-                editCustomers(customer, contCustomers);
+                editCustomers(customer, *contCustomers);
                 break;
             case 3:
-                contCustomers = deleteCustomers(customer, contCustomers);
+                *contCustomers = deleteCustomers(customer, *contCustomers);
                 break;
             case 4:
-                listCustomers(customer, contCustomers);
+                listCustomers(customer, *contCustomers);
                 break;
         }
     } while (option != 0);
@@ -225,7 +225,7 @@ void customerManagementMenu(Customer customer[], int contCustomers, int curentID
 /*
  * This menu manages the customers, it loops until the integer [option] given by the user is equal to zero.
  */
-void adminMenu(Customer customer[], int contCustomers, int curentID) {
+void adminMenu(Customer customer[], int *contCustomers, int curentID) {
     int option;
 
     do {
@@ -235,7 +235,7 @@ void adminMenu(Customer customer[], int contCustomers, int curentID) {
             case 0:
                 break;
             case 1:
-                customerManagementMenu(customer, contCustomers, curentID);
+                customerManagementMenu(customer, &(*contCustomers), curentID);
                 break;
             case 2:
                 break;
@@ -247,7 +247,7 @@ void adminMenu(Customer customer[], int contCustomers, int curentID) {
 /*
  * This menu is divided into three sub-menus, it loops until the integer [option] given by the user is equal to zero.
 */
-void mainMenu(Customer customer[], int contCustomers, int curentID) {
+void mainMenu(Customer customer[], int *contCustomers, int curentID) {
     int option;
 
     do {
@@ -260,7 +260,7 @@ void mainMenu(Customer customer[], int contCustomers, int curentID) {
 
                 break;
             case 2:
-                adminMenu(customer, contCustomers, curentID);
+                adminMenu(customer, &(*contCustomers), curentID);
                 break;
         }
     } while (option != 0);
@@ -274,7 +274,7 @@ int main(int argc, char** argv) {
     int contCustomers = 0, curentID = 0;
     Customer customer[MAX_CLIENTS];
 
-    mainMenu(customer, contCustomers, curentID);
+    mainMenu(customer, &contCustomers, curentID);
 
     return (EXIT_SUCCESS);
 }
