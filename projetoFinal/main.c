@@ -11,6 +11,8 @@
 
 
 
+//teste
+
 void adminMenu(Customer customer[], int *contCustomers, int curentID) {
     int option;
 
