@@ -11,15 +11,7 @@
 /*
  * Struct definition
  */
-int menuRead(char message[], int min, int max) {
-    int option;
-    do {
-        puts(message);
-        printf("\nInsert here - ");
-        scanf("%d", &option);
-    } while (option < min || option > max);
-    return option;
-}
+
 
 
 

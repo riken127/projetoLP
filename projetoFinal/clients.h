@@ -4,12 +4,15 @@
 
 #ifndef PROJETOLP_CLIENTS_H
 #define PROJETOLP_CLIENTS_H
+#define NAME_LENGHT 50
+#define ADDRESS_LENGHT 50
+#define COUNTRY_LENGHT 50
 typedef struct {
     int id;
-    char name[50];
-    char address[50];
+    char name[NAME_LENGHT];
+    char address[ADDRESS_LENGHT];
     int nif;
-    char country[50];
+    char country[COUNTRY_LENGHT];
 } Customer;
 int menuRead(char message[], int min, int max);
 int verifyCustomersId(Customer customer[], int contCustomers, int requestedId);

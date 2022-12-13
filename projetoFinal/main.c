@@ -9,9 +9,15 @@
 #define MSG_ADMIN_MENU  "[1] - Clients Management.\n[2] - Products Management.\n[3] - Production Management."
 #define MAX_CLIENTS 20
 
-
-
-//teste
+int menuRead(char message[], int min, int max) {
+    int option;
+    do {
+        puts(message);
+        printf("\nInsert here - ");
+        scanf("%d", &option);
+    } while (option < min || option > max);
+    return option;
+}
 
 void adminMenu(Customer customer[], int *contCustomers, int curentID) {
     int option;
@@ -26,6 +32,7 @@ void adminMenu(Customer customer[], int *contCustomers, int curentID) {
                 customerManagementMenu(customer, &(*contCustomers), curentID);
                 break;
             case 2:
+                productsManagementMenu();
                 break;
             case 3:
                 break;
@@ -61,7 +68,7 @@ int main(int argc, char** argv) {
 
     int contCustomers = 0, curentID = 0;
     Customer customer[MAX_CLIENTS];
-
+    
     mainMenu(customer, &contCustomers, curentID);
 
     return (EXIT_SUCCESS);
