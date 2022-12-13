@@ -1,4 +1,4 @@
-//Macro and Library definition s
+//Macro and Library definition 
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -59,7 +59,7 @@ void mainMenu(Customers *customer, int curentID) {
 int main(int argc, char** argv) {
     int curentID = 0;
     Customers customer[MAX_CLIENTS];
-    customer->counter = 0;
+    customer->counter = 0; 
     mainMenu(customer, curentID);
 
     return (EXIT_SUCCESS);
