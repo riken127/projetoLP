@@ -10,10 +10,10 @@
 #define MAX_COUNTRY_CHARS 50
 typedef struct {
     int id;
-    char name[50];
-    char address[50];
+    char name[MAX_NAME_CHARS];
+    char address[MAX_ADDRESS_CHARS];
     int nif;
-    char country[50];
+    char country[MAX_COUNTRY_CHARS];
 } Customer;
 
 typedef struct {
