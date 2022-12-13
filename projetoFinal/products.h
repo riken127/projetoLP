@@ -9,7 +9,7 @@
 
 typedef struct {
     int cod_Produto;
-    char designition[20];
+    char designation[20];
     int price;
     int cod_Material[MAX_MATERIALS];
     int quantity[MAX_QUANTITY];
