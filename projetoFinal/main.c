@@ -1,4 +1,4 @@
-//Macro and Library definition
+//Macro and Library definition s
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
