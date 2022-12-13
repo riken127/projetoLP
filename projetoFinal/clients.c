@@ -6,23 +6,32 @@
 #include <stdio.h>
 #include <string.h>
 #define MSG_CUSTOMER_MANAGEMENT_MENU  "[1] - Record.\n[2] - Edit.\n[3] - Delete.\n[4] - List."
-
+#define MSG_CUSTOMER_NAME "Name - "
+#define MSG_CUSTOMER_ADDRESS "Adress - "
+#define MSG_CUSTOMER_NIF "Nif - "
+#define MSG_CUSTOMER_COUNTRY  "Country - "
 
 /*
  * Struct definition
  */
-
-
-
-
+int menuRead(char message[], int min, int max) {
+    int option;
+    do {
+        puts(message);
+        printf("\nInsert here - ");
+        scanf("%d", &option);
+    } while (option < min || option > max);
+    return option;
+}
 /*
  * Above function checks if the given value
  * is between to values, if not, the cycle continues.
 */
-int verifyCustomersId(Customer customer[], int contCustomers, int requestedId) {
+
+int verifyCustomersId(Customers *customer, int requestedId) {
     int i = 0, count = 0;
-    for (i = 0; i < contCustomers; i++) {
-        if (customer[i].id == requestedId) {
+    for (i = 0; i < customer->counter; i++) {
+        if (*(&customer->customers[i].id) == requestedId) {
             ++count;
             break;
         }
@@ -34,11 +43,11 @@ int verifyCustomersId(Customer customer[], int contCustomers, int requestedId) {
  * if found, returns the value 1, if not, returns the value 0.
 */
 
-void customerName(Customer customer[], int contCustomers) {
+void customerName(char name[]) {
     char temp;
-    printf("Name - ");
+    printf(MSG_CUSTOMER_NAME);
     scanf("%c", &temp);
-    scanf("%[^\n]", customer[contCustomers].name);
+    scanf("%[^\n]", name);
 }
 /*
  * Above function takes a given name and stores it in the struct array
@@ -47,11 +56,11 @@ void customerName(Customer customer[], int contCustomers) {
  *
 */
 
-void customerAddress(Customer customer[], int contCustomers) {
+void customerAddress(char address[]) {
     char temp;
-    printf("Adress - ");
+    printf(MSG_CUSTOMER_ADDRESS);
     scanf("%c", &temp);
-    scanf("%[^\n]", customer[contCustomers].address);
+    scanf("%[^\n]", address);
 }
 /*
  * Above function takes a given address and stores it in the struct array
@@ -59,28 +68,29 @@ void customerAddress(Customer customer[], int contCustomers) {
  * the second scanf gets the value given by the user.
  */
 
-void customerNif(Customer customer[], int contCustomers) {
-    int verifyNif;
-
+int customerNif() {
+    int verifyNif, nif;
     do {
-        printf("Nif - ");
-        scanf("%d", &customer[contCustomers].nif);
-        if (customer[contCustomers].nif <= 0) {
+        printf(MSG_CUSTOMER_NIF);
+        scanf("%d", &nif);
+        if (nif <= 0) {
             printf("Invalid Nif\n");
         } else
             verifyNif = 1;
     } while (verifyNif != 1);
+
+    return nif;
 }
 /*
  * Above function takes a given integer and stores it in the struct array
  * in the given position . checks if the given value
  * is equal or below zero, if so, the cycle continues.
 */
-void customerCountry(Customer customer[], int contCustomers) {
+void customerCountry(char country[]) {
     char temp;
-    printf("Country - ");
+    printf(MSG_CUSTOMER_COUNTRY);
     scanf("%c", &temp);
-    scanf("%[^\n]", customer[contCustomers].country);
+    scanf("%[^\n]", country);
 }
 
 /*
@@ -88,43 +98,64 @@ void customerCountry(Customer customer[], int contCustomers) {
  * in the given position. The first scanf makes sure the buffer is clean,
  * the second scanf gets the value given by the user.
 */
-void customerId(Customer customer[], int contCustomers, int curentID) {
-    customer[contCustomers].id = curentID + 1;
+int customerId(int curentID) {
+    return (curentID+1);
 }
 /*
  * Above function creates an id for the user who is beeing created,
  * the given id is equal to the last given id (from the last created user)
  * incremented by one.
 */
-int recordCustomers(Customer customer[], int contCustomers, int curentID) {
+void saveCustomer(char name[], char address[], int nif, char country[], int id, Customers *customer, int pos){
+    //currentID++;
 
-    customerId(customer, contCustomers, curentID);
-    customerName(customer, contCustomers);
-    customerAddress(customer, contCustomers);
-    customerNif(customer, contCustomers);
-    customerCountry(customer, contCustomers);
+    *(&customer->customers[pos].id) = id;
+    strcpy(*(&customer->customers[pos].name),  name);
+    strcpy(*(&customer->customers[pos].address) ,address);
+    *(&customer->customers[pos].nif) = nif;
+    strcpy(*(&customer->customers[pos].country) ,country);
+} 
+void recordCustomers(Customers *customer, int curentID) {
+    char name[MAX_NAME_CHARS], address[MAX_ADDRESS_CHARS], country[MAX_COUNTRY_CHARS];
+    int nif;
+    customerName(name);
+    customerAddress(address);
+    nif = customerNif();
+    customerCountry(country);
+    saveCustomer(name, address, nif, country, customerId(curentID), *(&customer), customer->counter);
 
-    return contCustomers + 1;
+
+    customer->counter++;
+}
+void changeCustomerData(Customers *customer, int pos, int id) {
+    char name[MAX_NAME_CHARS], address[MAX_ADDRESS_CHARS], country[MAX_COUNTRY_CHARS];
+    int nif;
+    customerName(name);
+    customerAddress(address);
+    nif = customerNif();
+    customerCountry(country);
+    saveCustomer(name, address, nif, country, id, *(&customer), pos);
 }
 /*
  * The above function calls other 5 functions that help create the customer,
  * each function fills a field in the new user's position in the struct array.
 */
-void editCustomers(Customer customer[], int contCustomers) {
+void editCustomers(Customers *customer) {
     int id, i, verify;
     do {
         printf("Edit - ");
         scanf("%d", &id);
         if (id == 0)
             break;
-        verify = verifyCustomersId(customer, contCustomers, id);
+        verify = verifyCustomersId(*(&customer), id);
         if (verify == 1) {
-            for (i = 0; i < contCustomers; i++) {
-                if (customer[i].id == id) {
-                    customerName(customer, i);
-                    customerAddress(customer, i);
-                    customerNif(customer, i);
-                    customerCountry(customer, i);
+            for (i = 0; i < customer->counter; i++) {
+                if (*(&customer->customers[i].id) == id) {
+                    //customerName(customer, i);
+                    //customerAddress(customer, i);
+                    //customerNif(customer, i);
+                    //customerCountry(customer, i);
+                    changeCustomerData(*(&customer), i, id);
                 }
             }
         } else printf("Given id was not found. Try again.\n");
@@ -135,7 +166,7 @@ void editCustomers(Customer customer[], int contCustomers) {
  * Then asks the user for a value and loops tru the struct trying to find the given id, if found the functions used to create a user
  * are invoked, if not an error message is displayed.
  */
-int deleteCustomers(Customer customer[], int contCustomers) {
+int deleteCustomers(Customers *customer) {
     int id, i, verify;
     do {
         printf("Delete - ");
@@ -143,17 +174,17 @@ int deleteCustomers(Customer customer[], int contCustomers) {
         if (id == 0) {
             break;
         } else {
-            verify = verifyCustomersId(customer, contCustomers, id);
+            verify = verifyCustomersId(*(&customer), id);
             if (verify == 0) {
                 printf("The given id does not exist.\n");
             } else {
-                for (i = 0; i < contCustomers; i++) {
-                    if (customer[i].id == id) {
-                        customer[i].id = customer[i + 1].id;
-                        strcpy(customer[i].name, customer[i + 1].name);
-                        strcpy(customer[i].address, customer[i + 1].address);
-                        customer[i].nif = customer[i + 1].nif;
-                        strcpy(customer[i].country, customer[i + 1].country);
+                for (i = 0; i < *(&customer->counter); i++) {
+                    if (*(&customer->customers[i].id)  == id) {
+                        *(&customer->customers[i].id) = *(&customer->customers[i + 1].id);
+                        strcpy(*(&customer->customers[i].name), *(&customer->customers[i + 1].name));
+                        strcpy(*(&customer->customers[i].address), *(&customer->customers[i + 1].address));
+                        *(&customer->customers[i].nif) = *(&customer->customers[i + 1].nif);
+                        strcpy(*(&customer->customers[i].country), *(&customer->customers[i + 1].country));
                     }
                 }
             }
@@ -161,9 +192,9 @@ int deleteCustomers(Customer customer[], int contCustomers) {
     } while (verify != 1);
 
     if (id == 0)
-        return contCustomers;
+        return customer->counter;
     else
-        return contCustomers - 1;
+        return customer->counter--;
 }
 
 /*
@@ -172,18 +203,19 @@ int deleteCustomers(Customer customer[], int contCustomers) {
  * if not an error message is displayed.
 */
 
-void listCustomers(Customer customer[], int contCustomers) {
+void listCustomers(Customers *customer) {
     int i;
     printf("\n");
-    for (i = 0; i < contCustomers; i++) {
-        printf("| %d | %s | %s | %d | %s |\n", customer[i].id, customer[i].name, customer[i].address, customer[i].nif, customer[i].country);
+    printf("%d\n", customer->counter);
+    for (i = 0; i < customer->counter; i++) {
+        printf("| %d | %s | %s | %d | %s |\n", customer->customers[i].id, customer->customers[i].name, customer->customers[i].address, customer->customers[i].nif, customer->customers[i].country);
     }
     printf("\n");
 }
 /*
  * The above function displays all customers.
  */
-void customerManagementMenu(Customer customer[], int *contCustomers, int curentID) {
+void customerManagementMenu(Customers *customer, int curentID) {
     int option;
 
     do {
@@ -193,17 +225,17 @@ void customerManagementMenu(Customer customer[], int *contCustomers, int curentI
             case 0:
                 break;
             case 1:
-                *(contCustomers) = recordCustomers(customer, *contCustomers, curentID);
+                recordCustomers(*(&customer), curentID);
                 curentID++;
                 break;
             case 2:
-                editCustomers(customer, *contCustomers);
+                editCustomers(customer);
                 break;
             case 3:
-                *contCustomers = deleteCustomers(customer, *contCustomers);
+                deleteCustomers(customer);
                 break;
             case 4:
-                listCustomers(customer, *contCustomers);
+                listCustomers(customer);
                 break;
         }
     } while (option != 0);

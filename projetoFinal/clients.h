@@ -4,26 +4,35 @@
 
 #ifndef PROJETOLP_CLIENTS_H
 #define PROJETOLP_CLIENTS_H
-#define NAME_LENGHT 50
-#define ADDRESS_LENGHT 50
-#define COUNTRY_LENGHT 50
+#define MAX_CLIENTS 20
+#define MAX_NAME_CHARS 50
+#define MAX_ADDRESS_CHARS 50
+#define MAX_COUNTRY_CHARS 50
 typedef struct {
     int id;
-    char name[NAME_LENGHT];
-    char address[ADDRESS_LENGHT];
+    char name[MAX_NAME_CHARS];
+    char address[MAX_ADDRESS_CHARS];
     int nif;
-    char country[COUNTRY_LENGHT];
+    char country[MAX_COUNTRY_CHARS];
 } Customer;
+
+typedef struct {
+    int counter;
+    Customer customers[MAX_CLIENTS];
+} Customers;
+
 int menuRead(char message[], int min, int max);
-int verifyCustomersId(Customer customer[], int contCustomers, int requestedId);
-void customerName(Customer customer[], int contCustomers);
-void customerAddress(Customer customer[], int contCustomers);
-void customerNif(Customer customer[], int contCustomers);
-void customerCountry(Customer customer[], int contCustomers);
-void customerId(Customer customer[], int contCustomers, int curentID);
-int recordCustomers(Customer customer[], int contCustomers, int curentID);
-void editCustomers(Customer customer[], int contCustomers);
-int deleteCustomers(Customer customer[], int contCustomers);
-void listCustomers(Customer customer[], int contCustomers);
-void customerManagementMenu(Customer customer[], int *contCustomers, int curentID);
+int verifyCustomersId(Customers *customer, int requestedId);
+void customerName(char name[]);
+void customerAddress(char address[]);
+int customerNif();
+void customerCountry(char country[]);
+int customerId(int curentID);
+void saveCustomer(char name[], char address[], int nif, char country[], int id, Customers *customer, int pos);
+void recordCustomers(Customers *customer, int curentID);
+void changeCustomerData(Customers *customer, int pos, int id);
+void editCustomers(Customers *customer);
+int deleteCustomers(Customers *customer);
+void listCustomers(Customers *customer);
+void customerManagementMenu(Customers *customer, int curentID);
 #endif //PROJETOLP_CLIENTS_H

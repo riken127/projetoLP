@@ -7,19 +7,11 @@
 #include "products.h"
 #define MSG_MAIN_MENU  "[1] - User.\n[2] - Admin."
 #define MSG_ADMIN_MENU  "[1] - Clients Management.\n[2] - Products Management.\n[3] - Production Management."
-#define MAX_CLIENTS 20
 
-int menuRead(char message[], int min, int max) {
-    int option;
-    do {
-        puts(message);
-        printf("\nInsert here - ");
-        scanf("%d", &option);
-    } while (option < min || option > max);
-    return option;
-}
 
-void adminMenu(Customer customer[], int *contCustomers, int curentID) {
+//teste
+
+void adminMenu(Customers *customer, int curentID) {
     int option;
 
     do {
@@ -29,7 +21,7 @@ void adminMenu(Customer customer[], int *contCustomers, int curentID) {
             case 0:
                 break;
             case 1:
-                customerManagementMenu(customer, &(*contCustomers), curentID);
+                customerManagementMenu(*(&customer), curentID);
                 break;
             case 2:
                 productsManagementMenu();
@@ -42,7 +34,7 @@ void adminMenu(Customer customer[], int *contCustomers, int curentID) {
 /*
  * This menu is divided into three sub-menus, it loops until the integer [option] given by the user is equal to zero.
 */
-void mainMenu(Customer customer[], int *contCustomers, int curentID) {
+void mainMenu(Customers *customer, int curentID) {
     int option;
 
     do {
@@ -55,7 +47,7 @@ void mainMenu(Customer customer[], int *contCustomers, int curentID) {
 
                 break;
             case 2:
-                adminMenu(customer, &(*contCustomers), curentID);
+                adminMenu(*(&customer), curentID);
                 break;
         }
     } while (option != 0);
@@ -65,11 +57,10 @@ void mainMenu(Customer customer[], int *contCustomers, int curentID) {
  * [option] given by the user is equal to zero.
  */
 int main(int argc, char** argv) {
-
-    int contCustomers = 0, curentID = 0;
-    Customer customer[MAX_CLIENTS];
-    
-    mainMenu(customer, &contCustomers, curentID);
+    int curentID = 0;
+    Customers customer[MAX_CLIENTS];
+    customer->counter = 0;
+    mainMenu(customer, curentID);
 
     return (EXIT_SUCCESS);
 }
