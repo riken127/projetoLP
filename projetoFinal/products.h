@@ -8,15 +8,6 @@
 #define MAX_MATERIALS 20
 #define MAX_QUANTITY 20
 
-#define MAX_DESCRIPTION_SIZE 100
-
-#define COD_MATERIAL_SIZE 6
-
-#define COD_PRODUCT_SIZE 7
-
-#define MAX_PRODUCT_NAME_SIZE 50
-
-typedef enum {UN, PAR} units;
 typedef struct {
     int lenght, height, width;
 } Dimensions;
