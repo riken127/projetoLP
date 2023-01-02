@@ -5,7 +5,7 @@
 #include "products.h"
 #include <stdio.h>
 #include <string.h>
-#define MSG_PRODUCTS_MANAGEMENT_MENU "[1] - Edit.\n[2] - Delete.\n[3] - meter produto (temporario).\n[4] - meter material (temporario)."
+#define MSG_PRODUCTS_MANAGEMENT_MENU "[1] - Edit.\n[2] - Delete."
 
 void productsManagementMenu(){
     int option;
@@ -36,7 +36,7 @@ void productsManagementMenu(){
     strcpy(material[10].description, "Frente");
     
     do {
-        option = menuRead(MSG_PRODUCTS_MANAGEMENT_MENU, 0, 4);
+        option = menuRead(MSG_PRODUCTS_MANAGEMENT_MENU, 0, 2);
 
         switch (option) {
             case 0:
@@ -45,12 +45,6 @@ void productsManagementMenu(){
 
                 break;
             case 2:
-                
-                break;
-            case 3:
-                
-                break;
-            case 4:
                 
                 break;
         }
