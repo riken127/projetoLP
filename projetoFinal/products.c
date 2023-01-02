@@ -1,40 +1,140 @@
 //
-// Created by r1ken on 12-12-2022.
+// Created by gui on 12-12-2022.
 //
 
 #include "products.h"
+#include "orders.h"
+
+#include <stdbool.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
-#define MSG_PRODUCTS_MANAGEMENT_MENU "[1] - Edit.\n[2] - Delete."
 
-void productsManagementMenu(){
+#define MSG_PRODUCTS_MANAGEMENT_MENU "[1] - View.\n[2] - Edit.\n[3] - Delete.\n"
+
+void fillStruct(Products *product) {
+    strcpy((product->product[0].cod_Produto), "P00001");
+    strcpy((product->product[0].name), "Movel WC");
+    product->product[0].price = 99;
+    product->product[0].dimension.lenght = 80;
+    product->product[0].dimension.height = 120;
+    product->product[0].dimension.width = 60;
+
+    strcpy(product->product[0].material[0].cod_Material, "M0001");
+    strcpy(product->product[0].material[0].description, "Tubo Cola 10GR");
+    product->product[0].material[0].quantity = 1;
+    product->product[0].material[0].unit = 0;
+
+    strcpy(product->product[0].material[1].cod_Material, "M0002");
+    strcpy(product->product[0].material[1].description, "Parafuso 30MM");
+    product->product[0].material[1].quantity = 4;
+    product->product[0].material[1].unit = 0;
+    product->product[0].material_count = 2;
+
+    strcpy((product->product[1].cod_Produto), "P00002");
+    strcpy((product->product[1].name), "Comoda");
+    product->product[1].price = 299;
+    product->product[1].dimension.lenght = 160;
+    product->product[1].dimension.height = 120;
+    product->product[1].dimension.width = 60;
+
+    strcpy(product->product[1].material[0].cod_Material, "M0001");
+    strcpy(product->product[1].material[0].description, "Tubo Cola 10GR");
+    product->product[1].material[0].quantity = 1;
+    product->product[1].material[0].unit = 0;
+
+    strcpy(product->product[1].material[1].cod_Material, "M0002");
+    strcpy(product->product[1].material[1].description, "Parafuso 30MM");
+    product->product[1].material[1].quantity = 4;
+    product->product[1].material[1].unit = 0;
+    product->product[1].material_count = 2;
+
+    product->counter = 2;
+}
+
+void saveMaterials(Products *product){
+    FILE *fp;
+    int i, j;
+    char fn[MAX_FN_CHARS];
+    askFileName(fn);
+    fp = fopen(fn, "w+");
+    if (fp == NULL){
+        exit(EXIT_FAILURE);
+    }
+    for(i=0;i < product->counter;i++){
+        for(j = 0; j < product->product[i].material_count;j++){
+            fprintf(fp, "%s,%s,%s,%hu,%u\n",
+                    product->product[i].cod_Produto,
+                    product->product[i].material[j].cod_Material,
+                    product->product[i].material[j].description,
+                    product->product[i].material[j].quantity,
+                    product->product[i].material[j].unit);
+        }
+    }
+    fclose(fp);
+    printf(SUCCESS_IN_WRITING_ORDERS);
+}
+void saveProducts(Products *product){
+    FILE *fp;
+    int i;
+    char fn[MAX_FN_CHARS];
+    askFileName(fn);
+    fp = fopen(fn, "w+");
+    if (fp == NULL){
+        exit(EXIT_FAILURE);
+    }
+    for (i = 0; i < product->counter; i++){
+        fprintf(fp, "%s,%s,%.2lf,%dx%dx%d\n",
+                product->product[i].cod_Produto,
+                product->product[i].name,
+                product->product[i].price,
+                product->product[i].dimension.height,
+                product->product[i].dimension.lenght,
+                product->product[i].dimension.width);
+    }
+    fclose(fp);
+    printf(SUCCESS_IN_WRITING_ORDERS);
+    saveMaterials(product);
+}
+/*
+bool writeData(char *filename, Products *data, int total)
+{
+    FILE *file;
+
+    file = fopen(filename, "wb+");
+    void *tmp = data->material;
+    data->material = NULL;
+    if (file == NULL)
+        return NULL;
+    if (fwrite(&total, sizeof(int), 1, file) != 1)
+        return NULL;
+    for (int j = 0; j < total; j++) {
+        for (int i = 0; i < data->material_count; i++) {
+            if (fwrite((data + j)->material[i], sizeof(Materials), 1, file) ==
+1) continue; printf("ERROR"); return false;
+        }
+    }
+
+    if (fwrite(data, sizeof(Products), total, file) != total)
+        return NULL;
+    if (fclose(file) == EOF)
+        return false;
+
+    data->material = tmp;
+
+    return true;
+}*/
+/*
+ * carregar por memória já que ainda n sabemos como fazer por ficheiro
+ */
+void productsManagementMenu(Products *products) {
     int option;
-    Materials material[11];
 
-    material[0].cod_Material = 1;
-    material[1].cod_Material = 2;
-    material[2].cod_Material = 3;
-    material[3].cod_Material = 4;
-    material[4].cod_Material = 5;
-    material[5].cod_Material = 6;
-    material[6].cod_Material = 7;
-    material[7].cod_Material = 8;
-    material[8].cod_Material = 9;
-    material[9].cod_Material = 10;
-    material[10].cod_Material = 11;
-    
-    strcpy(material[0].description, "Tubo de Cola");
-    strcpy(material[1].description, "Base");
-    strcpy(material[2].description, "Parafuso");
-    strcpy(material[3].description, "Bucha");
-    strcpy(material[4].description, "Pés");
-    strcpy(material[5].description, "Porta");
-    strcpy(material[6].description, "Laterais");
-    strcpy(material[7].description, "Cavilhas");
-    strcpy(material[8].description, "Prateleiras");
-    strcpy(material[9].description, "Ferragem");
-    strcpy(material[10].description, "Frente");
-    
+    products->product->material = malloc(11 * sizeof(Materials));
+    for (int i = 0; i < 2; i++) {
+        products->product[i].material = malloc(2 * sizeof(Materials));
+    }
+    fillStruct(products);
     do {
         option = menuRead(MSG_PRODUCTS_MANAGEMENT_MENU, 0, 2);
 
@@ -42,10 +142,11 @@ void productsManagementMenu(){
             case 0:
                 break;
             case 1:
-
+                saveProducts(products);
                 break;
             case 2:
-                
+                break;
+            case 3:
                 break;
         }
     } while (option != 0);

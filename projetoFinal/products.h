@@ -4,22 +4,38 @@
 
 #ifndef PROJETO_PRODUCTS_H
 #define PROJETO_PRODUCTS_H
+
 #define MAX_MATERIALS 20
 #define MAX_QUANTITY 20
 
-typedef struct {
-    int cod_Produto;
-    char designation[20];
-    int price;
-    int cod_Material[MAX_MATERIALS];
-    int quantity[MAX_QUANTITY];
-} Products;
+#define COD_MATERIAL_SIZE 6
+#define COD_PRODUCT_SIZE 7
+
+#define MAX_DESCRIPTION_SIZE 100
+#define MAX_PRODUCT_NAME_SIZE 100
+typedef enum {UN, PAR}units;
 
 typedef struct {
-    int cod_Material;
-    char description[20];
+    int lenght, height, width;
+} Dimensions;
+typedef struct {
+    char cod_Material[COD_MATERIAL_SIZE];
+    char description[MAX_DESCRIPTION_SIZE];
+    short int quantity;
+    units unit;
 } Materials;
-
+typedef struct {
+    char cod_Produto[COD_PRODUCT_SIZE];
+    char name[MAX_PRODUCT_NAME_SIZE];
+    double price;
+    Dimensions dimension;
+    Materials* material;
+    int material_count;
+} Product;
+typedef struct {
+    Product *product;
+    int counter;
+}Products;
 int menuRead(char message[], int min, int max);
-void productsManagementMenu();
+void productsManagementMenu(Products *products);
 #endif //PROJETO_PRODUCTS_H

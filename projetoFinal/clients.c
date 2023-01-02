@@ -5,15 +5,16 @@
 #include "clients.h"
 #include <stdio.h>
 #include <string.h>
-#define MSG_CUSTOMER_MANAGEMENT_MENU  "[1] - Record.\n[2] - Edit.\n[3] - Delete.\n[4] - List."
+#define MSG_CUSTOMER_MANAGEMENT_MENU                                           \
+  "[1] - Record.\n[2] - Edit.\n[3] - Delete.\n[4] - List."
+#define MSG_CHANGE_CUSTOMER_DATA                                               \
+  "[1] - Name.\n[2] - Adress.\n[3] - Nif.\n[4] - Country."
 #define MSG_CUSTOMER_NAME "Name - "
 #define MSG_CUSTOMER_ADDRESS "Adress - "
 #define MSG_CUSTOMER_NIF "Nif - "
-#define MSG_CUSTOMER_COUNTRY  "Country - "
+#define MSG_CUSTOMER_COUNTRY "Country - "
 
-/*
- * Struct definition
- */
+
 int menuRead(char message[], int min, int max) {
     int option;
     do {
@@ -26,7 +27,7 @@ int menuRead(char message[], int min, int max) {
 /*
  * Above function checks if the given value
  * is between to values, if not, the cycle continues.
-*/
+ */
 
 int verifyCustomersId(Customers *customer, int requestedId) {
     int i = 0, count = 0;
@@ -41,7 +42,7 @@ int verifyCustomersId(Customers *customer, int requestedId) {
 /*
  * Above function checks for an id in the struct array,
  * if found, returns the value 1, if not, returns the value 0.
-*/
+ */
 
 void customerName(char name[]) {
     char temp;
@@ -54,7 +55,7 @@ void customerName(char name[]) {
  * in the given position. The first scanf makes sure the buffer is clean,
  * the second scanf gets the value given by the user.
  *
-*/
+ */
 
 void customerAddress(char address[]) {
     char temp;
@@ -85,7 +86,7 @@ int customerNif() {
  * Above function takes a given integer and stores it in the struct array
  * in the given position . checks if the given value
  * is equal or below zero, if so, the cycle continues.
-*/
+ */
 void customerCountry(char country[]) {
     char temp;
     printf(MSG_CUSTOMER_COUNTRY);
@@ -97,49 +98,70 @@ void customerCountry(char country[]) {
  * Above function takes a given country name and stores it in the struct array
  * in the given position. The first scanf makes sure the buffer is clean,
  * the second scanf gets the value given by the user.
-*/
-int customerId(int curentID) {
-    return (curentID+1);
-}
+ */
+int customerId(int curentID) { return (curentID + 1); }
 /*
  * Above function creates an id for the user who is beeing created,
  * the given id is equal to the last given id (from the last created user)
  * incremented by one.
-*/
-void saveCustomer(char name[], char address[], int nif, char country[], int id, Customers *customer, int pos){
-    //currentID++;
-
+ */
+void saveCustomer(char name[], char address[], int nif, char country[], int id,
+                  Customers *customer, int pos) {
+    // currentID++;
     *(&customer->customers[pos].id) = id;
-    strcpy(*(&customer->customers[pos].name),  name);
-    strcpy(*(&customer->customers[pos].address) ,address);
+    strcpy(*(&customer->customers[pos].name), name);
+    strcpy(*(&customer->customers[pos].address), address);
     *(&customer->customers[pos].nif) = nif;
-    strcpy(*(&customer->customers[pos].country) ,country);
-} 
-void recordCustomers(Customers *customer, int curentID) {
-    char name[MAX_NAME_CHARS], address[MAX_ADDRESS_CHARS], country[MAX_COUNTRY_CHARS];
+    strcpy(*(&customer->customers[pos].country), country);
+}
+void recordCustomers(Customers *customer /*, int curentID*/) {
+    char name[MAX_NAME_CHARS], address[MAX_ADDRESS_CHARS],
+            country[MAX_COUNTRY_CHARS];
     int nif;
     customerName(name);
     customerAddress(address);
     nif = customerNif();
     customerCountry(country);
-    saveCustomer(name, address, nif, country, customerId(curentID), *(&customer), customer->counter);
-
+    saveCustomer(name, address, nif, country, customerId(customer->counter),
+                 *(&customer), customer->counter);
 
     customer->counter++;
 }
 void changeCustomerData(Customers *customer, int pos, int id) {
-    char name[MAX_NAME_CHARS], address[MAX_ADDRESS_CHARS], country[MAX_COUNTRY_CHARS];
-    int nif;
-    customerName(name);
-    customerAddress(address);
-    nif = customerNif();
-    customerCountry(country);
+    int option, nif;
+    char name[MAX_NAME_CHARS], address[MAX_ADDRESS_CHARS],
+            country[MAX_COUNTRY_CHARS];
+    strcpy(name, *(&customer->customers[pos].name));
+    strcpy(address, *(&customer->customers[pos].address));
+    nif = *(&customer->customers[pos].nif);
+    strcpy(country,*(&customer->customers[pos].country));
+    do {
+        option = menuRead(MSG_CHANGE_CUSTOMER_DATA, 0, 4);
+
+        switch (option) {
+            case 0:
+                break;
+            case 1:
+                customerName(name);
+                break;
+            case 2:
+                customerAddress(address);
+                break;
+            case 3:
+                nif = customerNif();
+                break;
+            case 4:
+                customerCountry(country);
+                break;
+        }
+    } while (option != 0);
+
     saveCustomer(name, address, nif, country, id, *(&customer), pos);
 }
 /*
  * The above function calls other 5 functions that help create the customer,
  * each function fills a field in the new user's position in the struct array.
-*/
+ */
 void editCustomers(Customers *customer) {
     int id, i, verify;
     do {
@@ -151,20 +173,18 @@ void editCustomers(Customers *customer) {
         if (verify == 1) {
             for (i = 0; i < customer->counter; i++) {
                 if (*(&customer->customers[i].id) == id) {
-                    //customerName(customer, i);
-                    //customerAddress(customer, i);
-                    //customerNif(customer, i);
-                    //customerCountry(customer, i);
                     changeCustomerData(*(&customer), i, id);
                 }
             }
-        } else printf("Given id was not found. Try again.\n");
+        } else
+            printf("Given id was not found. Try again.\n");
     } while (verify != 1);
 }
 /*
- * The above function edit's a line in the struct array. It gets the struct and the amount of customers,
- * Then asks the user for a value and loops tru the struct trying to find the given id, if found the functions used to create a user
- * are invoked, if not an error message is displayed.
+ * The above function edit's a line in the struct array. It gets the struct and
+ * the amount of customers, Then asks the user for a value and loops tru the
+ * struct trying to find the given id, if found the functions used to create a
+ * user are invoked, if not an error message is displayed.
  */
 int deleteCustomers(Customers *customer) {
     int id, i, verify;
@@ -179,12 +199,15 @@ int deleteCustomers(Customers *customer) {
                 printf("The given id does not exist.\n");
             } else {
                 for (i = 0; i < *(&customer->counter); i++) {
-                    if (*(&customer->customers[i].id)  == id) {
+                    if (*(&customer->customers[i].id) == id) {
                         *(&customer->customers[i].id) = *(&customer->customers[i + 1].id);
-                        strcpy(*(&customer->customers[i].name), *(&customer->customers[i + 1].name));
-                        strcpy(*(&customer->customers[i].address), *(&customer->customers[i + 1].address));
+                        strcpy(*(&customer->customers[i].name),
+                               *(&customer->customers[i + 1].name));
+                        strcpy(*(&customer->customers[i].address),
+                               *(&customer->customers[i + 1].address));
                         *(&customer->customers[i].nif) = *(&customer->customers[i + 1].nif);
-                        strcpy(*(&customer->customers[i].country), *(&customer->customers[i + 1].country));
+                        strcpy(*(&customer->customers[i].country),
+                               *(&customer->customers[i + 1].country));
                     }
                 }
             }
@@ -198,24 +221,27 @@ int deleteCustomers(Customers *customer) {
 }
 
 /*
- * The above function deletes a user in the struct array. It gets the struct and the amount of users by parameter
- * then asks the user for an integer and loops tru the struct trying to find the given id, if found, the user is deleted,
- * if not an error message is displayed.
-*/
+ * The above function deletes a user in the struct array. It gets the struct and
+ * the amount of users by parameter then asks the user for an integer and loops
+ * tru the struct trying to find the given id, if found, the user is deleted, if
+ * not an error message is displayed.
+ */
 
 void listCustomers(Customers *customer) {
     int i;
     printf("\n");
     printf("%d\n", customer->counter);
     for (i = 0; i < customer->counter; i++) {
-        printf("| %d | %s | %s | %d | %s |\n", customer->customers[i].id, customer->customers[i].name, customer->customers[i].address, customer->customers[i].nif, customer->customers[i].country);
+        printf("| %d | %s | %s | %d | %s |\n", customer->customers[i].id,
+               customer->customers[i].name, customer->customers[i].address,
+               customer->customers[i].nif, customer->customers[i].country);
     }
     printf("\n");
 }
 /*
  * The above function displays all customers.
  */
-void customerManagementMenu(Customers *customer, int curentID) {
+void customerManagementMenu(Customers *customer /*, int curentID*/) {
     int option;
 
     do {
@@ -225,8 +251,8 @@ void customerManagementMenu(Customers *customer, int curentID) {
             case 0:
                 break;
             case 1:
-                recordCustomers(*(&customer), curentID);
-                curentID++;
+                recordCustomers(*(&customer) /*, curentID*/);
+                //++customer->counter;
                 break;
             case 2:
                 editCustomers(customer);
@@ -241,5 +267,6 @@ void customerManagementMenu(Customers *customer, int curentID) {
     } while (option != 0);
 }
 /*
- * This menu manages the customers, it loops until the integer [option] given by the user is equal to zero.
+ * This menu manages the customers, it loops until the integer [option] given by
+ * the user is equal to zero.
  */
