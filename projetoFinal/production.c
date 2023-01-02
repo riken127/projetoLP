@@ -83,9 +83,9 @@ void saveDateMaterials(Products *product, Orders *order){
                 }
             }
         }
-        fclose(fp);
-        printf(SUCCESS_IN_WRITING_PRODUCTION);
     }
+    fclose(fp);
+    printf(SUCCESS_IN_WRITING_PRODUCTION);
 }
 void productionManagementMenu(Products **product, Orders **order){
     int option;
