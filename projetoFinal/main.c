@@ -7,14 +7,13 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define MSG_MAIN_MENU "[1] - User.\n[2] - Admin."
+#define MSG_MAIN_MENU "\n\t\t\t========= Main Menu =========\n\n\t\t\t[1] - User.\n\t\t\t[2] - Admin.\n\t\t\t[0] - Quit.\n\t\t\t_____________________________"
 #define MSG_ADMIN_MENU                                                         \
-  "[1] - Clients Management.\n[2] - Products Management.\n[3] - Production "   \
-  "Management."
+  "\n\t\t\t========= Admin Menu =========\n\n\t\t\t[1] - Clients Management.\n\t\t\t[2] - Products Management.\n\t\t\t[3] - Production "   \
+  "Management.\n\t\t\t[0] - Quit.\n\t\t\t______________________________"
 #define MSG_CLIENT_MENU                                                        \
-  "\n[1] - Do order.\n[2] - Save orders.\n[3] - List orders.\n[4] - Load orders.\n[0] - Quit.\n"
+  "\n\t\t\t========= Client Menu =========\n\n\t\t\t[1] - Do order.\n\t\t\t[2] - Save orders.\n\t\t\t[3] - List orders.\n\t\t\t[4] - Load orders.\n\t\t\t[0] - Quit.\n\t\t\t_______________________________"
 
-// teste
 
 void adminMenu(Customers *customer, Orders **order, Products **product) {
     int option;
@@ -46,7 +45,6 @@ void clientMenu(Customers *customer, Products **product, Orders **order) {
 
     do {
         option = menuRead(MSG_CLIENT_MENU, 0, 4);
-        printf("%d", option);
         switch (option) {
             case 0:
                 break;

@@ -6,21 +6,31 @@
 #include <stdio.h>
 #include <string.h>
 #define MSG_CUSTOMER_MANAGEMENT_MENU                                           \
-  "[1] - Record.\n[2] - Edit.\n[3] - Delete.\n[4] - List."
+  "\n\t\t\t========= Customer Managment Menu =========\n\n\t\t\t[1] - Record.\n\t\t\t[2] - Edit.\n\t\t\t[3] - Delete.\n\t\t\t[4] - List.\n\t\t\t[0] - Quit.\n\t\t\t___________________________________________"
 #define MSG_CHANGE_CUSTOMER_DATA                                               \
-  "[1] - Name.\n[2] - Adress.\n[3] - Nif.\n[4] - Country."
+  "\n\t\t\t========= Edit =========\n\n\t\t\t[1] - Name\n\t\t\t[2] - Adress\n\t\t\t[3] - Nif\n\t\t\t[4] - Country.\n\t\t\t________________________"
 #define MSG_CUSTOMER_NAME "Name - "
 #define MSG_CUSTOMER_ADDRESS "Adress - "
 #define MSG_CUSTOMER_NIF "Nif - "
 #define MSG_CUSTOMER_COUNTRY "Country - "
+#define CLIENT_ID_MSG "\n\t\t\tType the desired client id - "
+#define MSG_ERROR_MESSAGE "\n\t\t\t========== ERROR MESSAGE ==========\n\n\t\t\tThe following option does not exist\n\t\t\t___________________________________"
 
 
 int menuRead(char message[], int min, int max) {
     int option;
+    char any_key[20];
     do {
         puts(message);
-        printf("\nInsert here - ");
+        printf("\t\t\tInsert here - ");
         scanf("%d", &option);
+        system("cls || clear");
+        if(option < min || option > max){
+            puts(MSG_ERROR_MESSAGE);
+            printf("\t\t\tPress any key to exit ");
+            scanf("%s",any_key);
+            system("cls || clear");
+        }
     } while (option < min || option > max);
     return option;
 }
@@ -165,8 +175,9 @@ void changeCustomerData(Customers *customer, int pos, int id) {
 void editCustomers(Customers *customer) {
     int id, i, verify;
     do {
-        printf("Edit - ");
+        printf(CLIENT_ID_MSG);
         scanf("%d", &id);
+        system("cls || clear");
         if (id == 0)
             break;
         verify = verifyCustomersId(*(&customer), id);
