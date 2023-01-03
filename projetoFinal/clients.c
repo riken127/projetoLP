@@ -283,32 +283,11 @@ void listCustomers(Customers *customer) {
 /*
  * The above function displays all customers.
  */
-void saveCustomers(Customers *customer){
-    FILE *fp;
-    int i;
-    char fn[MAX_FN_CHARS];
-    askFileName(fn);
-    fp = fopen(fn, "w+");
-    if (fp == NULL) {
-        printf(ERROR_IN_WRITING_CUSTOMERS);
-        exit(EXIT_FAILURE);
-    }
-    for (i = 0; i < customer->counter; i++){
-        fprintf(fp, "%s,%s,%d,%s\n",
-                customer->customers[i].name,
-                customer->customers[i].address,
-                customer->customers[i].nif,
-                customer->customers[i].country);
-    }
-    fclose(fp);
-    printf(SUCCESS_IN_WRITING_CUSTOMERS);
-}
-void loadCustomers(Customers *customer){}
 void customerManagementMenu(Customers *customer) {
     int option;
 
     do {
-        option = menuRead(MSG_CUSTOMER_MANAGEMENT_MENU, 0, 6);
+        option = menuRead(MSG_CUSTOMER_MANAGEMENT_MENU, 0, 4);
 
         switch (option) {
             case 0:
@@ -324,12 +303,6 @@ void customerManagementMenu(Customers *customer) {
                 break;
             case 4:        
                 listCustomers(customer);
-                break;
-            case 5:
-                saveCustomers(customer);
-                break;
-            case 6:
-                loadCustomers(customer);
                 break;
         }
     } while (option != 0);
