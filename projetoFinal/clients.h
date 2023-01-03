@@ -13,8 +13,6 @@
 
 #define MAX_COUNTRY_CHARS 50
 
-#define SUCCESS_IN_WRITING_CUSTOMERS "\nClients were written successfully!"
-#define ERROR_IN_WRITING_CUSTOMERS "\nAn error occurred while writting customerss."
 
 
 typedef struct {

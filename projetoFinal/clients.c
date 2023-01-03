@@ -3,12 +3,12 @@
 //
 
 #include "clients.h"
+#include "orders.h"
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-#include "orders.h"
-
-#define MSG_CUSTOMER_MANAGEMENT_MENU "\n\t\t\t========= Customer Management Menu =========\n\n\t\t\t[1] - Record.\n\t\t\t[2] - Edit.\n\t\t\t[3] - Delete.\n\t\t\t[4] - List.\n\t\t\t[5] - Save.\n\t\t\t[6] - Load.\n\t\t\t[0] - Quit.\n\t\t\t___________________________________________"
+#define MSG_CUSTOMER_MANAGEMENT_MENU                                           \
+  "\n\t\t\t========= Customer Managment Menu =========\n\n\t\t\t[1] - Record.\n\t\t\t[2] - Edit.\n\t\t\t[3] - Delete.\n\t\t\t[4] - List.\n\t\t\t[0] - Quit.\n\t\t\t___________________________________________"
 #define MSG_CHANGE_CUSTOMER_DATA "\n\t\t\t========= Edit =========\n\n\t\t\t[1] - Name\n\t\t\t[2] - Adress\n\t\t\t[3] - Nif\n\t\t\t[4] - Country.\n\t\t\t[0] - Quit.\n\t\t\t________________________"
 #define MSG_CUSTOMER_NAME "\t\t\tName - "
 #define MSG_CUSTOMER_ADDRESS "\t\t\tAddress - "
@@ -17,6 +17,8 @@
 #define CLIENT_ID_MSG "\n\t\t\tType the desired client id - "
 #define MSG_ERROR_MESSAGE "\n\t\t\t========== ERROR MESSAGE ==========\n\n\t\t\tThe following option does not exist\n\t\t\t___________________________________"
 #define YES_OR_NO_MESSAGE "\t\t\tDo you want to add another record?[y/n] - "
+#define SUCCESS_IN_WRITING_CUSTOMERS "\nCustomer were written successfully"
+#define ERROR_IN_WRITING_CUSTOMERS "\nAn error has occured"
 
 int menuRead(char message[], int min, int max) {
     int option;
@@ -307,6 +309,50 @@ void listCustomers(Customers *customer) {
 /*
  * The above function displays all customers.
  */
+void saveCustomers(Customers *customer){
+    FILE *fp;
+    int i;
+    char fn[MAX_FN_CHARS];
+    askFileName(fn);
+    fp = fopen(fn, "w");
+    if (fp == NULL) {
+        printf(ERROR_IN_WRITING_CUSTOMERS);
+        exit(EXIT_FAILURE);
+    }
+    for (i = 0; i < customer->counter; i++){
+        fprintf(fp, "%s,%s,%d,%s\n",
+                customer->customers[i].name,
+                customer->customers[i].address,
+                customer->customers[i].nif,
+                customer->customers[i].country);
+    }
+    fclose(fp);
+    printf(SUCCESS_IN_WRITING_CUSTOMERS);
+}
+void loadCustomers(Customers *customer){
+    FILE *fp;
+    int i, j;
+    char fn[MAX_FN_CHARS], buff[1024], *sp;
+    askFileName(fn);
+    fp = fopen(fn, "r");
+    while (fgets(buff, 1024, fp) != NULL){
+        customer->customers = (Customer* )realloc(customer->customers, sizeof(Customer) * (customer->counter + 1));
+
+        customer->customers[customer->counter].id = (customer->counter + 1);
+        sp = strtok(buff, ",");
+        strcpy(customer->customers[customer->counter].name, sp);
+        sp = strtok(NULL, ",");
+        strcpy(customer->customers[customer->counter].address, sp);
+        sp = strtok(NULL, ",");
+        customer->customers[customer->counter].nif = atoi(sp);
+        sp = strtok(NULL, ",");
+        strcpy(customer->customers[customer->counter].country, sp);
+        ++customer->counter;
+
+        //printf("\n%s", buff);
+    }
+    fclose(fp);
+}
 void customerManagementMenu(Customers *customer) {
     int option;
 
