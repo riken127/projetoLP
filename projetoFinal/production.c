@@ -9,43 +9,38 @@
 #include "orders.h"
 #include "products.h"
 
-
-Date askDate(){
+Date askDate() {
     Date insertedDate;
-    do{
+    do {
         printf(ASK_DESIRED_DATE);
         scanf("%d-%d-%d",
-              &insertedDate.day,
-              &insertedDate.month,
-              &insertedDate.year);
-        //printf("%d-%d-%d", insertedDate.day, insertedDate.month, insertedDate.year);
-    }while(insertedDate.day < MIN_DAY || insertedDate.day > MAX_DAY ||
-           insertedDate.month < MIN_MONTH || insertedDate.month > MAX_MONTH ||
-           insertedDate.year < MIN_YEAR);
+                &insertedDate.day,
+                &insertedDate.month,
+                &insertedDate.year);
+    } while (insertedDate.day < MIN_DAY || insertedDate.day > MAX_DAY ||
+            insertedDate.month < MIN_MONTH || insertedDate.month > MAX_MONTH ||
+            insertedDate.year < MIN_YEAR);
 
     return insertedDate;
 }
 
-void dateMaterials(Products *product, Orders *order){
+void listMaterials(Products *product, Orders *order) {
     Date date;
-    int i, j, k, z = 1;
+    int i, j, k;
     date = askDate();
-    //printf("%d-%d-%d", date.day, date.month, date.year);
-    for (i = 0; i < order->counter; i++){
-        //printf("%d", order->counter);
+    printf("\n\t\t\tList of needed materials\n\t\t\t__________________________________");
+    for (i = 0; i < order->counter; i++) {
         if (order->order[i].order_date.day == date.day &&
-            order->order[i].order_date.month == date.month &&
-            order->order[i].order_date.year == date.year){
-            for (j=0;j<product->counter;j++){
-                if (j + 1  == order->order[i].product_id){
-                    for (k = 0; k < product->product[j].material_count; k++){
-                        printf("%d - | %s | %s | %d | %d | * %d\n", z,
-                               product->product[j].material[k].cod_Material,
-                               product->product[j].material[k].description,
-                               product->product[j].material[k].quantity,
-                               product->product[j].material[k].unit,
-                               order->order[i].quantity);
-                        z++;
+                order->order[i].order_date.month == date.month &&
+                order->order[i].order_date.year == date.year) {
+            for (j = 0; j < product->counter; j++) {
+                if (j + 1 == order->order[i].product_id) {
+                    for (k = 0; k < product->product[j].material_count; k++) {
+                        printf("\n\n\t\t\tMaterial id    : %s", product->product[j].material[k].cod_Material);
+                        printf("\n\t\t\tDescription    : %s", product->product[j].material[k].description);
+                        printf("\n\t\t\tQuantity       : %d", product->product[j].material[k].quantity * order->order[i].quantity);
+                        printf("\n\t\t\tUnit           : %u", product->product[j].material[k].unit);
+                        printf("\n\t\t\t__________________________________");
                     }
                 }
             }
@@ -53,7 +48,7 @@ void dateMaterials(Products *product, Orders *order){
     }
 }
 
-void saveDateMaterials(Products *product, Orders *order){
+void saveDateMaterials(Products *product, Orders *order) {
     FILE *fp;
     char fn[MAX_FN_CHARS];
     Date date;
@@ -61,16 +56,16 @@ void saveDateMaterials(Products *product, Orders *order){
     askFileName(fn);
     date = askDate();
     fp = fopen(fn, "w+");
-    if(fp == NULL){
+    if (fp == NULL) {
         exit(EXIT_FAILURE);
     }
-    for (i = 0; i < order->counter; i++){
+    for (i = 0; i < order->counter; i++) {
         if (order->order[i].order_date.day == date.day &&
-            order->order[i].order_date.month == date.month &&
-            order->order[i].order_date.year == date.year){
-            for (j = 0; j < product->counter; j++){
-                if ((j + 1) == order->order[i].product_id){
-                    for (k = 0; k < product->product[j].material_count; k++){
+                order->order[i].order_date.month == date.month &&
+                order->order[i].order_date.year == date.year) {
+            for (j = 0; j < product->counter; j++) {
+                if ((j + 1) == order->order[i].product_id) {
+                    for (k = 0; k < product->product[j].material_count; k++) {
                         fprintf(fp, "%d,%s,%s,%d,%d,%d\n",
                                 z,
                                 product->product[j].material[k].cod_Material,
@@ -88,24 +83,21 @@ void saveDateMaterials(Products *product, Orders *order){
     printf(SUCCESS_IN_WRITING_PRODUCTION);
 }
 
-void loadDateMaterials(){}
-void productionManagementMenu(Products **product, Orders **order){
+void productionManagementMenu(Products **product, Orders **order) {
     int option;
 
-    do{
-        option = menuRead(MSG_MENU_PRODUCTION, 0, 3);
+    do {
+        option = menuRead(MSG_MENU_PRODUCTION, 0, 2);
 
-        switch (option){
+        switch (option) {
             case 0:
                 break;
             case 1:
-                dateMaterials(*product, *order);
+                listMaterials(*product, *order);
                 break;
             case 2:
                 saveDateMaterials(*product, *order);
                 break;
-            case 3:
-                break;
         }
-    }while(option != 0);
+    } while (option != 0);
 }

@@ -5,30 +5,25 @@
 #include "clients.h"
 #include <stdio.h>
 #include <string.h>
-#define MSG_CUSTOMER_MANAGEMENT_MENU                                           \
-  "\n\t\t\t========= Customer Managment Menu =========\n\n\t\t\t[1] - Record.\n\t\t\t[2] - Edit.\n\t\t\t[3] - Delete.\n\t\t\t[4] - List.\n\t\t\t[0] - Quit.\n\t\t\t___________________________________________"
-#define MSG_CHANGE_CUSTOMER_DATA "\n\t\t\t========= Edit =========\n\n\t\t\t[1] - Name\n\t\t\t[2] - Adress\n\t\t\t[3] - Nif\n\t\t\t[4] - Country.\n\t\t\t[0] - Quit.\n\t\t\t________________________"
-#define MSG_CUSTOMER_NAME "\t\t\tName - "
-#define MSG_CUSTOMER_ADDRESS "\t\t\tAdress - "
-#define MSG_CUSTOMER_NIF "\t\t\tNif - "
-#define MSG_CUSTOMER_COUNTRY "\t\t\tCountry - "
-#define CLIENT_ID_MSG "\n\t\t\tType the desired client id - "
-#define MSG_ERROR_MESSAGE "\n\t\t\t========== ERROR MESSAGE ==========\n\n\t\t\tThe following option does not exist\n\t\t\t___________________________________"
-#define YES_OR_NO_MESSAGE "\t\t\tDo you want to add another record?[y/n] - "
+
+void errorMessage(){
+    char any_key[20];
+    system("cls || clear");
+    puts(MSG_ERROR_MESSAGE);
+    printf("\t\t\tPress any key to exit ");
+    scanf("%s",any_key);
+    system("cls || clear");
+}
 
 int menuRead(char message[], int min, int max) {
     int option;
-    char any_key[20];
     do {
         puts(message);
         printf("\t\t\tInsert here - ");
         scanf("%d", &option);
         system("cls || clear");
         if(option < min || option > max){
-            puts(MSG_ERROR_MESSAGE);
-            printf("\t\t\tPress any key to exit ");
-            scanf("%s",any_key);
-            system("cls || clear");
+            errorMessage();
         }
     } while (option < min || option > max);
     return option;
@@ -215,7 +210,7 @@ void editCustomers(Customers *customer) {
                 }
             }
         } else
-            printf("Given id was not found. Try again.\n");
+            errorMessage();
     } while (verify != 1);
 }
 /*
@@ -234,7 +229,7 @@ int deleteCustomers(Customers *customer) {
         } else {
             verify = verifyCustomersId(*(&customer), id);
             if (verify == 0) {
-                printf("The given id does not exist.\n");
+                errorMessage();
             } else {
                 for (i = 0; i < *(&customer->counter); i++) {
                     if (*(&customer->customers[i].id) == id) {
@@ -267,18 +262,23 @@ int deleteCustomers(Customers *customer) {
 
 void listCustomers(Customers *customer) {
     int i,any_key[20];
-    printf("\n\t\t\tList Of Clients\n\t\t\t__________________________________");
-    for (i = 0; i < customer->counter; i++) {
-        printf("\n\n\t\t\tClient Id : %d",customer->customers[i].id);
-        printf("\n\t\t\tName      : %s",customer->customers[i].name);
-        printf("\n\t\t\tAddress   : %s",customer->customers[i].address);
-        printf("\n\t\t\tNif       : %d",customer->customers[i].nif);
-        printf("\n\t\t\tCountry   : %s",customer->customers[i].country);
-        printf("\n\t\t\t__________________________________");
+    if(customer->counter == 0){
+        printf("\n\t\t\tNo customers were found\n\t\t\t__________________________________");
     }
-    printf("\n\t\t\tPress any key to exit ");
-    scanf("%s",any_key);
-    system("cls || clear");
+    else{
+        printf("\n\t\t\tList Of Clients\n\t\t\t__________________________________");
+        for (i = 0; i < customer->counter; i++) {
+            printf("\n\n\t\t\tClient Id : %d",customer->customers[i].id);
+            printf("\n\t\t\tName      : %s",customer->customers[i].name);
+            printf("\n\t\t\tAddress   : %s",customer->customers[i].address);
+            printf("\n\t\t\tNif       : %d",customer->customers[i].nif);
+            printf("\n\t\t\tCountry   : %s",customer->customers[i].country);
+            printf("\n\t\t\t__________________________________");
+        }
+    }
+        printf("\n\t\t\tPress any key to exit ");
+        scanf("%s",any_key);
+        system("cls || clear");
 }
 /*
  * The above function displays all customers.
