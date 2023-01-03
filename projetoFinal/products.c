@@ -52,7 +52,7 @@ void fillStruct(Products *product) {
     product->counter = 2;
 }
 
-void saveMaterials(Products *product){
+void saveProducts(Products *product){
     FILE *fp;
     int i, j;
     char fn[MAX_FN_CHARS];
@@ -61,10 +61,15 @@ void saveMaterials(Products *product){
     if (fp == NULL){
         exit(EXIT_FAILURE);
     }
-    for(i=0;i < product->counter;i++){
-        for(j = 0; j < product->product[i].material_count;j++){
-            fprintf(fp, "%s,%s,%s,%hu,%u\n",
+    for (i = 0; i < product->counter; i++){
+        for (j = 0; j < product->product[i].material_count; j++) {
+            fprintf(fp, "%s,%s,%.2lf,%dx%dx%d,%s,%s,%hu,%u\n",
                     product->product[i].cod_Produto,
+                    product->product[i].name,
+                    product->product[i].price,
+                    product->product[i].dimension.height,
+                    product->product[i].dimension.lenght,
+                    product->product[i].dimension.width,
                     product->product[i].material[j].cod_Material,
                     product->product[i].material[j].description,
                     product->product[i].material[j].quantity,
@@ -74,27 +79,30 @@ void saveMaterials(Products *product){
     fclose(fp);
     printf(SUCCESS_IN_WRITING_ORDERS);
 }
-void saveProducts(Products *product){
+void loadProducts(Products *product){
     FILE *fp;
-    int i;
-    char fn[MAX_FN_CHARS];
+    int i, j;
+    char fn[MAX_FN_CHARS], buff[1024], *sp, *d;
     askFileName(fn);
-    fp = fopen(fn, "w+");
-    if (fp == NULL){
-        exit(EXIT_FAILURE);
+    fp = fopen(fn, "r");
+    while (fgets(buff, 1024, fp) != NULL){
+        sp = strtok(buff, ",");
+        strcpy(product->product[product->counter - 1].cod_Produto, sp);
+        sp = strtok(NULL, ",");
+        strcpy(product->product[product->counter - 1].name, sp);
+        sp = strtok(NULL, ",");
+        product->product[product->counter - 1].price = atof(sp);
+        sp = strtok(NULL, "x");
+        product->product[product->counter - 1].dimension.lenght = atoi(sp);
+        sp = strtok(NULL, "x");
+        product->product[product->counter - 1].dimension.width = atoi(sp);
+        sp = strtok(NULL, ",");
+        product->product[product->counter - 1].dimension.height = atoi(sp);
+
+
+        //printf("\n%s", buff);
     }
-    for (i = 0; i < product->counter; i++){
-        fprintf(fp, "%s,%s,%.2lf,%dx%dx%d\n",
-                product->product[i].cod_Produto,
-                product->product[i].name,
-                product->product[i].price,
-                product->product[i].dimension.height,
-                product->product[i].dimension.lenght,
-                product->product[i].dimension.width);
-    }
-    fclose(fp);
-    printf(SUCCESS_IN_WRITING_ORDERS);
-    saveMaterials(product);
+
 }
 /*
 bool writeData(char *filename, Products *data, int total)
@@ -127,6 +135,7 @@ bool writeData(char *filename, Products *data, int total)
 /*
  * carregar por memória já que ainda n sabemos como fazer por ficheiro
  */
+
 void productsManagementMenu(Products *products) {
     int option;
 
@@ -134,6 +143,7 @@ void productsManagementMenu(Products *products) {
     for (int i = 0; i < 2; i++) {
         products->product[i].material = malloc(2 * sizeof(Materials));
     }
+
     fillStruct(products);
     do {
         option = menuRead(MSG_PRODUCTS_MANAGEMENT_MENU, 0, 2);
@@ -145,6 +155,7 @@ void productsManagementMenu(Products *products) {
                 saveProducts(products);
                 break;
             case 2:
+                loadProducts(products);
                 break;
             case 3:
                 break;
