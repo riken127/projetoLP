@@ -63,7 +63,7 @@ void clientMenu(Customers *customer, Products **product, Orders **order) {
         }
     } while (option != 0);
 }
-void mainMenu(Customers *customer, /*int curentID*/ Products **product,
+void mainMenu(Customers *customer, Products **product,
               Orders **order) {
     int option;
 
@@ -77,7 +77,7 @@ void mainMenu(Customers *customer, /*int curentID*/ Products **product,
                 clientMenu(*(&customer), *(&product), *(&order));
                 break;
             case 2:
-                adminMenu(*(&customer), /*curentID*/*(&order), *(&product));
+                adminMenu(*(&customer),*(&order), *(&product));
                 break;
         }
     } while (option != 0);
@@ -98,7 +98,7 @@ int main(int argc, char **argv) {
     order = (Orders *)malloc(1 * sizeof(Orders));
     order->order = (Order *)malloc(2 * sizeof(Order));
     order->counter = 0;
-    mainMenu(customer, /*curentID*/ &product, &order);
+    mainMenu(customer, &product, &order);
 
     return (EXIT_SUCCESS);
 }
