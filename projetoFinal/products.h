@@ -13,7 +13,7 @@
 
 #define MAX_DESCRIPTION_SIZE 100
 #define MAX_PRODUCT_NAME_SIZE 100
-typedef enum {UN, PAR}units;
+typedef enum {UN, PAR} units;
 
 typedef struct {
     int lenght, height, width;

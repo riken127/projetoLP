@@ -5,7 +5,7 @@
 #ifndef PROJETOLP_CLIENTS_H
 #define PROJETOLP_CLIENTS_H
 
-#define MAX_CLIENTS 20
+#define INITIAL_CLIENT_SIZE 1
 
 #define MAX_NAME_CHARS 50
 
@@ -23,7 +23,7 @@ typedef struct {
 
 typedef struct {
     int counter;
-    Customer customers[MAX_CLIENTS];
+    Customer *customers;
 } Customers;
 
 int menuRead(char message[], int min, int max);
@@ -40,6 +40,8 @@ void changeCustomerData(Customers *customer, int pos, int id);
 void editCustomers(Customers *customer);
 int deleteCustomers(Customers *customer);
 void listCustomers(Customers *customer);
+void saveCustomers(Customers *customer);
+void loadCustomers(Customers *customer);
 void customerManagementMenu(Customers *customer /*, int curentID*/);
 int yesOrNoFunction();
 #endif // PROJETOLP_CLIENTS_H

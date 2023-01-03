@@ -25,7 +25,7 @@ void adminMenu(Customers *customer, Orders **order, Products **product) {
             case 0:
                 break;
             case 1:
-                customerManagementMenu(*(&customer)) /*curentID*/;
+                customerManagementMenu(customer);
                 break;
             case 2:
                 productsManagementMenu(*product);
@@ -88,18 +88,24 @@ void mainMenu(Customers *customer, Products **product,
  * zero.
  */
 int main(int argc, char **argv) {
-    int curentID = 0;
-    Customers customer[MAX_CLIENTS];
+    Customers *customer;
+    customer = (Customers *)malloc(1 * INITIAL_CLIENT_SIZE);
+    customer->customers = (Customer *)malloc(1 * INITIAL_CLIENT_SIZE);
     customer->counter = 0;
     Products *product;
     product = (Products *)malloc(1 * sizeof(Products));
     product->product = (Product *)malloc(3 * sizeof(Product));
     Orders *order;
     order = (Orders *)malloc(1 * sizeof(Orders));
-    order->order = (Order *)malloc(2 * sizeof(Order));
+    order->order = (Order *)malloc(1 * sizeof(Order));
     order->counter = 0;
     mainMenu(customer, &product, &order);
-
+    free(product);
+    free(product->product);
+    free(order);
+    free(order->order);
+    free(customer);
+    free(customer->customers);
     return (EXIT_SUCCESS);
 }
 

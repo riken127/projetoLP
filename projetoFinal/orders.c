@@ -40,7 +40,7 @@ int newOrderChoosenProduct(Products *product) {
     do {
         printf(ASK_PRODUCT_ID);
         scanf(" %d", &newId);
-    } while (newId < 0 || newId > (product->counter + 1));
+    } while (newId < 0 || newId > (product->counter));
 
     return newId;
 }
@@ -66,7 +66,7 @@ int newOrderQuantity() {
 }
 int newOrder(Customers *customer, int nif, Products *product, Orders *order) {
     int i, choosenProduct;
-
+    order->order = realloc(order->order, sizeof(Order)*(customer->counter + 1));
     listAvaibleProducts(*(&product));
     order->order[order->counter].order_id = newOrderId(order);
     //printf("%d", order->order[order->counter].order_id);
@@ -126,7 +126,7 @@ void saveOrders(Orders *order) {
         exit(EXIT_FAILURE);
     }
     for (i = 0; i < order->counter; i++){
-        fprintf(fp,"%d,%d,%d,%d-%d-%d,%d",
+        fprintf(fp,"%d,%d,%d,%d-%d-%d,%d\n",
                 order->order[i].order_id, order->order[i].customer_id,
                 order->order[i].product_id, order->order[i].order_date.day,
                 order->order[i].order_date.month, order->order[i].order_date.year,
