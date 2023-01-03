@@ -5,11 +5,13 @@
 #include "clients.h"
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
+#include "orders.h"
 #define MSG_CUSTOMER_MANAGEMENT_MENU                                           \
-  "\n\t\t\t========= Customer Managment Menu =========\n\n\t\t\t[1] - Record.\n\t\t\t[2] - Edit.\n\t\t\t[3] - Delete.\n\t\t\t[4] - List.\n\t\t\t[0] - Quit.\n\t\t\t___________________________________________"
+  "\n\t\t\t========= Customer Management Menu =========\n\n\t\t\t[1] - Record.\n\t\t\t[2] - Edit.\n\t\t\t[3] - Delete.\n\t\t\t[4] - List.\n\t\t\t[5] - Save.\n\t\t\t[6] - Load.\n\t\t\t[0] - Quit.\n\t\t\t___________________________________________"
 #define MSG_CHANGE_CUSTOMER_DATA "\n\t\t\t========= Edit =========\n\n\t\t\t[1] - Name\n\t\t\t[2] - Adress\n\t\t\t[3] - Nif\n\t\t\t[4] - Country.\n\t\t\t[0] - Quit.\n\t\t\t________________________"
 #define MSG_CUSTOMER_NAME "\t\t\tName - "
-#define MSG_CUSTOMER_ADDRESS "\t\t\tAdress - "
+#define MSG_CUSTOMER_ADDRESS "\t\t\tAddress - "
 #define MSG_CUSTOMER_NIF "\t\t\tNif - "
 #define MSG_CUSTOMER_COUNTRY "\t\t\tCountry - "
 #define CLIENT_ID_MSG "\n\t\t\tType the desired client id - "
@@ -266,7 +268,8 @@ int deleteCustomers(Customers *customer) {
  */
 
 void listCustomers(Customers *customer) {
-    int i,any_key[20];
+    int i;
+    char any_key[20];
     printf("\n\t\t\tList Of Clients\n\t\t\t__________________________________");
     for (i = 0; i < customer->counter; i++) {
         printf("\n\n\t\t\tClient Id : %d",customer->customers[i].id);
@@ -283,11 +286,32 @@ void listCustomers(Customers *customer) {
 /*
  * The above function displays all customers.
  */
+void saveCustomers(Customers *customer){
+    FILE *fp;
+    int i;
+    char fn[MAX_FN_CHARS];
+    askFileName(fn);
+    fp = fopen(fn, "w+");
+    if (fp == NULL) {
+        printf(ERROR_IN_WRITING_CUSTOMERS);
+        exit(EXIT_FAILURE);
+    }
+    for (i = 0; i < customer->counter; i++){
+        fprintf(fp, "%s,%s,%d,%s\n",
+                customer->customers[i].name,
+                customer->customers[i].address,
+                customer->customers[i].nif,
+                customer->customers[i].country);
+    }
+    fclose(fp);
+    printf(SUCCESS_IN_WRITING_CUSTOMERS);
+}
+void loadCustomers(Customers *customer){}
 void customerManagementMenu(Customers *customer) {
     int option;
 
     do {
-        option = menuRead(MSG_CUSTOMER_MANAGEMENT_MENU, 0, 4);
+        option = menuRead(MSG_CUSTOMER_MANAGEMENT_MENU, 0, 6);
 
         switch (option) {
             case 0:
@@ -303,6 +327,12 @@ void customerManagementMenu(Customers *customer) {
                 break;
             case 4:        
                 listCustomers(customer);
+                break;
+            case 5:
+                saveCustomers(customer);
+                break;
+            case 6:
+                loadCustomers(customer);
                 break;
         }
     } while (option != 0);
