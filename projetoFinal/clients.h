@@ -41,4 +41,5 @@ void editCustomers(Customers *customer);
 int deleteCustomers(Customers *customer);
 void listCustomers(Customers *customer);
 void customerManagementMenu(Customers *customer /*, int curentID*/);
+int yesOrNoFunction();
 #endif // PROJETOLP_CLIENTS_H
