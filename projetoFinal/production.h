@@ -18,7 +18,6 @@
 Date askDate();
 void dateMaterials(Products *product, Orders *order);
 void saveDateMaterials(Products *product, Orders *order);
-void loadDateMaterials();
 void productionManagementMenu(Products **Product, Orders **order);
 
 #endif //PROJECT_PRODUCTION_H

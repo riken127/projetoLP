@@ -337,8 +337,6 @@ void loadCustomers(Customers *customer) {
         sp = strtok(NULL, ",");
         strcpy(customer->customers[customer->counter].country, sp);
         ++customer->counter;
-
-        //printf("\n%s", buff);
     }
     fclose(fp);
 }

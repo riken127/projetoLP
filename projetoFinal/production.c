@@ -88,12 +88,11 @@ void saveDateMaterials(Products *product, Orders *order){
     printf(SUCCESS_IN_WRITING_PRODUCTION);
 }
 
-void loadDateMaterials(){}
 void productionManagementMenu(Products **product, Orders **order){
     int option;
 
     do{
-        option = menuRead(MSG_MENU_PRODUCTION, 0, 3);
+        option = menuRead(MSG_MENU_PRODUCTION, 0, 2);
 
         switch (option){
             case 0:
@@ -103,8 +102,6 @@ void productionManagementMenu(Products **product, Orders **order){
                 break;
             case 2:
                 saveDateMaterials(*product, *order);
-                break;
-            case 3:
                 break;
         }
     }while(option != 0);
