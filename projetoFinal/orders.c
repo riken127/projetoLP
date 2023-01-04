@@ -5,10 +5,11 @@
 #include <stdlib.h>
 
 void greetCustomer(Customers *customer, int nif) {
+    printf("%p", customer);
     int i;
     for (i = 0; i < customer->counter; i++) {
-        if (customer[i].customers->nif == nif) {
-            printf("\nWelcome back,\n\t\t%s!", customer[i].customers->name);
+        if (customer->customers[i].nif == nif) {
+            printf("\nWelcome back,\n\t\t%s!", customer->customers[i].name);
         }
     }
 }
@@ -41,7 +42,6 @@ int newOrderChoosenProduct(Products *product) {
         printf(ASK_PRODUCT_ID);
         scanf(" %d", &newId);
     } while (newId < 0 || newId > (product->counter));
-
     return newId;
 }
 Date newOrderChoosenDate() {
@@ -52,7 +52,6 @@ Date newOrderChoosenDate() {
     } while (orderDate.day < MIN_DAY || orderDate.day > MAX_DAY ||
              orderDate.month < MIN_MONTH || orderDate.month > MAX_MONTH ||
              orderDate.year < MIN_YEAR);
-
     return orderDate;
 }
 int newOrderQuantity() {
@@ -90,7 +89,6 @@ void doOrder(Customers *customer, Products *product, Orders *order) {
     int customerNif, customerId;
     customerNif = menuRead(ASK_CUSTOMER_NIF, NIF_MIN_SIZE, NIF_MAX_SIZE);
     do {
-        printf("%d", customerNif);
         customerId = getCustomerId(customerNif, *(&customer));
     } while (!verifyCustomersId(*(&customer), customerId));
     greetCustomer(*(&customer), customerNif);
@@ -135,7 +133,6 @@ void saveOrders(Orders *order) {
 }
 
 void loadOrders(Orders *order) {
-
     FILE *fp;
     int i, j;
     char fn[MAX_FN_CHARS], buff[1024], *sp;
