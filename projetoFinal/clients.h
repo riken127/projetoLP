@@ -14,7 +14,6 @@
 #define MAX_COUNTRY_CHARS 50
 
 
-
 typedef struct {
     int id;
     char name[MAX_NAME_CHARS];

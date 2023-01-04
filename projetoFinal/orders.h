@@ -34,9 +34,11 @@
 
 #define SUCCESS_IN_LOADING_ORDERS "\nOrders where loaded successfully!"
 #define ERROR_IN_LOADING_ORDERS "\nAn error has occures while loading the orders! :/"
+
 typedef struct {
     int day, month, year;
 } Date;
+
 typedef struct {
     int order_id, customer_id, product_id;
     Date order_date;
