@@ -69,16 +69,11 @@ int newOrder(Customers *customer, int nif, Products *product, Orders *order) {
     order->order = realloc(order->order, sizeof(Order)*(customer->counter + 1));
     listAvaibleProducts(*(&product));
     order->order[order->counter].order_id = newOrderId(order);
-    //printf("%d", order->order[order->counter].order_id);
     order->order[order->counter].customer_id = newOrderCustomerId(customer, nif);
-    //printf("%d", order->order[order->counter].customer_id);
     order->order[order->counter].product_id = newOrderChoosenProduct(product);
-    //printf("%d", order->order[order->counter].product_id);
     order->order[order->counter].order_date = newOrderChoosenDate();
-
     order->order[order->counter].quantity = newOrderQuantity();
     ++order->counter;
-    // printf("%d", order->counter);
     return 1;
 }
 int getCustomerId(int nif, Customers *customer) {
