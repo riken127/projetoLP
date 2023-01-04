@@ -39,7 +39,9 @@ typedef struct {
     Customer *customers;
 } Customers;
 
+void errorMessage();
 int menuRead(char message[], int min, int max);
+int yesOrNoFunction();
 int verifyCustomersId(Customers *customer, int requestedId);
 void customerName(char name[]);
 void customerAddress(char address[]);
@@ -56,5 +58,4 @@ void listCustomers(Customers *customer);
 void saveCustomers(Customers *customer);
 void loadCustomers(Customers *customer);
 void customerManagementMenu(Customers *customer /*, int curentID*/);
-int yesOrNoFunction();
 #endif // PROJETOLP_CLIENTS_H
