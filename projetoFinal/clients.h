@@ -24,7 +24,7 @@
 #define MSG_ERROR_MESSAGE "\n\t\t\t========== ERROR MESSAGE ==========\n\n\t\t\tThe following option does not exist\n\t\t\t___________________________________"
 #define YES_OR_NO_MESSAGE "\t\t\tDo you want to add another record?[y/n] - "
 #define SUCCESS_IN_WRITING_CUSTOMERS "\nCustomer were written successfully"
-#define ERROR_IN_WRITING_CUSTOMERS "\nAn error has occured"
+#define ERROR_IN_WRITING_CUSTOMERS "\nAn error has occurred"
 
 typedef struct {
     int id;
@@ -48,13 +48,13 @@ void customerCountry(char country[]);
 int customerId(int curentID);
 void saveCustomer(char name[], char address[], int nif, char country[], int id,
                   Customers *customer, int pos);
-void recordCustomers(Customers *customer /*, int curentID*/);
+void recordCustomers(Customers *customer);
 void changeCustomerData(Customers *customer, int pos, int id);
 void editCustomers(Customers *customer);
 int deleteCustomers(Customers *customer);
 void listCustomers(Customers *customer);
 void saveCustomers(Customers *customer);
 void loadCustomers(Customers *customer);
-void customerManagementMenu(Customers *customer /*, int curentID*/);
+void customerManagementMenu(Customers *customer);
 int yesOrNoFunction();
 #endif // PROJETOLP_CLIENTS_H
