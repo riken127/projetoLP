@@ -87,8 +87,8 @@ int getCustomerId(int nif, Customers *customer) {
 }
 void doOrder(Customers *customer, Products *product, Orders *order) {
     int customerNif, customerId;
-    customerNif = menuRead(ASK_CUSTOMER_NIF, NIF_MIN_SIZE, NIF_MAX_SIZE);
     do {
+        customerNif = menuRead(ASK_CUSTOMER_NIF, NIF_MIN_SIZE, NIF_MAX_SIZE);
         customerId = getCustomerId(customerNif, *(&customer));
     } while (!verifyCustomersId(*(&customer), customerId));
     greetCustomer(*(&customer), customerNif);
