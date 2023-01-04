@@ -22,7 +22,8 @@
 #define MSG_CUSTOMER_COUNTRY "\t\t\tCountry - "
 #define CLIENT_ID_MSG "\n\t\t\tType the desired client id - "
 #define MSG_ERROR_MESSAGE "\n\t\t\t========== ERROR MESSAGE ==========\n\n\t\t\tThe given value is out of reach\n\t\t\t___________________________________"
-#define YES_OR_NO_MESSAGE "\t\t\tDo you want to add another record?[y/n] - "
+#define YES_OR_NO_MESSAGE_RECORD "\t\t\tDo you want to add another record?[y/n] - "
+#define YES_OR_NO_MESSAGE_SAVE_DATA "\t\t\tDo you want to save all changes?[y/n] - "
 #define SUCCESS_IN_WRITING_CUSTOMERS "\nCustomer were written successfully"
 #define ERROR_IN_WRITING_CUSTOMERS "\nAn error has occurred"
 

@@ -122,6 +122,7 @@ int main(int argc, char **argv) {
     order->order = (Order *)malloc(1 * sizeof(Order));
     order->counter = 0;
     loadData(customer);
+    
     mainMenu(customer, &product, &order);
     free(product);
     free(product->product);

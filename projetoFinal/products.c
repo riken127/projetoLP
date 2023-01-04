@@ -98,7 +98,6 @@ void loadProducts(Products *product){
         product->product[product->counter - 1].dimension.width = atoi(sp);
         sp = strtok(NULL, ",");
         product->product[product->counter - 1].dimension.height = atoi(sp);
-        //printf("\n%s", buff);
     }
 }
 /*

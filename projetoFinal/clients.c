@@ -36,10 +36,10 @@ int menuRead(char message[], int min, int max) {
  * is between to values, if not, the cycle continues.
  */
 
-int yesOrNoFunction() {
+int yesOrNoFunction(char message[]) {
     char option;
     do {
-        printf(YES_OR_NO_MESSAGE);
+        printf(message);
         scanf(" %c", &option);
     } while (option != 'y' && option != 'n');
     switch (option) {
@@ -158,7 +158,7 @@ void recordCustomers(Customers *customer) {
         saveCustomer(name, address, nif, country, customerId(customer->counter),
                 *(&customer), customer->counter);
         customer->counter++;
-        option = yesOrNoFunction();
+        option = yesOrNoFunction(YES_OR_NO_MESSAGE_RECORD);
         system("cls || clear");
     } while (option != 2);
 }
@@ -344,7 +344,7 @@ void importCustomers(Customers *customer) {
 void savesChangesCustomers(Customers *customer) {
     FILE *fp;
     int i, option;
-    option = yesOrNoFunction();
+    option = yesOrNoFunction(YES_OR_NO_MESSAGE_SAVE_DATA);
     system("cls || clear");
     if (option == 1) {
         fp = fopen("./Data/clients.csv", "a+");
