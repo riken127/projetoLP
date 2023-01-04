@@ -160,27 +160,6 @@ void recordCustomers(Customers *customer) {
         system("cls || clear");
     }while(option != 2);
 }
-void saveCustomers(Customers *customer){
-    FILE *fp;
-    int i;
-    char fn[MAX_FN_CHARS];
-    askFileName(fn);
-    fp = fopen(fn, "w+");
-    if (fp == NULL) {
-        printf(ERROR_IN_WRITING_CUSTOMERS);
-        exit(EXIT_FAILURE);
-    }
-    for (i = 0; i < customer->counter; i++){
-        fprintf(fp, "%s,%s,%d,%s\n",
-                customer->customers[i].name,
-                customer->customers[i].address,
-                customer->customers[i].nif,
-                customer->customers[i].country);
-    }
-    fclose(fp);
-    printf(SUCCESS_IN_WRITING_CUSTOMERS);
-}
-void loadCustomers(Customers *customer){}
 void changeCustomerData(Customers *customer, int pos, int id) {
     int option, nif;
     char name[MAX_NAME_CHARS], address[MAX_ADDRESS_CHARS],
