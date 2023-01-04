@@ -7,6 +7,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+
 #define MSG_CUSTOMER_MANAGEMENT_MENU                                           \
   "\n\t\t\t========= Customer Managment Menu =========\n\n\t\t\t[1] - Record.\n\t\t\t[2] - Edit.\n\t\t\t[3] - Delete.\n\t\t\t[4] - List.\n\t\t\t[0] - Quit.\n\t\t\t___________________________________________"
 #define MSG_CHANGE_CUSTOMER_DATA "\n\t\t\t========= Edit =========\n\n\t\t\t[1] - Name\n\t\t\t[2] - Adress\n\t\t\t[3] - Nif\n\t\t\t[4] - Country.\n\t\t\t[0] - Quit.\n\t\t\t________________________"
@@ -310,7 +311,6 @@ void saveCustomers(Customers *customer){
 }
 void loadCustomers(Customers *customer){
     FILE *fp;
-    int i, j;
     char fn[MAX_FN_CHARS], buff[1024], *sp;
     askFileName(fn);
     fp = fopen(fn, "r");
