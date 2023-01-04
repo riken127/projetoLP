@@ -14,7 +14,7 @@
 #define MAX_COUNTRY_CHARS 50
 
 #define MSG_CUSTOMER_MANAGEMENT_MENU                                           \
-  "\n\t\t\t========= Customer Management Menu =========\n\n\t\t\t[1] - Record.\n\t\t\t[2] - Edit.\n\t\t\t[3] - Delete.\n\t\t\t[4] - List.\n\t\t\t[5] - Export file.\n\t\t\t[4] - Import file.\n\t\t\t[0] - Quit.\n\t\t\t___________________________________________"
+  "\n\t\t\t========= Customer Management Menu =========\n\n\t\t\t[1] - Record.\n\t\t\t[2] - Edit.\n\t\t\t[3] - Delete.\n\t\t\t[4] - List.\n\t\t\t[5] - Export file.\n\t\t\t[6] - Import file.\n\t\t\t[0] - Quit.\n\t\t\t___________________________________________"
 #define MSG_CHANGE_CUSTOMER_DATA "\n\t\t\t========= Edit =========\n\n\t\t\t[1] - Name\n\t\t\t[2] - Adress\n\t\t\t[3] - Nif\n\t\t\t[4] - Country.\n\t\t\t[0] - Quit.\n\t\t\t________________________"
 #define MSG_CUSTOMER_NAME "\t\t\tName - "
 #define MSG_CUSTOMER_ADDRESS "\t\t\tAddress - "
@@ -49,7 +49,7 @@ int customerNif();
 void customerCountry(char country[]);
 int customerId(int curentID);
 void saveCustomer(char name[], char address[], int nif, char country[], int id,
-                  Customers *customer, int pos);
+        Customers *customer, int pos);
 void recordCustomers(Customers *customer);
 void changeCustomerData(Customers *customer, int pos, int id);
 void editCustomers(Customers *customer);
@@ -58,4 +58,5 @@ void listCustomers(Customers *customer);
 void exportCustomers(Customers *customer);
 void importCustomers(Customers *customer);
 void customerManagementMenu(Customers *customer);
+void savesChangesCustomers(Customers *customer);
 #endif // PROJETOLP_CLIENTS_H

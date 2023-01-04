@@ -341,6 +341,29 @@ void importCustomers(Customers *customer) {
     fclose(fp);
 }
 
+void savesChangesCustomers(Customers *customer) {
+    FILE *fp;
+    int i, option;
+    option = yesOrNoFunction();
+    system("cls || clear");
+    if (option == 1) {
+        fp = fopen("./Data/clients.csv", "a+");
+        if (fp == NULL) {
+            printf(ERROR_IN_WRITING_CUSTOMERS);
+            exit(EXIT_FAILURE);
+        }
+        for (i = 0; i < customer->counter; i++) {
+            fprintf(fp, "%s,%s,%d,%s\n",
+                    customer->customers[i].name,
+                    customer->customers[i].address,
+                    customer->customers[i].nif,
+                    customer->customers[i].country);
+        }
+        fclose(fp);
+        printf(SUCCESS_IN_WRITING_CUSTOMERS);
+    }
+}
+
 void customerManagementMenu(Customers *customer) {
     int option;
 
@@ -349,6 +372,7 @@ void customerManagementMenu(Customers *customer) {
 
         switch (option) {
             case 0:
+                savesChangesCustomers(customer);
                 break;
             case 1:
                 recordCustomers(*(&customer));
