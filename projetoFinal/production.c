@@ -18,7 +18,6 @@ Date askDate(){
               &insertedDate.day,
               &insertedDate.month,
               &insertedDate.year);
-        //printf("%d-%d-%d", insertedDate.day, insertedDate.month, insertedDate.year);
     }while(insertedDate.day < MIN_DAY || insertedDate.day > MAX_DAY ||
            insertedDate.month < MIN_MONTH || insertedDate.month > MAX_MONTH ||
            insertedDate.year < MIN_YEAR);
@@ -26,13 +25,11 @@ Date askDate(){
     return insertedDate;
 }
 
-void dateMaterials(Products *product, Orders *order){
+void listMaterials(Products *product, Orders *order){
     Date date;
     int i, j, k, z = 1;
     date = askDate();
-    //printf("%d-%d-%d", date.day, date.month, date.year);
     for (i = 0; i < order->counter; i++){
-        //printf("%d", order->counter);
         if (order->order[i].order_date.day == date.day &&
             order->order[i].order_date.month == date.month &&
             order->order[i].order_date.year == date.year){
@@ -98,7 +95,7 @@ void productionManagementMenu(Products **product, Orders **order){
             case 0:
                 break;
             case 1:
-                dateMaterials(*product, *order);
+                listMaterials(*product, *order);
                 break;
             case 2:
                 saveDateMaterials(*product, *order);
