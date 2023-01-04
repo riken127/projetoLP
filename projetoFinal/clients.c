@@ -298,7 +298,7 @@ void listCustomers(Customers *customer) {
 /*
  * The above function displays all customers.
  */
-void saveCustomers(Customers *customer) {
+void exportCustomers(Customers *customer) {
     FILE *fp;
     int i;
     char fn[MAX_FN_CHARS];
@@ -319,7 +319,7 @@ void saveCustomers(Customers *customer) {
     printf(SUCCESS_IN_WRITING_CUSTOMERS);
 }
 
-void loadCustomers(Customers *customer) {
+void importCustomers(Customers *customer) {
     FILE *fp;
     char fn[MAX_FN_CHARS], buff[1024], *sp;
     askFileName(fn);
@@ -363,10 +363,10 @@ void customerManagementMenu(Customers *customer) {
                 listCustomers(customer);
                 break;
             case 5:
-                saveCustomers(customer);
+                exportCustomers(customer);
                 break;
             case 6:
-                loadCustomers(customer);
+                importCustomers(customer);
                 break;
         }
     } while (option != 0);
