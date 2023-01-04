@@ -14,7 +14,7 @@
 #define MAX_COUNTRY_CHARS 50
 
 #define MSG_CUSTOMER_MANAGEMENT_MENU                                           \
-  "\n\t\t\t========= Customer Management Menu =========\n\n\t\t\t[1] - Record.\n\t\t\t[2] - Edit.\n\t\t\t[3] - Delete.\n\t\t\t[4] - List.\n\t\t\t[5] - Save.\n\t\t\t[4] - Load.\n\t\t\t[0] - Quit.\n\t\t\t___________________________________________"
+  "\n\t\t\t========= Customer Management Menu =========\n\n\t\t\t[1] - Record.\n\t\t\t[2] - Edit.\n\t\t\t[3] - Delete.\n\t\t\t[4] - List.\n\t\t\t[5] - Save.\n\t\t\t[6] - Load.\n\t\t\t[0] - Quit.\n\t\t\t___________________________________________"
 #define MSG_CHANGE_CUSTOMER_DATA "\n\t\t\t========= Edit =========\n\n\t\t\t[1] - Name\n\t\t\t[2] - Adress\n\t\t\t[3] - Nif\n\t\t\t[4] - Country.\n\t\t\t[0] - Quit.\n\t\t\t________________________"
 #define MSG_CUSTOMER_NAME "\t\t\tName - "
 #define MSG_CUSTOMER_ADDRESS "\t\t\tAddress - "
