@@ -87,6 +87,28 @@ void mainMenu(Customers *customer, Products **product,
  * admin side, it loops until the integer [option] given by the user is equal to
  * zero.
  */
+
+void loadData(Customers *customer){
+    FILE *fp;
+    char buff[1024], *sp;
+    fp = fopen("./Data/clients.csv", "r");
+    while (fgets(buff, 1024, fp) != NULL) {
+        customer->customers = (Customer*) realloc(customer->customers, sizeof (Customer) * (customer->counter + 1));
+
+        customer->customers[customer->counter].id = (customer->counter + 1);
+        sp = strtok(buff, ",");
+        strcpy(customer->customers[customer->counter].name, sp);
+        sp = strtok(NULL, ",");
+        strcpy(customer->customers[customer->counter].address, sp);
+        sp = strtok(NULL, ",");
+        customer->customers[customer->counter].nif = atoi(sp);
+        sp = strtok(NULL, ",");
+        strcpy(customer->customers[customer->counter].country, sp);
+        ++customer->counter;
+    }
+    fclose(fp);
+}
+
 int main(int argc, char **argv) {
     Customers *customer;
     customer = (Customers *)malloc(1 * INITIAL_CLIENT_SIZE);
@@ -99,6 +121,7 @@ int main(int argc, char **argv) {
     order = (Orders *)malloc(1 * sizeof(Orders));
     order->order = (Order *)malloc(1 * sizeof(Order));
     order->counter = 0;
+    loadData(customer);
     mainMenu(customer, &product, &order);
     free(product);
     free(product->product);
