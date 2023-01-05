@@ -40,7 +40,7 @@ typedef struct {
     Customer *customers;
 } Customers;
 
-void errorMessage();
+void errorMessage(char message[]);
 int menuRead(char message[], int min, int max);
 int yesOrNoFunction();
 int verifyCustomersId(Customers *customer, int requestedId);

@@ -8,10 +8,10 @@
 #include <string.h>
 #include <stdlib.h>
 
-void errorMessage() {
+void errorMessage(char message[]) {
     char any_key[20];
     system("cls || clear");
-    puts(MSG_ERROR_MESSAGE);
+    puts(message);
     printf("\t\t\tPress any key to exit ");
     scanf("%s", any_key);
     system("cls || clear");
@@ -25,7 +25,7 @@ int menuRead(char message[], int min, int max) {
         scanf("%d", &option);
         system("cls || clear");
         if (option < min || option > max) {
-            errorMessage();
+            errorMessage(MSG_ERROR_MESSAGE);
         }
     } while (option < min || option > max);
     return option;
@@ -223,7 +223,7 @@ void editCustomers(Customers *customer) {
                 }
             }
         } else
-            errorMessage();
+            errorMessage(MSG_ERROR_MESSAGE);
     } while (verify != 1);
 }
 
@@ -243,7 +243,7 @@ int deleteCustomers(Customers *customer) {
         } else {
             verify = verifyCustomersId(*(&customer), id);
             if (verify == 0) {
-                errorMessage();
+                errorMessage(MSG_ERROR_MESSAGE);
             } else {
                 for (i = 0; i < *(&customer->counter); i++) {
                     if (*(&customer->customers[i].id) == id) {
