@@ -12,6 +12,8 @@
 
 #define MSG_MENU_PRODUCTION "\n\t\t\t========= Production Management Menu =========\n\n\t\t\t[1] - List materials.\n\t\t\t______________________________________________"
 
+#define MSG_LIST_MENU "\n\n\t\t\t[1] - List materials.\n\t\t\t[2] - List materials.\n\t\t\t[3] - List materials.\n\t\t\t[0] - Quit.\n\t\t\t__________________________________"
+
 #define ASK_DESIRED_DATE "\nPlease type the desired date: (xx-xx-xxxx)\n"
 
 #define SUCCESS_IN_WRITING_PRODUCTION "\nProduction file was written successfully!\n"
@@ -26,4 +28,5 @@ void listMaterials(Products *product, Orders *order);
 void saveDateMaterials(Products *product, Orders *order);
 void productionManagementMenu(Products **Product, Orders **order);
 void errorMessage(char message[]);
+void listMenu();
 #endif //PROJECT_PRODUCTION_H
