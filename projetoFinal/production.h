@@ -9,7 +9,7 @@
 #include "orders.h"
 #include "products.h"
 
-#define MSG_MENU_PRODUCTION "\n[1] - List.\n[2] - Save.\n"
+#define MSG_MENU_PRODUCTION "\n\t\t\t========= Production Management Menu =========\n\n\t\t\t[1] - List materials.\n\t\t\t______________________________________________"
 
 #define ASK_DESIRED_DATE "\nPlease type the desired date: (xx-xx-xxxx)\n"
 

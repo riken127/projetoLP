@@ -89,16 +89,13 @@ void productionManagementMenu(Products **product, Orders **order){
     int option;
 
     do{
-        option = menuRead(MSG_MENU_PRODUCTION, 0, 2);
+        option = menuRead(MSG_MENU_PRODUCTION, 0, 1);
 
         switch (option){
             case 0:
                 break;
             case 1:
                 listMaterials(*product, *order);
-                break;
-            case 2:
-                saveDateMaterials(*product, *order);
                 break;
         }
     }while(option != 0);
