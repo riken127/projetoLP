@@ -12,7 +12,7 @@
   "\n\t\t\t========= Admin Menu =========\n\n\t\t\t[1] - Clients Management.\n\t\t\t[2] - Products Management.\n\t\t\t[3] - Production "   \
   "Management.\n\t\t\t[0] - Quit.\n\t\t\t______________________________"
 #define MSG_CLIENT_MENU                                                        \
-  "\n\t\t\t========= Client Menu =========\n\n\t\t\t[1] - Do order.\n\t\t\t[2] - Save orders.\n\t\t\t[3] - List orders.\n\t\t\t[4] - Load orders.\n\t\t\t[0] - Quit.\n\t\t\t_______________________________"
+  "\n\t\t\t========= Client Menu =========\n\n\t\t\t[1] - Do order.\n\t\t\t[2] - List orders.\n\t\t\t[3] - Export orders.\n\t\t\t[4] - Import orders.\n\t\t\t[0] - Quit.\n\t\t\t_______________________________"
 
 
 void adminMenu(Customers *customer, Orders **order, Products **product) {
@@ -52,13 +52,13 @@ void clientMenu(Customers *customer, Products **product, Orders **order) {
                 doOrder(*(&customer), *product, *order);
                 break;
             case 2:
-                saveOrders(*order);
-                break;
-            case 3:
                 listOrders(*order);
                 break;
+            case 3:
+                exportOrders(*order);
+                break;
             case 4:
-                loadOrders(*order);
+                importOrders(*order);
                 break;
         }
     } while (option != 0);

@@ -111,7 +111,7 @@ void askFileName(char fileName[MAX_FN_CHARS]){
     scanf("%s", fileName);
 }
 
-void saveOrders(Orders *order) {
+void exportOrders(Orders *order) {
     FILE *fp;
     int i;
     char fn[MAX_FN_CHARS];
@@ -132,7 +132,7 @@ void saveOrders(Orders *order) {
 
 }
 
-void loadOrders(Orders *order) {
+void importOrders(Orders *order) {
     FILE *fp;
     int i, j;
     char fn[MAX_FN_CHARS], buff[1024], *sp;

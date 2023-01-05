@@ -62,6 +62,6 @@ int getCustomerId(int nif, Customers *customer);
 void doOrder(Customers *customer, Products *product, Orders *order);
 void listOrders(Orders *order);
 void askFileName(char fileName[MAX_FN_CHARS]);
-void saveOrders(Orders *order);
-void loadOrders(Orders *order);
+void exportOrders(Orders *order);
+void importOrders(Orders *order);
 #endif
