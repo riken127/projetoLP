@@ -59,5 +59,4 @@ void listCustomers(Customers *customer);
 void exportCustomers(Customers *customer);
 void importCustomers(Customers *customer);
 void customerManagementMenu(Customers *customer);
-void savesChangesCustomers(Customers *customer);
 #endif // PROJETOLP_CLIENTS_H
