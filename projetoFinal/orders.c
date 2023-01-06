@@ -37,7 +37,7 @@ int newOrderCustomerId(Customers *customer, int nif) {
     return -1;
 }
 int newOrderChoosenProduct(Products *product) {
-    int i, newId;
+    int newId;
     do {
         printf(ASK_PRODUCT_ID);
         scanf(" %d", &newId);
@@ -64,7 +64,6 @@ int newOrderQuantity() {
     return quantity;
 }
 int newOrder(Customers *customer, int nif, Products *product, Orders *order) {
-    int i, choosenProduct;
     order->order = realloc(order->order, sizeof(Order)*(customer->counter + 1));
     listAvaibleProducts(*(&product));
     order->order[order->counter].order_id = newOrderId(order);
@@ -134,7 +133,6 @@ void exportOrders(Orders *order) {
 
 void importOrders(Orders *order) {
     FILE *fp;
-    int i, j;
     char fn[MAX_FN_CHARS], buff[1024], *sp;
     askFileName(fn);
     fp = fopen(fn, "r");
