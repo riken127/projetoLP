@@ -97,7 +97,7 @@ void loadProducts(Products *products){
     askFileName(fn);
     fp = fopen(fn, "rb+");
     fread(&c, sizeof(int), 1, fp);
-    products->product = (Product *)realloc(products->product, c * sizeof(Product));
+    products->product = (Product *)realloc(products->product, (c + products->counter) * sizeof(Product));
     for (i = 0; i < c; i++){
         //fread(&products->product[i], sizeof(Products), 1, fp);
         fread(&products->product[i + products->counter].cod_Produto, sizeof(char) * COD_PRODUCT_SIZE,1,fp);
