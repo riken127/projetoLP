@@ -61,7 +61,7 @@ void saveProducts(Products *products){
     if (fp == NULL){
         exit(EXIT_FAILURE);
     }
-    printf("counter:\t%d\n", products->counter);
+    //printf("counter:\t%d\n", products->counter);
     fwrite(&products->counter, sizeof(int), 1, fp);
     i = 0;
     do{
@@ -97,18 +97,17 @@ void loadProducts(Products *products){
     askFileName(fn);
     fp = fopen(fn, "rb+");
     fread(&c, sizeof(int), 1, fp);
-    printf("%d\n", c);
-    products = (Products *)malloc(1 * sizeof(Products));
-    products->product = (Product *)malloc(c * sizeof(Product));
+    products->product = (Product *)realloc(products->product, c * sizeof(Product));
     for (i = 0; i < c; i++){
         //fread(&products->product[i], sizeof(Products), 1, fp);
-        fread(&products->product[i].cod_Produto, sizeof(char) * COD_PRODUCT_SIZE,1,fp);
-        fread(&products->product[i].name, sizeof(char)*MAX_PRODUCT_NAME_SIZE, 1, fp);
-        fread(&products->product[i].price, sizeof(double), 1, fp);
-        fread(&products->product[i].dimension.height, sizeof(int), 1, fp);
-        fread(&products->product[i].dimension.lenght, sizeof(int), 1, fp);
-        fread(&products->product[i].dimension.width, sizeof(int), 1, fp);
+        fread(&products->product[i + products->counter].cod_Produto, sizeof(char) * COD_PRODUCT_SIZE,1,fp);
+        fread(&products->product[i + products->counter].name, sizeof(char)*MAX_PRODUCT_NAME_SIZE, 1, fp);
+        fread(&products->product[i + products->counter].price, sizeof(double), 1, fp);
+        fread(&products->product[i + products->counter].dimension.height, sizeof(int), 1, fp);
+        fread(&products->product[i + products->counter].dimension.lenght, sizeof(int), 1, fp);
+        fread(&products->product[i + products->counter].dimension.width, sizeof(int), 1, fp);
     }
+    products->counter += i;
     for(i = 0; i < c;i++){
         fread(&products->product[i].material_count, sizeof(int), 1, fp);
         products->product[i].material = (Materials *)malloc(sizeof(Materials)*products->product[i].material_count);
@@ -119,6 +118,7 @@ void loadProducts(Products *products){
             fread(&products->product[i].material[j].quantity, sizeof(short int), 1, fp);
             fread(&products->product[i].material[j].unit, sizeof(int), 1, fp);
         }
+        products->product[i].material_count += j;
     }
     printf("%s",products->product[1].material[0].cod_Material);
     fclose(fp);
