@@ -100,7 +100,7 @@ int main(int argc, char **argv) {
     order = (Orders *)malloc(1 * sizeof(Orders));
     order->order = (Order *)malloc(1 * sizeof(Order));
     order->counter = 0;
-    
+
     mainMenu(customer, &product, &order);
     free(product);
     free(product->product);
