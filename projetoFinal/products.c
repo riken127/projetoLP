@@ -123,54 +123,6 @@ void loadProducts(Products *products){
     printf("%s",products->product[1].material[0].cod_Material);
     fclose(fp);
 }
-
-void loadProductsBin(Products *product){
-    FILE *fp;
-    int i, j;
-    char fn[MAX_FN_CHARS], buff[1024], *sp;
-    askFileName(fn);
-    fp = fopen(fn, "wb+");
-    if (fp == NULL){
-        exit(EXIT_FAILURE);
-    }
-    i = 0;
-    j = 0;
-    /*do{
-        fwrite(&product->counter, sizeof(int), 1, fp);
-        fwrite(&product->product[i], sizeof(Products), 1, fp);
-        i++;
-    }while(i <= product->counter);
-    fwrite(product, )
-    */
-}
-/*
-bool writeData(char *filename, Products *data, int total)
-{
-    FILE *file;
-
-    file = fopen(filename, "wb+");
-    void *tmp = data->material;
-    data->material = NULL;
-    if (file == NULL)
-        return NULL;
-    if (fwrite(&total, sizeof(int), 1, file) != 1)
-        return NULL;
-    for (int j = 0; j < total; j++) {
-        for (int i = 0; i < data->material_count; i++) {
-            if (fwrite((data + j)->material[i], sizeof(Materials), 1, file) ==
-1) continue; printf("ERROR"); return false;
-        }
-    }
-
-    if (fwrite(data, sizeof(Products), total, file) != total)
-        return NULL;
-    if (fclose(file) == EOF)
-        return false;
-
-    data->material = tmp;
-
-    return true;
-}*/
 /*
  * carregar por memória já que ainda n sabemos como fazer por ficheiro
  */
