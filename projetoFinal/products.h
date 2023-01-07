@@ -35,6 +35,8 @@
 
 #define ASK_ANOTHER_MATERIAL "Would you like to type another material?[1/0]\n"
 
+#define MSG_CHANGE_PRODUCT_DATA "[1] - Name.\n[2] - Price.\n[3] - Dimension.\n[4] - Materials.\n"
+#define MSG_CHANGE_PRODUCT_MATERIAL_DATA "[1] - Unit.\n[2] - Description.\n[3] - Quantity.\n[0] - Exit.\n"
 #define INITIAL_PRODUCT_SIZE 1
 #define INITIAL_MATERIAL_SIZE 1
 
@@ -77,6 +79,9 @@ void materialQuantity(short int *materialQuantity);
 void materialUnit(units *materialUnit);
 bool newMaterial();
 void newProduct(Products *product);
+void saveProducts(Products *products);
+void deleteProducts(Products *products);
+void loadProducts(Products *products);
 void listProducts(Products *product);
 int menuRead(char message[], int min, int max);
 void productsManagementMenu(Products *products);

@@ -95,7 +95,8 @@ int main(int argc, char **argv) {
     customer->counter = 0;
     Products *product;
     product = (Products *)malloc(1 * sizeof(Products));
-    product->product = (Product *)malloc(3 * sizeof(Product));
+    product->product = (Product *)malloc(1 * sizeof(Product));
+    product->counter = 0;
     Orders *order;
     order = (Orders *)malloc(1 * sizeof(Orders));
     order->order = (Order *)malloc(1 * sizeof(Order));
