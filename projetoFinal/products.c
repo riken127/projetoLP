@@ -170,9 +170,9 @@ void deleteProducts(Products *products) {
     char code[COD_PRODUCT_SIZE];
     //do {
     printf(ASK_PRODUCT_CODE);
-    scanf(" %s", code);
+    scanf("%s", code);
     for (i = 0; i < products->counter; i++) {
-        //printf("%s, %s", code, products->product[i].cod_Produto);
+        printf("%s, %s", code, products->product[i].cod_Produto);
         if (strcmp(code, products->product[i].cod_Produto) == 0) {
             strcpy(products->product[i].cod_Produto, products->product[i + 1].cod_Produto);
             strcpy(products->product[i].name, products->product[i + 1].name);
@@ -191,18 +191,18 @@ void deleteProducts(Products *products) {
                 products->product[i].material[j].unit = products->product[i + 1].material[j].unit;
                 products->product[i].material[j].unit = products->product[i + 1].material[j].quantity;
             }
-            products->counter--;
+            if(products->counter != 0) {
+                products->counter--;
+            }
         } else {
             count++;
             continue;
         }
     }
-    if (count == products->counter) {
+    if (count == products->counter && products->counter != 0) {
         printf(MSG_ERROR_MESSAGE);
     }
     printf("%d", products->counter);
-    //}while(strcmp(code, products->product[i].cod_Produto))
-
 }
 
 void listProductMaterials(Products *products, int pos) {
@@ -216,7 +216,7 @@ void listProductMaterials(Products *products, int pos) {
 }
 
 int findMaterialPosition(Products *products, char code[COD_MATERIAL_SIZE], int productPosition) {
-    int i, count;
+    int i,  count = 0;
     for (i = 0;i<products->product[productPosition].material_count; i++){
         printf("\n%s\n%s\n",products->product[productPosition].material[i].cod_Material,
                code);
@@ -235,6 +235,21 @@ void saveMaterialChanges(Products *products, int productPosition, int materialPo
     products->product[productPosition].material[materialPos].unit = editedMaterial.unit;
     products->product[productPosition].material[materialPos].quantity = editedMaterial.quantity;
 }
+void deleteMaterial(Products *products, int productPosition, int materialPosition, Materials material){
+    int i;
+    for(i = 0; i < products->product[productPosition].material_count; i++) {
+        if (strcmp(products->product[productPosition].material[i].cod_Material, material.cod_Material) == 0) {
+            strcpy(products->product[productPosition].material[i].cod_Material,
+                   products->product[productPosition].material[i + 1].cod_Material);
+            strcpy(products->product[productPosition].material[i].description,
+                   products->product[productPosition].material[i + 1].description);
+            products->product[productPosition].material[i].unit = products->product[productPosition].material[i + 1].unit;
+            products->product[productPosition].material[i].quantity = products->product[productPosition].material[i + 1].quantity;
+        }
+    }
+    products->product[productPosition].material_count--;
+    printf("%d", products->product[productPosition].material_count);
+}
 void materialEditMenu(Products *products, int pos) {
     int materialPosition, option;
     Materials material;
@@ -248,11 +263,11 @@ void materialEditMenu(Products *products, int pos) {
         material.unit = products->product[pos].material[materialPosition].unit;
         strcpy(material.description, products->product[pos].material[materialPosition].description);
         material.quantity = products->product[pos].material[materialPosition].quantity;
-
+        strcpy(material.cod_Material, products->product[pos].material[materialPosition].cod_Material);
 
         do {
             printf("Changing %s...\n", material.description);
-            option = menuRead(MSG_CHANGE_PRODUCT_MATERIAL_DATA, 0, 3);
+            option = menuRead(MSG_CHANGE_PRODUCT_MATERIAL_DATA, 0, 4);
             switch (option) {
                 case 0:
                     break;
@@ -270,6 +285,11 @@ void materialEditMenu(Products *products, int pos) {
                     printf("\n\t\t\tPrevious - %d", material.quantity);
                     materialQuantity(&material.quantity);
                     system("cls || clear");
+                    break;
+                case 4:
+                    deleteMaterial(products, pos, materialPosition, material);
+                    system("cls || clear");
+                    option = 0;
                     break;
             }
         }while(option != 0);
