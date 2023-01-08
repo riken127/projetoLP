@@ -48,6 +48,9 @@
 
 #define ERROR_WRITING "ERROR WRITING IN FILE\n"
 #define SUCCESS_WRITING "WRITE DATA OK.\n"
+/*
+ * Product struct definition
+ */
 typedef enum {UN, PAR} units;
 
 typedef struct {
@@ -71,8 +74,10 @@ typedef struct {
     Product *product;
     int counter;
 }Products;
-void fillStruct(Products *product);
-void productName(char productCode[COD_PRODUCT_SIZE]);
+/*
+ * Product functions definition
+ */
+void productCode(char productCode[COD_PRODUCT_SIZE]);
 void productName(char productName[MAX_PRODUCT_NAME_SIZE]);
 void productDimension(Dimensions *productDimension);
 void productPrice(double *price);
