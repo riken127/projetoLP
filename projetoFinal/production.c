@@ -58,7 +58,7 @@ void listMaterials(Products *product, Orders *order) {
                             printf("\n\n\t\t\tMaterial Id   : %s", product->product[j].material[k].cod_Material);
                             printf("\n\t\t\tDescription   : %s", product->product[j].material[k].description);
                             printf("\n\t\t\tQuantity      : %d", product->product[j].material[k].quantity * order->order[i].quantity);
-                            printf("\n\t\t\tUnit          : %s", product->product[j].material[k].unit);
+                            printf("\n\t\t\tUnit          : %d", product->product[j].material[k].unit);
                             printf("\n\t\t\t__________________________________");
                         }
                     }
