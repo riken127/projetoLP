@@ -416,6 +416,7 @@ void changeProductData(Products *products, int pos, char code[COD_PRODUCT_SIZE])
  * The following function loops tru the product struct until it finds
  * the code written by the user, if not found, an error message appears,
  * if found, the user is redirected to the menu (changeProductData).
+ * @param products
  */
 void editProducts(Products *products) {
     int i, count = 0;
