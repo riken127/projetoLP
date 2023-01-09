@@ -324,21 +324,25 @@ void importCustomers(Customers *customer) {
     char fn[MAX_FN_CHARS], buff[1024], *sp;
     askFileName(fn);
     fp = fopen(fn, "r");
-    while (fgets(buff, 1024, fp) != NULL) {
-        customer->customers = (Customer*) realloc(customer->customers, sizeof (Customer) * (customer->counter + 1));
-
-        customer->customers[customer->counter].id = (customer->counter + 1);
-        sp = strtok(buff, ",");
-        strcpy(customer->customers[customer->counter].name, sp);
-        sp = strtok(NULL, ",");
-        strcpy(customer->customers[customer->counter].address, sp);
-        sp = strtok(NULL, ",");
-        customer->customers[customer->counter].nif = atoi(sp);
-        sp = strtok(NULL, ",");
-        strcpy(customer->customers[customer->counter].country, sp);
-        ++customer->counter;
+    if (fp == NULL) {
+        printf(ERROR_IN_WRITING_CUSTOMERS);
+    } else {
+        while (fgets(buff, 1024, fp) != NULL) {
+            customer->customers = (Customer*) realloc(customer->customers, sizeof (Customer) * (customer->counter + 1));
+            customer->customers[customer->counter].id = (customer->counter + 1);
+            sp = strtok(buff, ",");
+            strcpy(customer->customers[customer->counter].name, sp);
+            sp = strtok(NULL, ",");
+            strcpy(customer->customers[customer->counter].address, sp);
+            sp = strtok(NULL, ",");
+            customer->customers[customer->counter].nif = atoi(sp);
+            sp = strtok(NULL, ",");
+            strcpy(customer->customers[customer->counter].country, sp);
+            ++customer->counter;
+        }
+        fclose(fp);
+        printf(SUCCESS_IN_IMPORTING_CUSTOMERS);
     }
-    fclose(fp);
 }
 
 void customerManagementMenu(Customers *customer) {

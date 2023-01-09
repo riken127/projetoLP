@@ -23,7 +23,7 @@
 #define NIF_MAX_SIZE 999999999
 #define NIF_MIN_SIZE 000000000
 
-#define ASK_FILE_NAME "\nPlease type the desired file name:"
+#define ASK_FILE_NAME "\n\t\t\tPlease type the desired file name - "
 #define MAX_FN_CHARS 100
 
 #define ASK_CUSTOMER_NIF "Please type your nif"
