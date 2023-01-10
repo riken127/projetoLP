@@ -13,6 +13,8 @@
 
 #define MAX_COUNTRY_CHARS 50
 
+#define MAX_VERIFY_CHARS 50
+
 #define MSG_CUSTOMER_MANAGEMENT_MENU                                           \
   "\n\t\t\t========= Customer Management Menu =========\n\n\t\t\t[1] - Record.\n\t\t\t[2] - Edit.\n\t\t\t[3] - Delete.\n\t\t\t[4] - List.\n\t\t\t[5] - Export file.\n\t\t\t[6] - Import file.\n\t\t\t[0] - Quit.\n\t\t\t____________________________________________"
 #define MSG_CHANGE_CUSTOMER_DATA "\n\t\t\t========= Edit =========\n\n\t\t\t[1] - Name\n\t\t\t[2] - Adress\n\t\t\t[3] - Nif\n\t\t\t[4] - Country.\n\t\t\t[0] - Quit.\n\t\t\t________________________"
@@ -48,6 +50,7 @@ int verifyCustomersId(Customers *customer, int requestedId);
 void customerName(char name[]);
 void customerAddress(char address[]);
 int customerNif();
+int nifVerify();
 void customerCountry(char country[]);
 int customerId(int curentID);
 void saveCustomer(char name[], char address[], int nif, char country[], int id,

@@ -95,16 +95,28 @@ void customerAddress(char address[]) {
  * the second scanf gets the value given by the user.
  */
 
-int customerNif() {
-    int verifyNif, nif;
+int nifVerify() {
+    int nif;
+    char verify[MAX_VERIFY_CHARS];
     do {
-        printf("\n"MSG_CUSTOMER_NIF);
-        scanf("%d", &nif);
-        if (nif <= 0) {
-            printf("Invalid Nif\n");
-        } else
-            verifyNif = 1;
-    } while (verifyNif != 1);
+        do {
+            printf("\n"MSG_CUSTOMER_NIF);
+            scanf("%s",verify);
+            if(!(nif = atoi(verify))){
+                puts(MSG_ERROR_MESSAGE);
+            }
+        } while (!(nif = atoi(verify)));
+        if(nif <= 0){
+            puts(MSG_ERROR_MESSAGE);
+        }
+    } while (nif <= 0);
+    return nif;
+}
+
+int customerNif() {
+    int nif;
+    
+    nif = nifVerify();
 
     return nif;
 }
@@ -152,8 +164,8 @@ void recordCustomers(Customers *customer) {
         printf("\t\t\t__________________________________\n");
         customerName(name);
         customerAddress(address);
-        nif = customerNif();
         customerCountry(country);
+        nif = customerNif();
         printf("\t\t\t__________________________________\n");
         saveCustomer(name, address, nif, country, customerId(customer->counter),
                 *(&customer), customer->counter);
@@ -329,6 +341,7 @@ void importCustomers(Customers *customer) {
     } else {
         while (fgets(buff, 1024, fp) != NULL) {
             customer->customers = (Customer*) realloc(customer->customers, sizeof (Customer) * (customer->counter + 1));
+
             customer->customers[customer->counter].id = (customer->counter + 1);
             sp = strtok(buff, ",");
             strcpy(customer->customers[customer->counter].name, sp);

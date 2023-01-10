@@ -82,6 +82,7 @@ void saveDateMaterials(Products *product, Orders *order) {
     askFileName(fn);
     date = askDate();
     fp = fopen(fn, "w+");
+    
     if (fp == NULL) {
         exit(EXIT_FAILURE);
     }
@@ -113,13 +114,16 @@ void productionManagementMenu(Products **product, Orders **order) {
     int option;
 
     do {
-        option = menuRead(MSG_MENU_PRODUCTION, 0, 1);
+        option = menuRead(MSG_MENU_PRODUCTION, 0, 2);
 
         switch (option) {
             case 0:
                 break;
             case 1:
                 listMaterials(*product, *order);
+                break;
+            case 2:
+                importOrders(*order);
                 break;
         }
     } while (option != 0);
