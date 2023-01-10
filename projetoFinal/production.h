@@ -10,7 +10,7 @@
 #include "products.h"
 #include "clients.h"
 
-#define MSG_MENU_PRODUCTION "\n\t\t\t========= Production Management Menu =========\n\n\t\t\t[1] - List materials.\n\t\t\t[2] - Import Order.\n\t\t\t______________________________________________"
+#define MSG_MENU_PRODUCTION "\n\t\t\t========= Production Management Menu =========\n\n\t\t\t[1] - List materials.\n\t\t\t[2] - Import Order.\n\t\t\t[0] - Quit.\n\t\t\t______________________________________________"
 
 #define MSG_LIST_MENU "\n\n\t\t\t[1] - List materials.\n\t\t\t[2] - List materials.\n\t\t\t[3] - List materials.\n\t\t\t[0] - Quit.\n\t\t\t__________________________________"
 

@@ -19,10 +19,21 @@ void errorMessage(char message[]) {
 
 int menuRead(char message[], int min, int max) {
     int option;
+    char verify[MAX_VERIFY_CHARS];
     do {
-        puts(message);
-        printf("\t\t\tInsert here - ");
-        scanf("%d", &option);
+        do {
+            puts(message);
+            printf("\t\t\tInsert here - ");
+            scanf("%s", verify);
+            if (strcmp(verify, "0") == 0) {
+                system("cls || clear");
+                return option;
+            }
+            if (!(option = atoi(verify))) {
+                errorMessage(MSG_ERROR_MESSAGE);
+            }
+        } while (!(option = atoi(verify)));
+
         system("cls || clear");
         if (option < min || option > max) {
             errorMessage(MSG_ERROR_MESSAGE);
@@ -101,12 +112,12 @@ int nifVerify() {
     do {
         do {
             printf("\n"MSG_CUSTOMER_NIF);
-            scanf("%s",verify);
-            if(!(nif = atoi(verify))){
+            scanf("%s", verify);
+            if (!(nif = atoi(verify))) {
                 puts(MSG_ERROR_MESSAGE);
             }
         } while (!(nif = atoi(verify)));
-        if(nif <= 0){
+        if (nif <= 0) {
             puts(MSG_ERROR_MESSAGE);
         }
     } while (nif <= 0);
@@ -115,7 +126,7 @@ int nifVerify() {
 
 int customerNif() {
     int nif;
-    
+
     nif = nifVerify();
 
     return nif;
