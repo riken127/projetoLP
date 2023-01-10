@@ -18,8 +18,8 @@ void errorMessage(char message[]) {
 }
 
 int menuRead(char message[], int min, int max) {
-    int option;
-    char verify[MAX_VERIFY_CHARS];
+    int option = 0;
+    char verify[MAX_VERIFY_CHARS] = "";
     do {
         do {
             puts(message);
