@@ -153,6 +153,7 @@ void importOrders(Orders *order) {
         sp = strtok(NULL, ",");
         order->order[order->counter].quantity = atoi(sp);
         ++order->counter;
+        
     }
     fclose(fp);
 }

@@ -12,6 +12,7 @@
 
 Date askDate() {
     Date insertedDate;
+    int i,j,max=31;
     do {
         printf(ASK_DESIRED_DATE);
         scanf("%d-%d-%d",
@@ -21,7 +22,10 @@ Date askDate() {
     } while (insertedDate.day < MIN_DAY || insertedDate.day > MAX_DAY ||
             insertedDate.month < MIN_MONTH || insertedDate.month > MAX_MONTH ||
             insertedDate.year < MIN_YEAR);
-
+    // 1-1-2023
+    // 8-1-2023
+    // 15-1-2023
+    
     return insertedDate;
 }
 

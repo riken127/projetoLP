@@ -44,9 +44,10 @@ typedef struct{
 }LinhaEncomenda;
 
 typedef struct {
-    int order_id, customer_id;
+    int order_id, customer_id, product_id;
     Date order_date;
     LinhaEncomenda *linha_encomenda;
+    int quantity;
 } Order;
 
 typedef struct {
