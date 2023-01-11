@@ -159,7 +159,7 @@ void importOrders(Orders *order) {
     int i, c, j;
     char fn[MAX_FN_CHARS];
     askFileName(fn);
-    fp = fopen(fn, "rb");
+    fp = fopen(fn, "rb+");
     fread(&c, sizeof(int), 1, fp);
     for (i = 0; i < c; i++){
         order->order = realloc(order->order, sizeof(Order)*(order->counter + 1));
