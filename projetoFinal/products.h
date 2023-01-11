@@ -9,8 +9,9 @@
 #define MAX_MATERIALS 20
 #define MAX_QUANTITY 20
 
-#define MSG_PRODUCTS_MANAGEMENT_MENU "[1] - Save.\n[2] - Load.\n[3] - Create.\n[4] - Edit.\n[5] - Delete.\n[6] - List.\n"
-
+#define MSG_PRODUCTS_MANAGEMENT_MENU "[1] - Create Material.\n[2] - Edit Materials.\n[3] - List Materials.\n" \
+                                     "[4] - New Product.\n[5] - Edit Product.\n[6] - List Products.\n" \
+                                     "[7] - Load Products & Materials.\n[8] - Save Products & Materials.\n[0] - Exit.\n"
 #define COD_MATERIAL_SIZE 6
 #define COD_PRODUCT_SIZE 7
 
@@ -59,49 +60,54 @@ typedef struct {
 typedef struct {
     char cod_Material[COD_MATERIAL_SIZE];
     char description[MAX_DESCRIPTION_SIZE];
-    short int quantity;
     units unit;
-} Materials;
+} Material;
+typedef struct {
+    char code[COD_MATERIAL_SIZE];
+    short int quantity;
+} LineProduct;
 typedef struct {
     char cod_Produto[COD_PRODUCT_SIZE];
     char name[MAX_PRODUCT_NAME_SIZE];
     double price;
     Dimensions dimension;
-    Materials* material;
-    int material_count;
+    LineProduct  *line_product;
+    int line_product_size;
 } Product;
 typedef struct {
     Product *product;
     int counter;
 }Products;
+typedef struct{
+    Material *material;
+    int counter;
+}Materials;
 /*
  * Product functions definition
  */
-void productCode(char productCode[COD_PRODUCT_SIZE]);
-void productName(char productName[MAX_PRODUCT_NAME_SIZE]);
-void productDimension(Dimensions *productDimension);
-void productPrice(double *price);
-void materialCode(char materialCode[COD_MATERIAL_SIZE]);
-void materialDescription(char materialDescription[MAX_DESCRIPTION_SIZE]);
-void materialQuantity(short int *materialQuantity);
-void materialUnit(units *materialUnit);
-bool newMaterial();
-void newProduct(Products *product);
-void saveProducts(Products *products);
-void deleteProducts(Products *products);
-void listProductMaterials(Products *products, int pos);
-int findMaterialPosition(Products *products, char code[COD_MATERIAL_SIZE], int productPosition);
-void saveMaterialChanges(Products *products, int productPosition, int materialPos,
-                         Materials editedMaterial);
-void deleteMaterial(Products *products, int productPosition, int materialPosition, Materials material);
-
-void materialEditMenu(Products *products, int pos);
-void saveProductChanges(char name[MAX_PRODUCT_NAME_SIZE], double price,
-                        Dimensions dimensions, Products *products, int pos);
-void changeProductData(Products *products, int pos, char code[COD_PRODUCT_SIZE]);
-void editProducts(Products *products);
-void loadProducts(Products *products);
-void listProducts(Products *product);
+void materialCode(char materialCode[COD_MATERIAL_SIZE]);//
+void materialDescription(char materialDescription[MAX_DESCRIPTION_SIZE]);//
+void materialUnit(units *materialUnit);//
+void createMaterial(Materials *material);//
+void productCode(char productCode[COD_PRODUCT_SIZE]);//
+void productName(char productName[MAX_PRODUCT_NAME_SIZE]);//
+void productDimension(Dimensions *productDimension);//
+void productPrice(double *price);//
+void listMaterial(Materials *material);
+int verifyCode(char code[COD_MATERIAL_SIZE], Materials *material);
+void newProduct(Products *product, Materials *material);//
+void listProduct(Products *product);
+void saveProductMaterials(Products *products, Materials *material);//
+void loadProductMaterials(Products *product, Materials *material);
+int findMaterialPosition(Materials *material, char code[COD_MATERIAL_SIZE]);//
+void saveMaterialChanges(Materials *material, int position, Material current);//
+void deleteMaterial(char code[COD_MATERIAL_SIZE], Materials *material, Products *product);//
+void editMaterial(Materials *material, Products *product);
+void saveProductChanges(Product product, Products *products, int pos);//
+void deleteProduct(Products *product, char code[COD_PRODUCT_SIZE]);
+void addMaterialLineProduct(Materials *material, Products *product, int position);
+void changeProductData(Products *products, int pos, char code[COD_PRODUCT_SIZE], Materials *material);
+void editProduct(Materials *material, Products *products);//
 int menuRead(char message[], int min, int max);
-void productsManagementMenu(Products *products);
+void productsManagementMenu(Products *products, Materials *material);
 #endif //PROJETO_PRODUCTS_H

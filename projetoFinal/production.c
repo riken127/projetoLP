@@ -9,7 +9,7 @@
 #include "orders.h"
 #include "products.h"
 #include "clients.h"
-
+/*
 Date askDate() {
     Date insertedDate;
     int i,j,max=31;
@@ -132,3 +132,4 @@ void productionManagementMenu(Products **product, Orders **order) {
         }
     } while (option != 0);
 }
+ */

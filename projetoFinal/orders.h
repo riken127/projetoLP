@@ -35,19 +35,21 @@
 #define SUCCESS_IN_LOADING_ORDERS "\nOrders where loaded successfully!"
 #define ERROR_IN_LOADING_ORDERS "\nAn error has occures while loading the orders! :/"
 
+#define ASK_ANOTHER_PRODUCT "\nDo wish to add another product?[1/0]"
 typedef struct {
     int day, month, year;
 } Date;
 
 typedef struct{
-    int product_id, quantity;
-}LinhaEncomenda;
+    char code[COD_PRODUCT_SIZE];
+    int quantity;
+}OrderLine;
 
 typedef struct {
-    int order_id, customer_id, product_id;
+    int order_id, nif;
     Date order_date;
-    LinhaEncomenda *linha_encomenda;
-    int quantity;
+    OrderLine *line_order;
+    int line_order_size;
 } Order;
 
 typedef struct {
@@ -59,7 +61,7 @@ void greetCustomer(Customers *customer, int nif);
 void listAvaibleProducts(Products *product);
 int newOrderId(Orders *order);
 int newOrderCustomerId(Customers *customer, int nif);
-int newOrderChoosenProduct(Products *product);
+void newOrderChoosenProductCode(Products *product, char code[COD_PRODUCT_SIZE]);
 Date newOrderChoosenDate();
 int newOrderQuantity();
 int newOrder(Customers *customer, int nif, Products *product, Orders *order);
