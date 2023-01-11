@@ -15,7 +15,8 @@
   "\n\t\t\t========= Client Menu =========\n\n\t\t\t[1] - Do order.\n\t\t\t[2] - List orders.\n\t\t\t[3] - Export orders.\n\t\t\t[4] - Import orders.\n\t\t\t[0] - Quit.\n\t\t\t_______________________________"
 
 
-void adminMenu(Customers *customer, Orders **order, Products **product) {
+void adminMenu(Customers *customer, Orders **order,
+               Products **product, Materials **material) {
     int option;
 
     do {
@@ -28,10 +29,10 @@ void adminMenu(Customers *customer, Orders **order, Products **product) {
                 customerManagementMenu(customer);
                 break;
             case 2:
-                productsManagementMenu(*product);
+                productsManagementMenu(*product, *material);
                 break;
             case 3:
-                productionManagementMenu(product, order);
+//                productionManagementMenu(product, order);
                 break;
         }
     } while (option != 0);
@@ -40,7 +41,8 @@ void adminMenu(Customers *customer, Orders **order, Products **product) {
  * This menu is divided into three sub-menus, it loops until the integer
  * [option] given by the user is equal to zero.
  */
-void clientMenu(Customers *customer, Products **product, Orders **order) {
+void clientMenu(Customers *customer, Products **product,
+                Orders **order) {
     int option;
 
     do {
@@ -55,16 +57,16 @@ void clientMenu(Customers *customer, Products **product, Orders **order) {
                 listOrders(*order);
                 break;
             case 3:
-                exportOrders(*order);
+                //exportOrders(*order);
                 break;
             case 4:
-                importOrders(*order);
+                //importOrders(*order);
                 break;
         }
     } while (option != 0);
 }
 void mainMenu(Customers *customer, Products **product,
-              Orders **order) {
+              Orders **order, Materials **material) {
     int option;
 
     do {
@@ -77,7 +79,7 @@ void mainMenu(Customers *customer, Products **product,
                 clientMenu(*(&customer), *(&product), *(&order));
                 break;
             case 2:
-                adminMenu(*(&customer),*(&order), *(&product));
+                adminMenu(*(&customer),*(&order), *(&product), *(&material));
                 break;
         }
     } while (option != 0);
@@ -90,25 +92,31 @@ void mainMenu(Customers *customer, Products **product,
 
 int main(int argc, char **argv) {
     Customers *customer;
-    customer = (Customers *)malloc(1 * INITIAL_CLIENT_SIZE);
-    customer->customers = (Customer *)malloc(1 * INITIAL_CLIENT_SIZE);
+    customer = (Customers *)malloc(sizeof(Customers) * INITIAL_CLIENT_SIZE);
+    customer->customers = (Customer *)malloc(sizeof(Customer) * INITIAL_CLIENT_SIZE);
     customer->counter = 0;
     Products *product;
     product = (Products *)malloc(1 * sizeof(Products));
     product->product = (Product *)malloc(1 * sizeof(Product));
     product->counter = 0;
+    Materials  *material;
+    material = (Materials *)malloc(1 * sizeof(Materials));
+    material->material = (Material *)malloc(1 * sizeof(Material));
+    material->counter = 0;
     Orders *order;
     order = (Orders *)malloc(1 * sizeof(Orders));
     order->order = (Order *)malloc(1 * sizeof(Order));
     order->counter = 0;
 
-    mainMenu(customer, &product, &order);
-    free(product);
+    mainMenu(customer, &product, &order, &material);
     free(product->product);
-    free(order);
+    free(product);
+    free(material->material);
+    free (material);
     free(order->order);
-    free(customer);
+    free(order);
     free(customer->customers);
+    free(customer);
     return (EXIT_SUCCESS);
 }
 

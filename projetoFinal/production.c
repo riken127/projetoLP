@@ -9,7 +9,7 @@
 #include "orders.h"
 #include "products.h"
 #include "clients.h"
-
+/*
 Date askDate() {
     Date insertedDate;
     do {
@@ -128,3 +128,4 @@ void productionManagementMenu(Products **product, Orders **order) {
         }
     } while (option != 0);
 }
+ */
