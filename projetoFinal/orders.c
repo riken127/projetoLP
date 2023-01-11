@@ -103,7 +103,6 @@ int verifyCustomerNif(Customers *customers, int customerNif){
 void doOrder(Customers *customer, Products *product, Orders *order) {
     int customerNif;
     do {
-        //criar função para ler inteiros
         customerNif = menuRead(ASK_CUSTOMER_NIF, NIF_MIN_SIZE, NIF_MAX_SIZE);
     } while (!verifyCustomerNif(*(&customer), customerNif));
     greetCustomer(*(&customer), customerNif);
@@ -181,3 +180,4 @@ void importOrders(Orders *order) {
     }
     fclose(fp);
 }
+*/
