@@ -57,7 +57,7 @@ void listMaterials(Materials *material, Orders *order, Products *product) {
             if ((order->order[i].order_date.day >= date.day && order->order[i].order_date.month >= date.month && order->order[i].order_date.year >= date.year ||
                 order->order[i].order_date.day <= t.tm_mday && order->order[i].order_date.month <= t.tm_mon && order->order[i].order_date.year <= t.tm_year) &&
                 order->order[i].nif == nif) {
-                printf("\n\t\t\tOrder Number O%d", (i + 1);
+                printf("\n\t\t\tOrder Number O%d", (i + 1));
                 printf("\n\t\t\tList Of Materials for %d-%d-%d\n\t\t\t__________________________________", date.day, date.month, date.year);
                 for (j = 0; j < order->order[i].line_order_size; j++) {
                     for(k = 0; k < product->counter; k++) {
