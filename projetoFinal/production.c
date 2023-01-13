@@ -4,15 +4,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
+#include <time.h>
 #include "production.h"
 #include "orders.h"
 #include "products.h"
 #include "clients.h"
-/*
+
 Date askDate() {
     Date insertedDate;
-    int i,j,max=31;
     do {
         printf(ASK_DESIRED_DATE);
         scanf("%d-%d-%d",
@@ -22,10 +21,6 @@ Date askDate() {
     } while (insertedDate.day < MIN_DAY || insertedDate.day > MAX_DAY ||
             insertedDate.month < MIN_MONTH || insertedDate.month > MAX_MONTH ||
             insertedDate.year < MIN_YEAR);
-    // 1-1-2023
-    // 8-1-2023
-    // 15-1-2023
-    
     return insertedDate;
 }
 
@@ -48,26 +43,40 @@ void listMenu() {
     } while (option != 0);
 }
 
-void listMaterials(Products *product, Orders *order) {
+void listMaterials(Materials *material, Orders *order, Products *product) {
     Date date;
-    int i, j, k;
+    int i, j, k, d, f, nif;
     if (order->counter != 0) {
         date = askDate();
+        nif = customerNif();
+        struct tm t = { .tm_year = date.year, .tm_mon = date.month, .tm_mday = date.day};
+        t.tm_mday += 5;
+        mktime(&t);
         for (i = 0; i < order->counter; i++) {
-            if (order->order[i].order_date.day == date.day && order->order[i].order_date.month == date.month && order->order[i].order_date.year == date.year) {
+            printf("%d %d",order->order[i].nif, nif);
+            if ((order->order[i].order_date.day >= date.day && order->order[i].order_date.month >= date.month && order->order[i].order_date.year >= date.year ||
+                order->order[i].order_date.day <= t.tm_mday && order->order[i].order_date.month <= t.tm_mon && order->order[i].order_date.year <= t.tm_year) &&
+                order->order[i].nif == nif) {
+                printf("\n\t\t\tOrder Number O%d", (i + 1);
                 printf("\n\t\t\tList Of Materials for %d-%d-%d\n\t\t\t__________________________________", date.day, date.month, date.year);
-                for (j = 0; j < product->counter; j++) {
-                    if (j + 1 == order->order[i].product_id) {
-                        for (k = 0; k < product->product[j].material_count; k++) {
-                            printf("\n\n\t\t\tMaterial Id   : %s", product->product[j].material[k].cod_Material);
-                            printf("\n\t\t\tDescription   : %s", product->product[j].material[k].description);
-                            printf("\n\t\t\tQuantity      : %d", product->product[j].material[k].quantity * order->order[i].quantity);
-                            printf("\n\t\t\tUnit          : %d", product->product[j].material[k].unit);
-                            printf("\n\t\t\t__________________________________");
+                for (j = 0; j < order->order[i].line_order_size; j++) {
+                    for(k = 0; k < product->counter; k++) {
+                        if (strcmp(order->order[i].line_order[j].code, product->product[k].cod_Produto) == 0) {
+                            for (f = 0; f < product->product[k].line_product_size; ++f) {
+                                for (d = 0; d < material->counter; d++){
+                                    if (strcmp(material->material[d].cod_Material, product->product[k].line_product[f].code) == 0){
+                                        printf("\n\n\t\t\tMaterial Code   : %s", material->material[d].cod_Material);
+                                        printf("\n\t\t\tDescription   : %s", material->material[d].description);
+                                        printf("\n\t\t\tQuantity      : %d",  order->order[i].line_order[j].quantity);
+                                        printf("\n\t\t\tUnit          : %d", material->material[k].unit);
+                                        printf("\n\t\t\t__________________________________");
+                                    }
+                                }
+                            }
+
                         }
                     }
                 }
-                listMenu();
             }
             else {
                 errorMessage(NO_ORDERS_FOUND_TO_THAT_DATE_MESSAGE);
@@ -78,43 +87,7 @@ void listMaterials(Products *product, Orders *order) {
     }
 }
 
-void saveDateMaterials(Products *product, Orders *order) {
-    FILE *fp;
-    char fn[MAX_FN_CHARS];
-    Date date;
-    int i, j, k, z = 1;
-    askFileName(fn);
-    date = askDate();
-    fp = fopen(fn, "w+");
-    
-    if (fp == NULL) {
-        exit(EXIT_FAILURE);
-    }
-    for (i = 0; i < order->counter; i++) {
-        if (order->order[i].order_date.day == date.day &&
-                order->order[i].order_date.month == date.month &&
-                order->order[i].order_date.year == date.year) {
-            for (j = 0; j < product->counter; j++) {
-                if ((j + 1) == order->order[i].product_id) {
-                    for (k = 0; k < product->product[j].material_count; k++) {
-                        fprintf(fp, "%d,%s,%s,%d,%d,%d\n",
-                                z,
-                                product->product[j].material[k].cod_Material,
-                                product->product[j].material[k].description,
-                                product->product[j].material[k].quantity,
-                                product->product[j].material[k].unit,
-                                order->order[i].quantity);
-                        z++;
-                    }
-                }
-            }
-        }
-    }
-    fclose(fp);
-    printf(SUCCESS_IN_WRITING_PRODUCTION);
-}
-
-void productionManagementMenu(Products **product, Orders **order) {
+void productionManagementMenu(Orders **order, Materials **material, Products **product) {
     int option;
 
     do {
@@ -124,12 +97,8 @@ void productionManagementMenu(Products **product, Orders **order) {
             case 0:
                 break;
             case 1:
-                listMaterials(*product, *order);
-                break;
-            case 2:
-                importOrders(*order);
+                listMaterials(*material, *order, *product);
                 break;
         }
     } while (option != 0);
 }
- */

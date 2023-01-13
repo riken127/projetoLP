@@ -32,7 +32,7 @@ void adminMenu(Customers *customer, Orders **order,
                 ProductsMaterialsManagementMenu(*product, *material);
                 break;
             case 3:
-//                productionManagementMenu(product, order);
+                productionManagementMenu(order, material, product);
                 break;
         }
     } while (option != 0);

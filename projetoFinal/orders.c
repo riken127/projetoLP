@@ -27,14 +27,7 @@ void listAvaibleProducts(Products *product) {
 int newOrderId(Orders *order) {
     return (order->counter + 1);
 }
-int newOrderCustomerId(Customers *customer, int nif) {
-    int i;
-    for (i = 0; i < customer->counter; i++) {
-        if (customer->customers[i].nif == nif) {
-            return customer->customers[i].id;
-        }
-    }
-}
+
 int verifyChoosenProduct(char code[COD_PRODUCT_SIZE], Products *product){
     int i;
     for (i = 0; i < product->counter; i++){
@@ -75,7 +68,7 @@ int newOrder(Customers *customer, int nif, Products *product, Orders *order) {
     order->order = realloc(order->order, sizeof(Order)*(customer->counter + 1));
     listAvaibleProducts(*(&product));
     order->order[order->counter].order_id = newOrderId(order);
-    order->order[order->counter].nif = newOrderCustomerId(customer, nif);
+    order->order[order->counter].nif = nif;
     order->order[order->counter].order_date = newOrderChoosenDate();
     j = 0;
     do{
