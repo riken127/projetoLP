@@ -9,8 +9,8 @@
 
 #define MSG_MAIN_MENU "\n\t\t\t========= Main Menu =========\n\n\t\t\t[1] - User.\n\t\t\t[2] - Admin.\n\t\t\t[0] - Quit.\n\t\t\t_____________________________"
 #define MSG_ADMIN_MENU                                                         \
-  "\n\t\t\t========= Admin Menu =========\n\n\t\t\t[1] - Clients Management.\n\t\t\t[2] - Products Management.\n\t\t\t[3] - Production "   \
-  "Management.\n\t\t\t[0] - Quit.\n\t\t\t______________________________"
+  "\n\t\t\t=============== Admin Menu ===============\n\n\t\t\t[1] - Clients Management.\n\t\t\t[2] - Products & Materials Management.\n\t\t\t[3] - Production "   \
+  "Management.\n\t\t\t[0] - Quit.\n\t\t\t__________________________________________"
 #define MSG_CLIENT_MENU                                                        \
   "\n\t\t\t========= Client Menu =========\n\n\t\t\t[1] - Do order.\n\t\t\t[2] - List orders.\n\t\t\t[3] - Export orders.\n\t\t\t[4] - Import orders.\n\t\t\t[0] - Quit.\n\t\t\t_______________________________"
 
@@ -29,7 +29,7 @@ void adminMenu(Customers *customer, Orders **order,
                 customerManagementMenu(customer);
                 break;
             case 2:
-                productsManagementMenu(*product, *material);
+                ProductsMaterialsManagementMenu(*product, *material);
                 break;
             case 3:
 //                productionManagementMenu(product, order);
