@@ -120,21 +120,22 @@ void newProduct(Products *product, Materials *material) {
             do {
                 product->product[product->counter].line_product = (LineProduct *) realloc(product->product[product->counter].line_product,
                         sizeof (LineProduct) * (i + 1));
-                printf("\n"ASK_MATERIAL_CODE);
-                scanf("%s", code);
-                if (verifyCode(code, material)) {
-                    strcpy(product->product[product->counter].line_product[i].code, code);
-                    printf("\n"ASK_MATERIAL_QUANTITY);
-                    scanf("%d", &quantity);
-                    if (quantity > 0) {
-                        product->product[product->counter].line_product[i].quantity = quantity;
-                        printf("\t\t\t__________________________________\n");
+                do {
+                    printf("\n"ASK_MATERIAL_CODE);
+                    scanf("%s", code);
+                    if (verifyCode(code, material)) {
+                        strcpy(product->product[product->counter].line_product[i].code, code);
+                        printf("\n"ASK_MATERIAL_QUANTITY);
+                        scanf("%d", &quantity);
+                        if (quantity > 0) {
+                            product->product[product->counter].line_product[i].quantity = quantity;
+                            printf("\t\t\t__________________________________\n");
+                        }
+                        ++i;
+                    } else {
+                        printf("\t\t\tWritten material code does not exist.\n");
                     }
-                    ++i;
-                } else {
-                    printf("Written material code does not exist.\n");
-                }
-
+                } while (verifyCode(code, material) == 0);
                 product->product[product->counter].line_product_size = i;
                 opMaterial = yesOrNoFunction(YES_OR_NO_MESSAGE_RECORD_MATERIAL);
                 printf("\t\t\t__________________________________\n");
@@ -484,7 +485,7 @@ void changeProductData(Products *products, int pos, char code[COD_PRODUCT_SIZE],
 }
 
 void editProduct(Materials *material, Products *product) {
-    int i, count = 0,position;
+    int i, count = 0, position;
     char code[COD_PRODUCT_SIZE];
     if (product->counter != 0) {
         printf("\n\t\t\tList Of Products\n\t\t\t_______________________________________");
@@ -502,17 +503,17 @@ void editProduct(Materials *material, Products *product) {
         if (position == -1) {
             printf("\nERROR\n");
         } else {
-        for (i = 0; i < product->counter; i++) {
-            if (strcmp(code, product->product[i].cod_Produto) == 0) {
-                changeProductData(product, i, code, material);
-            } else {
-                count++;
-                continue;
+            for (i = 0; i < product->counter; i++) {
+                if (strcmp(code, product->product[i].cod_Produto) == 0) {
+                    changeProductData(product, i, code, material);
+                } else {
+                    count++;
+                    continue;
+                }
             }
-        }
-        if (count == product->counter) {
-            printf("ERROR");
-        }
+            if (count == product->counter) {
+                printf("ERROR");
+            }
         }
     } else {
         errorMessage(NO_PRODUCTS_FOUND_MESSAGE);
