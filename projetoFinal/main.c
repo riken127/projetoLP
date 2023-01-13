@@ -57,10 +57,10 @@ void clientMenu(Customers *customer, Products **product,
                 listOrders(*order);
                 break;
             case 3:
-                //exportOrders(*order);
+                exportOrders(*order);
                 break;
             case 4:
-                //importOrders(*order);
+                importOrders(*order);
                 break;
         }
     } while (option != 0);

@@ -17,7 +17,7 @@ void greetCustomer(Customers *customer, int nif) {
 void listAvaibleProducts(Products *product) {
     int i;
     for (i = 0; i < product->counter; i++) {
-        printf("\n[%d] - | %s | %s | %.2lf | %dx%dx%d |", (i + 1),
+        printf("\n[%d] - | %s | %s | %.2lf | %dx%dx%d |\n", (i + 1),
                product->product[i].cod_Produto, product->product[i].name,
                product->product[i].price, product->product[i].dimension.lenght,
                product->product[i].dimension.width,
@@ -112,12 +112,12 @@ void doOrder(Customers *customer, Products *product, Orders *order) {
 void listOrders(Orders *order) {
     int i, j;
     for (i = 0; i < order->counter; i++) {
-        printf("\n%dº - | %d | %d-%d-%d |",
+        printf("\n%dº - | %d | %d-%d-%d |\n",
                order->order[i].order_id, order->order[i].nif,
                order->order[i].order_date.day,
                order->order[i].order_date.month, order->order[i].order_date.year);
             for (j = 0; j < order->order[i].line_order_size; j++){
-                printf("\t%s - %d",
+                printf("\t%s - %d\n",
                                    order->order[i].line_order[j].code,
                                    order->order[i].line_order[j].quantity);
             }
@@ -128,51 +128,55 @@ void askFileName(char fileName[MAX_FN_CHARS]){
     printf(ASK_FILE_NAME);
     scanf("%s", fileName);
 }
-/*
+
 void exportOrders(Orders *order) {
     FILE *fp;
-    int i;
+    int i, j;
     char fn[MAX_FN_CHARS];
     askFileName(fn);
-    fp = fopen(fn, "w+");
+    fp = fopen(fn, "wb+");
     if (fp == NULL){
         exit(EXIT_FAILURE);
     }
+    fwrite(&order->counter, sizeof(int), 1, fp);
     for (i = 0; i < order->counter; i++){
-        fprintf(fp,"%d,%d,%d-%d-%d,%d\n",
-                order->order[i].customer_id,
-                order->order[i].product_id, order->order[i].order_date.day,
-                order->order[i].order_date.month, order->order[i].order_date.year,
-                order->order[i].quantity);
+        fwrite(&order->order[i].nif, sizeof(int), 1, fp);
+        fwrite(&order->order[i].order_date.day, sizeof(int), 1, fp);
+        fwrite(&order->order[i].order_date.month, sizeof(int), 1, fp);
+        fwrite(&order->order[i].order_date.year, sizeof(int), 1, fp);
+        fwrite(&order->order[i].line_order_size, sizeof(int), 1, fp);
+        for (j = 0; j < order->order[i].line_order_size; j++){
+            fwrite(&order->order[i].line_order[j].code, sizeof(char)*COD_MATERIAL_SIZE, 1, fp);
+            fwrite(&order->order[i].line_order[j].quantity, sizeof(int), 1, fp);
+        }
     }
     fclose(fp);
     printf(SUCCESS_IN_WRITING_ORDERS);
-
 }
 
 void importOrders(Orders *order) {
     FILE *fp;
-    char fn[MAX_FN_CHARS], buff[1024], *sp;
+    int i, c, j;
+    char fn[MAX_FN_CHARS];
     askFileName(fn);
-    fp = fopen(fn, "r");
-    while(fgets(buff, 1024, fp) != NULL) {
-        order->order = (Order *) realloc(order->order, sizeof(Order) * (order->counter +  1));
-
-        order->order[order->counter].order_id = (order->counter + 1);
-        sp = strtok(buff, ",");
-        order->order[order->counter].customer_id = atoi(sp);
-        sp = strtok(NULL, ",");
-        order->order[order->counter].product_id = atoi(sp);
-        sp = strtok(NULL, "-");
-        order->order[order->counter].order_date.day = atoi(sp);
-        sp = strtok(NULL, "-");
-        order->order[order->counter].order_date.month = atoi(sp);
-        sp = strtok(NULL, ",");
-        order->order[order->counter].order_date.year = atoi(sp);
-        sp = strtok(NULL, ",");
-        order->order[order->counter].quantity = atoi(sp);
-        ++order->counter;
-        
+    fp = fopen(fn, "rb+");
+    fread(&c, sizeof(int), 1, fp);
+    for (i = 0; i < c; i++){
+        order->order = realloc(order->order, sizeof(Order)*(order->counter + 1));
+        order->order[i].order_id = (order->counter + 1);
+        fread(&order->order[i].nif, sizeof(int), 1, fp);
+        fread(&order->order[i].order_date.day, sizeof(int), 1, fp);
+        fread(&order->order[i].order_date.month, sizeof(int), 1, fp);
+        fread(&order->order[i].order_date.year, sizeof(int), 1, fp);
+        fread(&order->order[i].line_order_size, sizeof(int), 1, fp);
+        order->order[i].line_order = malloc(1 * sizeof(OrderLine));
+        for (j = 0; j < order->order[i].line_order_size; j++){
+            order->order[i].line_order = realloc(order->order[i].line_order,
+                                                 sizeof(OrderLine)*(j + 1));
+            fread(&order->order[i].line_order[j].code, sizeof(char)*COD_MATERIAL_SIZE, 1, fp);
+            fread(&order->order[i].line_order[j].quantity, sizeof(int), 1, fp);
+        }
+        order->counter++;
     }
     fclose(fp);
 }
