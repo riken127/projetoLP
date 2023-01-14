@@ -9,7 +9,10 @@
 #include "orders.h"
 #include "products.h"
 #include "clients.h"
-
+/*
+ * Bellow function ask the user for a date and verifies if the date is valid, if so then the date
+ * is returned.
+ */
 Date askDate() {
     Date insertedDate;
     do {
@@ -23,26 +26,15 @@ Date askDate() {
             insertedDate.year < MIN_YEAR);
     return insertedDate;
 }
-
-void listMenu() {
-    int option;
-
-    do {
-        option = menuRead(MSG_LIST_MENU, 0, 3);
-
-        switch (option) {
-            case 0:
-                break;
-            case 1:
-                break;
-            case 2:
-                break;
-            case 3:
-                break;
-        }
-    } while (option != 0);
-}
-
+/*
+ * Bellow function lists all needed materials in a range of 5 days, firstly it verifies if
+ * the order->counter is equal to zero, if so a message appear saying that no orders where
+ * found, if not, it will ask the user for a date and for his nif, then it will pass the date
+ * to a time.h data struct and add 5 days to the given date, it will then loop in the orders and verify
+ * if the order is in the reach of both dates (initial date and the 5 days after date), then it will compare
+ * the material codes present in the order to the material  codes present in the material struct, if the codes are equal
+ * it will list all the material information + the quantity of the product in a certain order.
+ */
 void listMaterials(Materials *material, Orders *order, Products *product) {
     Date date;
     int i, j, k, d, f, nif;
@@ -86,7 +78,9 @@ void listMaterials(Materials *material, Orders *order, Products *product) {
         errorMessage(NO_ORDERS_FOUND_MESSAGE);
     }
 }
-
+/*
+ * Bellow menu is where the listMaterials function can be found.
+ */
 void productionManagementMenu(Orders **order, Materials **material, Products **product) {
     int option;
 
