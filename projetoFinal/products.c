@@ -238,10 +238,8 @@ void loadProductMaterials(Products *product, Materials *material) {
         fread(&product->product[product->counter].dimension.width, sizeof (int), 1, fp);
         product->counter++;
     }
-    printf("%d", product->counter);
     for (i = 0; i < c; i++) {
         fread(&product->product[k + i].line_product_size, sizeof (int), 1, fp);
-        printf("%d", product->product[k + i].line_product_size);
         product->product[k + i].line_product = (LineProduct *) malloc(
                 sizeof (LineProduct) * product->product[k + i].line_product_size);
         for (j = 0; j < product->product[k + i].line_product_size; j++) {
@@ -261,6 +259,7 @@ void loadProductMaterials(Products *product, Materials *material) {
         material->counter++;
     }
     fclose(fp);
+    printf("\n\t\t\tSUCCESS IN IMPORTING DATA.");
 }
 
 int findMaterialPosition(Materials *material, char code[COD_MATERIAL_SIZE]) {
@@ -312,8 +311,6 @@ void deleteMaterial(char code[COD_MATERIAL_SIZE], Materials *material, Products 
     material->counter--;
     for (i = 0; i < product->counter; i++) {
         for (j = 0; j < product->product[i].line_product_size; j++) {
-            printf("\n%s, %s", product->product[i].line_product[j].code,
-                    code);
             if (strcmp(product->product[i].line_product[j].code,
                     code) == 0) {
                 strcpy(product->product[i].line_product[j].code,
@@ -342,7 +339,7 @@ void editMaterial(Materials *material, Products *product) {
         system("cls || clear");
         position = findMaterialPosition(material, editedMaterial);
         if (position == -1) {
-            printf("\nERROR\n");
+            printf("\n\t\t\tERROR!\n");
         } else {
             strcpy(current.cod_Material, material->material[position].cod_Material);
             strcpy(current.description, material->material[position].description);
@@ -403,7 +400,7 @@ void deleteProduct(Products *product, char code[COD_PRODUCT_SIZE]) {
         }
     }
     product->counter--;
-    printf("PRODUCT DELETED SUCCESSFULLY");
+    printf("\n\t\t\tPRODUCT DELETED SUCCESSFULLY");
 }
 
 void addMaterialLineProduct(Materials *material, Products *product, int position) {
@@ -512,7 +509,7 @@ void editProduct(Materials *material, Products *product) {
                 }
             }
             if (count == product->counter) {
-                printf("ERROR");
+                printf("\n\t\t\tERROR!");
             }
         }
     } else {
