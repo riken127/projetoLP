@@ -7,7 +7,11 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-
+/*
+ * Bellow function appears when an error appears, it receives the error message
+ * as a parameter, and then waits for the user to press a key, if so, the screen is cleaned
+ * and the function ends.
+ */
 void errorMessage(char message[]) {
     char any_key[20];
     system("cls || clear");
@@ -16,6 +20,11 @@ void errorMessage(char message[]) {
     scanf("%s", any_key);
     system("cls || clear");
 }
+
+/*
+ * Bellow function checks if the given value
+ * is between two values, if not, the cycle continues.
+ */
 
 int menuRead(char message[], int min, int max) {
     int option = 0;
@@ -41,28 +50,32 @@ int menuRead(char message[], int min, int max) {
     } while (option < min || option > max);
     return option;
 }
-
 /*
- * Above function checks if the given value
- * is between to values, if not, the cycle continues.
+ * Bellow function receives a message and depending on the character that was written
+ * the value that is returned is different.
  */
-
 int yesOrNoFunction(char message[]) {
     char option;
     do {
         printf(message);
         scanf(" %c", &option);
-    } while (option != 'y' && option != 'n');
+    } while (option != 'y' && option != 'n' && option != 'Y' && option != 'N');
     switch (option) {
         case 'y':
+        case 'Y':
             return 1;
             break;
         case 'n':
+        case 'N':
             return 2;
             break;
     }
 }
 
+/*
+ * Bellow function checks for an id in the struct array,
+ * if found, returns the value 1, if not, returns the value 0.
+ */
 int verifyCustomersId(Customers *customer, int requestedId) {
     int i = 0, count = 0;
     for (i = 0; i < customer->counter; i++) {
@@ -75,24 +88,22 @@ int verifyCustomersId(Customers *customer, int requestedId) {
 }
 
 /*
- * Above function checks for an id in the struct array,
- * if found, returns the value 1, if not, returns the value 0.
+ * Bellow function takes a given name and stores it in the struct array
+ * in the given position. The first scanf makes sure the buffer is clean,
+ * the second scanf gets the value given by the user.
+ *
  */
-
 void customerName(char name[]) {
     char temp;
     printf("\n"MSG_CUSTOMER_NAME);
     scanf("%c", &temp);
     scanf("%[^\n]", name);
 }
-
 /*
- * Above function takes a given name and stores it in the struct array
- * in the given position. The first scanf makes sure the buffer is clean,
+ * Bellow function takes a given address and stores it in the struct array
+ * In the given position. The first scanf makes sure the buffer is clean,
  * the second scanf gets the value given by the user.
- *
  */
-
 void customerAddress(char address[]) {
     char temp;
     printf("\n"MSG_CUSTOMER_ADDRESS);
@@ -101,11 +112,9 @@ void customerAddress(char address[]) {
 }
 
 /*
- * Above function takes a given address and stores it in the struct array
- * In the given position. The first scanf makes sure the buffer is clean,
- * the second scanf gets the value given by the user.
+ * Bellow function verifies if the nif is a number and if the number is greater than zero
+ * if not, the loop continues, if so the value is returned as an integer
  */
-
 int nifVerify() {
     int nif;
     char verify[MAX_VERIFY_CHARS];
@@ -124,6 +133,11 @@ int nifVerify() {
     return nif;
 }
 
+/*
+ * Bellow function takes a given integer and passes the value as an
+ * argument to a function that verifies the data, if the written field is an
+ * integer greater than zero, the value is returned, if not, the loop continues.
+ */
 int customerNif() {
     int nif;
 
@@ -131,11 +145,10 @@ int customerNif() {
 
     return nif;
 }
-
 /*
- * Above function takes a given integer and stores it in the struct array
- * in the given position . checks if the given value
- * is equal or below zero, if so, the cycle continues.
+ * Bellow function takes a given country name and stores it in the struct array
+ * in the given position. The first scanf makes sure the buffer is clean,
+ * the second scanf gets the value given by the user.
  */
 void customerCountry(char country[]) {
     char temp;
@@ -143,20 +156,17 @@ void customerCountry(char country[]) {
     scanf("%c", &temp);
     scanf("%[^\n]", country);
 }
-
 /*
- * Above function takes a given country name and stores it in the struct array
- * in the given position. The first scanf makes sure the buffer is clean,
- * the second scanf gets the value given by the user.
+ * Bellow function creates an id for the user who is beeing created,
+ * the given id is equal to the last given id (from the last created user)
+ * incremented by one.
  */
 int customerId(int curentID) {
     return (curentID + 1);
 }
-
 /*
- * Above function creates an id for the user who is beeing created,
- * the given id is equal to the last given id (from the last created user)
- * incremented by one.
+ * Bellow function saves a specific customer data, it receives the position and the input data, and then
+ * saves the data of the customer in the given position
  */
 void saveCustomer(char name[], char address[], int nif, char country[], int id,
         Customers *customer, int pos) {
@@ -166,7 +176,37 @@ void saveCustomer(char name[], char address[], int nif, char country[], int id,
     *(&customer->customers[pos].nif) = nif;
     strcpy(*(&customer->customers[pos].country), country);
 }
+/*
+ * The above function calls other 5 functions that help create the customer,
+ * each function fills a field in the new user's position in the struct array.
+ */
+void editCustomers(Customers *customer) {
+    int id, i, verify;
+    do {
+        printf(CLIENT_ID_MSG);
+        scanf("%d", &id);
+        system("cls || clear");
+        if (id == 0)
+            break;
+        verify = verifyCustomersId(*(&customer), id);
+        if (verify == 1) {
+            for (i = 0; i < customer->counter; i++) {
+                if (*(&customer->customers[i].id) == id) {
+                    changeCustomerData(*(&customer), i, id);
+                }
+            }
+        } else
+            errorMessage(MSG_ERROR_MESSAGE);
+    } while (verify != 1);
+}
 
+/*
+ * Bellow function records a customer, it gets the customer struct as an argument and
+ * then goes tru every field function so that the data is passed to the variables, at the end,
+ * all the data that was written goes on the saveCustomer function where the user is created and
+ * then the program asks the user tru the yesOrNoFunction if the user wants to add another user,
+ * if so the loop continues.
+ */
 void recordCustomers(Customers *customer) {
     char name[MAX_NAME_CHARS], address[MAX_ADDRESS_CHARS],
             country[MAX_COUNTRY_CHARS];
@@ -185,7 +225,12 @@ void recordCustomers(Customers *customer) {
         system("cls || clear");
     } while (option != 2);
 }
-
+/*
+ * The Bellow function edit's a line in the struct array. It receives the struct array,
+ * the current id of the customer, and the position in the struct array, it then passes all the
+ * user information to some local variables and asks the user what field does he want to change,
+ * when the user exits all the changes made are saved.
+ */
 void changeCustomerData(Customers *customer, int pos, int id) {
     int option, nif;
     char name[MAX_NAME_CHARS], address[MAX_ADDRESS_CHARS],
@@ -227,35 +272,12 @@ void changeCustomerData(Customers *customer, int pos, int id) {
 }
 
 /*
- * The above function calls other 5 functions that help create the customer,
- * each function fills a field in the new user's position in the struct array.
+ * The bellow function deletes a user in the struct array. It receives the struct and
+ * the amount of users by parameter then asks the user for an integer and loops
+ * tru the struct trying to find the given id, if found, the user is deleted, if
+ * not an error message is displayed.
  */
-void editCustomers(Customers *customer) {
-    int id, i, verify;
-    do {
-        printf(CLIENT_ID_MSG);
-        scanf("%d", &id);
-        system("cls || clear");
-        if (id == 0)
-            break;
-        verify = verifyCustomersId(*(&customer), id);
-        if (verify == 1) {
-            for (i = 0; i < customer->counter; i++) {
-                if (*(&customer->customers[i].id) == id) {
-                    changeCustomerData(*(&customer), i, id);
-                }
-            }
-        } else
-            errorMessage(MSG_ERROR_MESSAGE);
-    } while (verify != 1);
-}
 
-/*
- * The above function edit's a line in the struct array. It gets the struct and
- * the amount of customers, Then asks the user for a value and loops tru the
- * struct trying to find the given id, if found the functions used to create a
- * user are invoked, if not an error message is displayed.
- */
 int deleteCustomers(Customers *customer) {
     int id, i, verify;
     do {
@@ -290,13 +312,12 @@ int deleteCustomers(Customers *customer) {
         return customer->counter--;
 }
 
-/*
- * The above function deletes a user in the struct array. It gets the struct and
- * the amount of users by parameter then asks the user for an integer and loops
- * tru the struct trying to find the given id, if found, the user is deleted, if
- * not an error message is displayed.
- */
 
+/*
+ * The bellow function displays all available customers if possible, if not a message appears saying
+ * that no customers where found, the list will appear until the user presses any keu, then the list will
+ * be closed.
+ */
 void listCustomers(Customers *customer) {
     int i;
     char any_key[20];
@@ -317,9 +338,9 @@ void listCustomers(Customers *customer) {
     scanf("%s", any_key);
     system("cls || clear");
 }
-
 /*
- * The above function displays all customers.
+ * The bellow function exports all the customer data, it does so by looping tru the struct array
+ * and saving all the customer fields separated by a comma.
  */
 void exportCustomers(Customers *customer) {
     FILE *fp;
@@ -341,7 +362,12 @@ void exportCustomers(Customers *customer) {
     fclose(fp);
     printf(SUCCESS_IN_WRITING_CUSTOMERS);
 }
-
+/*
+ * The bellow function imports customers to the program, it does so by asking the user for the file name,
+ * then it passes all the data in the file to a string, and reallocates one more position (until the end of the file),
+ * then it parses the string tru the commas, after every user is written to the struct a success message appears and file
+ * pointer closes.
+ */
 void importCustomers(Customers *customer) {
     FILE *fp;
     char fn[MAX_FN_CHARS], buff[1024], *sp;
@@ -368,7 +394,10 @@ void importCustomers(Customers *customer) {
         printf(SUCCESS_IN_IMPORTING_CUSTOMERS);
     }
 }
-
+/*
+ * The bellow menu manages the customers, it loops until the integer [option] given by
+ * the user is equal to zero.
+ */
 void customerManagementMenu(Customers *customer) {
     int option;
     do {
@@ -398,7 +427,3 @@ void customerManagementMenu(Customers *customer) {
         }
     } while (option != 0);
 }
-/*
- * This menu manages the customers, it loops until the integer [option] given by
- * the user is equal to zero.
- */
