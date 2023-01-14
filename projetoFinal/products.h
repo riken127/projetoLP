@@ -8,7 +8,7 @@
 
 #define MAX_MATERIALS 20
 #define MAX_QUANTITY 20
-
+//macro definition
 #define MSG_PRODUCTS_MATERIALS_MANAGEMENT_MENU "\n\t\t\t========= Products & Materials Management Menu =========\n\n\t\t\t[1] - Products.\n\t\t\t[2] - Materials.\n\t\t\t" \
                                      "[3] - Import Products & Materials.\n\t\t\t[4] - Export Products & Materials.\n\t\t\t[0] - Quit.\n\t\t\t________________________________________________________"
 
