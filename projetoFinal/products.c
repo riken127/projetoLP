@@ -10,6 +10,12 @@
 #include <stdlib.h>
 #include <string.h>
 
+/*
+ * The bellow function gets the material's code as a parameter
+ * and asks the user to type a material code, the first scan makes
+ * sure that nothing will interfere with the buffer, so that
+ * no camps are skipped or something of the sort.
+ */
 void materialCode(char materialCode[COD_MATERIAL_SIZE]) {
     char temp;
     printf("\n"ASK_MATERIAL_CODE);
@@ -17,6 +23,14 @@ void materialCode(char materialCode[COD_MATERIAL_SIZE]) {
     scanf("%[^\n]", materialCode);
 }
 
+/*
+ * The bellow function gets the material's description as a parameter
+ * and asks the user to type a material description, the first scan makes
+ * sure that nothing will interfere with the buffer, so that
+ * no camps are skipped or something of the sort, the second scan makes
+ * sure that spaces in a description won't make so that the program skips future
+ * camps.
+ */
 void materialDescription(char materialDescription[MAX_DESCRIPTION_SIZE]) {
     char temp;
     printf("\n"ASK_MATERIAL_DESCRIPTION);
@@ -24,13 +38,23 @@ void materialDescription(char materialDescription[MAX_DESCRIPTION_SIZE]) {
     scanf("%[^\n]", materialDescription);
 }
 
+/*
+ * The bellow function gets the material's unit, which is an enum
+ * that can store two values (either UN or PAR), it receives the enum as pointer.
+ */
 void materialUnit(units *materialUnit) {
     printf("\n"ASK_MATERIAL_UNIT);
     do {
         scanf("%u", materialUnit);
     } while (*materialUnit < 0 || *materialUnit > 1);
 }
-
+/*
+ * The bellow function creates a new material, it receives the material struct as a parameter
+ * then reallocates the struct with one more position, and asks the user to fill the material data
+ * tru other functions (materialCOde, materialDescription, materialUnit). Then starts a loop
+ * so that the user can type the materials, while the option the user chooses is different from false
+ * the loop continues and the space for the materials is reallocated..
+ */
 void createMaterial(Materials *material) {
     int option = 1;
     do {
@@ -46,14 +70,25 @@ void createMaterial(Materials *material) {
         system("cls || clear");
     } while (option != 2);
 }
-
+/*
+ * The bellow function gets the product code as a parameter
+ * and asks the user to type a product id, the first scan makes
+ * sure that nothing will interfere with the buffer, so that no camps
+ * are skipped or something of the sort.
+*/
 void productCode(char productCode[COD_PRODUCT_SIZE]) {
     char temp;
     printf("\n"ASK_PRODUCT_CODE);
     scanf("%c", &temp);
     scanf("%[^\n]", productCode);
 }
-
+/*
+ * The bellow function gets the product name as a parameter
+ * and asks the user to type a product name, the first scan makes
+ * sure that nothing will interfere with the buffer, so that no camps
+ * are skipped or something of the sort. The second scan retrieves data
+ * until an enter is found, so that no camps are skipped because of an enter.
+ */
 void productName(char productName[MAX_PRODUCT_NAME_SIZE]) {
     char temp;
     printf("\n"ASK_PRODUCT_NAME);
@@ -61,6 +96,13 @@ void productName(char productName[MAX_PRODUCT_NAME_SIZE]) {
     scanf("%[^\n]", productName);
 }
 
+/*
+ * The bellow function gets the product's dimension as a pointer,
+ * the product's dimension is a struct, which in composed by three integer
+ * values, the height, the width, and the length. The values are scanned between
+ * x's, this makes so that the user can type all the dimensions at once, and
+ * makes sure that the program ignores them.
+ */
 void productDimension(Dimensions *productDimension) {
     printf(ASK_PRODUCT_DIMENSION);
     scanf("%dx%dx%d", &productDimension->lenght,
@@ -68,11 +110,16 @@ void productDimension(Dimensions *productDimension) {
             &productDimension->width);
 }
 
+/*
+ * The bellow function gets the product's price as a pointer.
+ */
 void productPrice(double *price) {
     printf("\n"ASK_PRODUCT_PRICE);
     scanf("%lf", price);
 }
-
+/*
+ * The bellow function lists all the materials information
+ */
 void listMaterial(Materials *material) {
     int i;
     char any_key[20];
@@ -91,7 +138,10 @@ void listMaterial(Materials *material) {
     scanf("%s", any_key);
     system("cls || clear");
 }
-
+/*
+ * The bellow function verifies is the given code is already present in the material struct,
+ * if so, it returns 1, if not, it returns 0.
+ */
 int verifyCode(char code[COD_MATERIAL_SIZE], Materials *material) {
     int i;
     for (i = 0; i < material->counter; i++) {
@@ -102,7 +152,14 @@ int verifyCode(char code[COD_MATERIAL_SIZE], Materials *material) {
 
     return 0;
 }
-
+/*
+ * The bellow function creates a new product, it receives the product struct as a parameter and the material struct
+ * then reallocates the struct with one more position, and asks the user to fill the product data
+ * tru other functions (productCode, productName, productDimension and productPrices). Then starts a loop
+ * so that the user can type the materials, while the option the user chooses is different from false
+ * the loop continues and the space for the materials is reallocated, at the end the
+ * line_product value is given, which is equal to the loop variable.
+ */
 void newProduct(Products *product, Materials *material) {
     int i, opProduct, opMaterial, quantity;
     char code[COD_PRODUCT_SIZE];
@@ -148,7 +205,9 @@ void newProduct(Products *product, Materials *material) {
         system("cls || clear");
     } while (opProduct != 2);
 }
-
+/*
+ * The bellow function lists all of a products information and all of its material's information.
+ */
 void listProduct(Products *product) {
     int i, j;
     char any_key[20];
@@ -173,7 +232,16 @@ void listProduct(Products *product) {
     scanf("%s", any_key);
     system("cls || clear");
 }
-
+/*
+ * The bellow function saves all the product and material struct data. The saving process is made
+ * in the following way:
+ *      ->asks for the file name.
+ *          ->writes the number of products in the struct.
+ *                 ->loops tru the struct and writes all the struct data.
+ *                 ->loops tru all the line_product positions writing all the line_product data
+ *          ->writes the number of materials.
+ *                  ->loops tru the material struct and writes all the material data.
+ */
 void saveProductMaterials(Products *product, Materials *material) {
     FILE *fp;
     int i, j;
@@ -214,7 +282,16 @@ void saveProductMaterials(Products *product, Materials *material) {
     fclose(fp);
     printf("\nSUCCESS!");
 }
-
+/*
+ * The bellow function saves all the product and material struct data. The saving process is made
+ * in the following way:
+ *      ->asks for the file name.
+ *          ->reads the number of products in the struct.
+ *                 ->loops tru the struct and reads all the struct data.
+ *                 ->loops tru all the line_product positions reading all the line_product data
+ *          ->reads the number of materials.
+ *                  ->loops tru the material struct and reads all the material data.
+ */
 void loadProductMaterials(Products *product, Materials *material) {
     FILE *fp;
     int i, j, c, k;
@@ -261,7 +338,11 @@ void loadProductMaterials(Products *product, Materials *material) {
     fclose(fp);
     printf("\n\t\t\tSUCCESS IN IMPORTING DATA.");
 }
-
+/*
+ * The bellow function returns a material position, it loops tru the material struct
+ * trying to find a material which has a code equal to the code given in the parameters, if found,
+ * it returns the position, if not, it returns -1.
+ */
 int findMaterialPosition(Materials *material, char code[COD_MATERIAL_SIZE]) {
     int i, count = 0;
     for (i = 0; i < material->counter; i++) {
@@ -275,7 +356,11 @@ int findMaterialPosition(Materials *material, char code[COD_MATERIAL_SIZE]) {
         return -1;
     }
 }
-
+/*
+ * The bellow function returns a product position, it loops tru the product struct
+ * trying to find a product which has a code equal to the code given in the parameters, if found,
+ * it returns the position, if not, it returns -1.
+ */
 int findProductPosition(Products *product, char code[COD_MATERIAL_SIZE]) {
     int i, count = 0;
     for (i = 0; i < product->counter; i++) {
@@ -289,17 +374,27 @@ int findProductPosition(Products *product, char code[COD_MATERIAL_SIZE]) {
         return -1;
     }
 }
-
+/*
+ * The bellow function saves all of a material information, it does so by passing all the
+ * data passed by in the current material struct to the Materials material struct in the given position.
+ */
 void saveMaterialChanges(Materials *material, int position, Material current) {
     strcpy(material->material[position].cod_Material, current.cod_Material);
     strcpy(material->material[position].description, current.description);
     material->material[position].unit = current.unit;
 }
 
+/*
+ * Bellow function deletes a material, it receives the material struct and the code of the material
+ * that is being edited. The deleting process is made in the following way:
+ *          ->copies the next position to the current position of materials.
+ *          ->loops tru the material size
+ *          ->changes the values
+ *               counter --
+ */
 void deleteMaterial(char code[COD_MATERIAL_SIZE], Materials *material, Products *product) {
     int i, j;
     for (i = 0; i < material->counter; i++) {
-        //printf("%s", material->material[i].cod_Material);
         if (strcmp(material->material[i].cod_Material, code) == 0) {
             strcpy(material->material[i].cod_Material,
                     material->material[i + 1].cod_Material);
@@ -321,7 +416,14 @@ void deleteMaterial(char code[COD_MATERIAL_SIZE], Materials *material, Products 
         }
     }
 }
-
+/*
+ * Bellow function is the menu responsible for all the changes who are made to a certain material,
+ * first it asks the user for a material code, then it verifies if the material exists, if not
+ * the user comes across an error message, if not, the user gets to see a menu where the following functions are listed:
+ *      ->change unit (materialUnit),
+ *      ->change description (materialDescription),
+ *      ->delete Material (deleteMaterial).
+ */
 void editMaterial(Materials *material, Products *product) {
     char editedMaterial[COD_MATERIAL_SIZE];
     int position, option, i;
@@ -374,12 +476,28 @@ void editMaterial(Materials *material, Products *product) {
     }
 }
 
+/*
+ * Bellow function saves all the changes made to the product.
+ */
 void saveProductChanges(Product product, Products *products, int pos) {
     strcpy(products->product[pos].name, product.name);
     products->product[pos].price = product.price;
     products->product[pos].dimension = product.dimension;
 }
 
+/*
+ * The bellow function deletes a product, it does this by firstly getting the product's struct,
+ * then the product code, which indicates what product the user wishes to delete,
+ * if found the deleting process is made in the following way:
+ *      ->strcmp compares both codes and is equal to zero:
+ *          ->copies the next position to the current position of products.
+ *          ->reallocates the line_product_size of the current position to the next line_product_size.
+ *          ->loops tru the new line_product_size
+ *          ->changes the values
+ *              ->verifies if the counter is != from 0
+ *                  if true?
+ *                      counter --
+ */
 void deleteProduct(Products *product, char code[COD_PRODUCT_SIZE]) {
     int i, j;
 
@@ -402,7 +520,10 @@ void deleteProduct(Products *product, char code[COD_PRODUCT_SIZE]) {
     product->counter--;
     printf("\n\t\t\tPRODUCT DELETED SUCCESSFULLY");
 }
-
+/*
+ * The bellow function gets the product_position and adds data to the line_product struct until
+ * the option is equal to zero.
+ */
 void addMaterialLineProduct(Materials *material, Products *product, int position) {
     LineProduct line;
     int i, op;
@@ -432,7 +553,15 @@ void addMaterialLineProduct(Materials *material, Products *product, int position
     product->product[position].line_product_size = i;
     printf("%d", product->product[position].line_product_size);
 }
-
+/*
+ * Bellow function is responsible for changing all the product data this function
+ * receives the product struct the product position and code written by the user.
+ * This menu is composed by the following options:
+ *      ->change name (productName),
+ *      ->change price (productPrice),
+ *      ->change Dimension (productDimension),
+ *      ->change Materials (addMaterialLineProduct) <- another menu;
+ */
 void changeProductData(Products *products, int pos, char code[COD_PRODUCT_SIZE], Materials *material) {
     int option;
     Product product;
@@ -481,6 +610,11 @@ void changeProductData(Products *products, int pos, char code[COD_PRODUCT_SIZE],
     saveProductChanges(product, products, pos);
 }
 
+/*
+ * The following function loops tru the product struct until it finds
+ * the code written by the user, if not found, an error message appears,
+ * if found, the user is redirected to the menu (changeProductData).
+ */
 void editProduct(Materials *material, Products *product) {
     int i, count = 0, position;
     char code[COD_PRODUCT_SIZE];
@@ -516,7 +650,9 @@ void editProduct(Materials *material, Products *product) {
         errorMessage(NO_PRODUCTS_FOUND_MESSAGE);
     }
 }
-
+/*
+ * The bellow menu is responsible to any data manipulation related to products.
+ */
 void productsManagementMenu(Products *products, Materials *material) {
     int option;
 
@@ -539,6 +675,9 @@ void productsManagementMenu(Products *products, Materials *material) {
     } while (option != 0);
 }
 
+/*
+ * The bellow menu is responsible to any data manipulation related to materials.
+ */
 void materialManagementMenu(Products *products, Materials *material) {
     int option;
 
@@ -562,7 +701,9 @@ void materialManagementMenu(Products *products, Materials *material) {
         }
     } while (option != 0);
 }
-
+/*
+ * The bellow menu is the primary product/material menu, this menu is divided into other
+ */
 void ProductsMaterialsManagementMenu(Products *products, Materials *material) {
     int option;
 
