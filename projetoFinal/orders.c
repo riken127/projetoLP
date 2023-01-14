@@ -4,30 +4,42 @@
 #include <string.h>
 #include <stdlib.h>
 
+/*
+ * Bellow function greets a customer, it receives the customer struct as a parameter
+ * and the nif written by the user, and then greets the user by his name.
+ */
 void greetCustomer(Customers *customer, int nif) {
     printf("%p", customer);
     int i;
     for (i = 0; i < customer->counter; i++) {
         if (customer->customers[i].nif == nif) {
-            printf("\nWelcome back,\n\t\t%s!", customer->customers[i].name);
+            printf("\n\t\t\tWelcome back,\n\t\t%s!", customer->customers[i].name);
         }
     }
 }
-
-void listAvaibleProducts(Products *product) {
+/*
+ * Bellow function lists all the available products.
+ */
+void listAvailableProducts(Products *product) {
     int i;
     for (i = 0; i < product->counter; i++) {
-        printf("\n[%d] - | %s | %s | %.2lf | %dx%dx%d |\n", (i + 1),
+        printf("\t\t\t[%d] - | %s | %s | %.2lf | %dx%dx%d |\n", (i + 1),
                product->product[i].cod_Produto, product->product[i].name,
                product->product[i].price, product->product[i].dimension.lenght,
                product->product[i].dimension.width,
                product->product[i].dimension.height);
     }
 }
+/*
+ * Bellow function returns a new order id.
+ */
 int newOrderId(Orders *order) {
     return (order->counter + 1);
 }
-
+/*
+ * The bellow function verifies a product code, if the product code is found,
+ * it returns 1, if not, it returns 0.
+ */
 int verifyChoosenProduct(char code[COD_PRODUCT_SIZE], Products *product){
     int i;
     for (i = 0; i < product->counter; i++){
@@ -37,12 +49,19 @@ int verifyChoosenProduct(char code[COD_PRODUCT_SIZE], Products *product){
     }
     return 0;
 }
+/*
+ * The bellow function returns a product code, it loops until the product code  is available
+ */
 void newOrderChoosenProductCode(Products *product, char code[]) {
     do {
         printf(ASK_PRODUCT_CODE);
         scanf("%s", code);
     } while (!verifyChoosenProduct(code, product));
 }
+/*
+ * The bellow function returns an order date, it loops tru the basic date requirements until the
+ * requirements are met, then it returns the date struct.
+ */
 Date newOrderChoosenDate() {
     Date orderDate;
     do {
@@ -53,6 +72,10 @@ Date newOrderChoosenDate() {
              orderDate.year < MIN_YEAR);
     return orderDate;
 }
+/*
+ * The bellow function returns an order quantity, it asks the user for the desired quantity
+ * until the value is between the quantity requirements (zero for minimum and ten thousand for maximum).
+ */
 int newOrderQuantity() {
     int quantity;
     do {
@@ -62,11 +85,15 @@ int newOrderQuantity() {
 
     return quantity;
 }
-
+/*
+ * The bellow function is responsible for the creation of a new order, it receives the customer struct,
+ * the nif, the product struct and the order struct. This function reallocates memory everytime a new product
+ * is added to the order, the line_product struct records the product code and the product quantity.
+ */
 int newOrder(Customers *customer, int nif, Products *product, Orders *order) {
     int option, j;
     order->order = realloc(order->order, sizeof(Order)*(customer->counter + 1));
-    listAvaibleProducts(*(&product));
+    listAvailableProducts(*(&product));
     order->order[order->counter].order_id = newOrderId(order);
     order->order[order->counter].nif = nif;
     order->order[order->counter].order_date = newOrderChoosenDate();
@@ -84,6 +111,10 @@ int newOrder(Customers *customer, int nif, Products *product, Orders *order) {
     ++order->counter;
     return 1;
 }
+/*
+ * The bellow function verifies a customer nif, the function loops tru the struct trying to find the nif,
+ * if found it returns one, if not it returns zero.
+ */
 int verifyCustomerNif(Customers *customers, int customerNif){
     int i;
     for (i = 0; i < customers->counter; i++){
@@ -93,6 +124,10 @@ int verifyCustomerNif(Customers *customers, int customerNif){
     }
     return 0;
 }
+/*
+ * The bellow function asks for the customer nif while the written nif doesn't exist, then, the customer
+ * is greeted, and goes to the newOrder function where all the order information will be filled by the user.
+ */
 void doOrder(Customers *customer, Products *product, Orders *order) {
     int customerNif;
     do {
@@ -101,27 +136,40 @@ void doOrder(Customers *customer, Products *product, Orders *order) {
     greetCustomer(*(&customer), customerNif);
     newOrder(*(&customer), customerNif, product, order);
 }
-
+/*
+ * The bellow function lists all the orders' information.
+ */
 void listOrders(Orders *order) {
     int i, j;
     for (i = 0; i < order->counter; i++) {
-        printf("\n%dº - | %d | %d-%d-%d |\n",
+        printf("\n\t\t\t%dº - | %d | %d-%d-%d |\n",
                order->order[i].order_id, order->order[i].nif,
                order->order[i].order_date.day,
                order->order[i].order_date.month, order->order[i].order_date.year);
             for (j = 0; j < order->order[i].line_order_size; j++){
-                printf("\t%s - %d\n",
+                printf("\t\t\t\t%s - %d\n",
                                    order->order[i].line_order[j].code,
                                    order->order[i].line_order[j].quantity);
             }
     }
 }
-
+/*
+ * Bellow function asks for a product's name.
+ */
 void askFileName(char fileName[MAX_FN_CHARS]){
     printf(ASK_FILE_NAME);
     scanf("%s", fileName);
 }
-
+/*
+ * The bellow function exports the orders' struct, it starts by asking for file name, and then the
+ * process goes in the following way:
+ *      ->writes order size.
+ *          ->loops tru the order_size recording all the products' information.
+ *              ->writes line_order_size
+ *                      ->loop tru a certain product line_order recording all of its information.
+ *      ->closes file pointer.
+ *      ->success message.
+ */
 void exportOrders(Orders *order) {
     FILE *fp;
     int i, j;
@@ -146,7 +194,16 @@ void exportOrders(Orders *order) {
     fclose(fp);
     printf(SUCCESS_IN_WRITING_ORDERS);
 }
-
+/*
+ * The bellow function imports order data, the importing process goes in the following way:
+ *      ->asks for the desired file name.
+ *      ->reads the sizeof the orders.
+ *          ->loops tru the size of the orders reading the orders.
+ *              ->reads a certain order line_order_size
+ *                  ->loop tru the size of the line_order_size reading the product codes and the quantity's.
+ *      ->order counter + 1.
+ *      closes file pointer.
+ */
 void importOrders(Orders *order) {
     FILE *fp;
     int i, c, j;
