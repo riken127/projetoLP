@@ -7,6 +7,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+//macro definition
 #define MSG_MAIN_MENU "\n\t\t\t========= Main Menu =========\n\n\t\t\t[1] - User.\n\t\t\t[2] - Admin.\n\t\t\t[0] - Quit.\n\t\t\t_____________________________"
 #define MSG_ADMIN_MENU                                                         \
   "\n\t\t\t=============== Admin Menu ===============\n\n\t\t\t[1] - Clients Management.\n\t\t\t[2] - Products & Materials Management.\n\t\t\t[3] - Production "   \
@@ -14,7 +15,10 @@
 #define MSG_CLIENT_MENU                                                        \
   "\n\t\t\t========= Client Menu =========\n\n\t\t\t[1] - Do order.\n\t\t\t[2] - List orders.\n\t\t\t[3] - Export orders.\n\t\t\t[4] - Import orders.\n\t\t\t[0] - Quit.\n\t\t\t_______________________________"
 
-
+/*
+ * This menu is divided into three sub-menus, it loops until the integer
+ * [option] given by the user is equal to zero.
+ */
 void adminMenu(Customers *customer, Orders **order,
                Products **product, Materials **material) {
     int option;
@@ -38,7 +42,7 @@ void adminMenu(Customers *customer, Orders **order,
     } while (option != 0);
 }
 /*
- * This menu is divided into three sub-menus, it loops until the integer
+ * This menu loops until the integer
  * [option] given by the user is equal to zero.
  */
 void clientMenu(Customers *customer, Products **product,
@@ -65,6 +69,11 @@ void clientMenu(Customers *customer, Products **product,
         }
     } while (option != 0);
 }
+/*
+ * This is the main menu, it's divided in two sides, the customer side, and the
+ * admin side, it loops until the integer [option] given by the user is equal to
+ * zero.
+ */
 void mainMenu(Customers *customer, Products **product,
               Orders **order, Materials **material) {
     int option;
@@ -84,12 +93,12 @@ void mainMenu(Customers *customer, Products **product,
         }
     } while (option != 0);
 }
-/*
- * This is the main menu, it's divided in two sides, the customer side, and the
- * admin side, it loops until the integer [option] given by the user is equal to
- * zero.
- */
 
+
+/*
+ * This is the main function, this is all the structs are instantiated, here the
+ * main menu is invoked.
+ */
 int main(int argc, char **argv) {
     Customers *customer;
     customer = (Customers *)malloc(sizeof(Customers) * INITIAL_CLIENT_SIZE);
@@ -119,8 +128,3 @@ int main(int argc, char **argv) {
     free(customer);
     return (EXIT_SUCCESS);
 }
-
-/*
- * This is the main function, this is all the structs are instantiated, here the
- * main menu is invoked.
- */
