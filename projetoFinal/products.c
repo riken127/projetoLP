@@ -48,6 +48,7 @@ void materialUnit(units *materialUnit) {
         scanf("%u", materialUnit);
     } while (*materialUnit < 0 || *materialUnit > 1);
 }
+
 /*
  * The bellow function creates a new material, it receives the material struct as a parameter
  * then reallocates the struct with one more position, and asks the user to fill the material data
@@ -70,18 +71,20 @@ void createMaterial(Materials *material) {
         system("cls || clear");
     } while (option != 2);
 }
+
 /*
  * The bellow function gets the product code as a parameter
  * and asks the user to type a product id, the first scan makes
  * sure that nothing will interfere with the buffer, so that no camps
  * are skipped or something of the sort.
-*/
+ */
 void productCode(char productCode[COD_PRODUCT_SIZE]) {
     char temp;
     printf("\n"ASK_PRODUCT_CODE);
     scanf("%c", &temp);
     scanf("%[^\n]", productCode);
 }
+
 /*
  * The bellow function gets the product name as a parameter
  * and asks the user to type a product name, the first scan makes
@@ -117,6 +120,7 @@ void productPrice(double *price) {
     printf("\n"ASK_PRODUCT_PRICE);
     scanf("%lf", price);
 }
+
 /*
  * The bellow function lists all the materials information
  */
@@ -138,6 +142,7 @@ void listMaterial(Materials *material) {
     scanf("%s", any_key);
     system("cls || clear");
 }
+
 /*
  * The bellow function verifies is the given code is already present in the material struct,
  * if so, it returns 1, if not, it returns 0.
@@ -152,6 +157,7 @@ int verifyCode(char code[COD_MATERIAL_SIZE], Materials *material) {
 
     return 0;
 }
+
 /*
  * The bellow function creates a new product, it receives the product struct as a parameter and the material struct
  * then reallocates the struct with one more position, and asks the user to fill the product data
@@ -163,8 +169,9 @@ int verifyCode(char code[COD_MATERIAL_SIZE], Materials *material) {
 void newProduct(Products *product, Materials *material) {
     int i, opProduct, opMaterial, quantity;
     char code[COD_PRODUCT_SIZE];
-    do {
-        if (material->counter != 0) {
+
+    if (material->counter != 0) {
+        do {
             product->product = (Product *) realloc(product->product, sizeof (Product)*(product->counter + 1));
             printf("\t\t\t__________________________________\n");
             productCode(product->product[product->counter].cod_Produto);
@@ -198,13 +205,14 @@ void newProduct(Products *product, Materials *material) {
                 printf("\t\t\t__________________________________\n");
             } while (opMaterial != 2);
             product->counter++;
-        } else {
-            errorMessage(NO_MATERIAL_FOUND_MESSAGE);
-        }
-        opProduct = yesOrNoFunction(YES_OR_NO_MESSAGE_RECORD_PRODUCT);
-        system("cls || clear");
-    } while (opProduct != 2);
+            opProduct = yesOrNoFunction(YES_OR_NO_MESSAGE_RECORD_PRODUCT);
+            system("cls || clear");
+        } while (opProduct != 2);
+    } else {
+        errorMessage(NO_MATERIAL_FOUND_MESSAGE);
+    }
 }
+
 /*
  * The bellow function lists all of a products information and all of its material's information.
  */
@@ -232,6 +240,7 @@ void listProduct(Products *product) {
     scanf("%s", any_key);
     system("cls || clear");
 }
+
 /*
  * The bellow function saves all the product and material struct data. The saving process is made
  * in the following way:
@@ -282,6 +291,7 @@ void saveProductMaterials(Products *product, Materials *material) {
     fclose(fp);
     printf("\nSUCCESS!");
 }
+
 /*
  * The bellow function saves all the product and material struct data. The saving process is made
  * in the following way:
@@ -338,6 +348,7 @@ void loadProductMaterials(Products *product, Materials *material) {
     fclose(fp);
     printf("\n\t\t\tSUCCESS IN IMPORTING DATA.");
 }
+
 /*
  * The bellow function returns a material position, it loops tru the material struct
  * trying to find a material which has a code equal to the code given in the parameters, if found,
@@ -356,6 +367,7 @@ int findMaterialPosition(Materials *material, char code[COD_MATERIAL_SIZE]) {
         return -1;
     }
 }
+
 /*
  * The bellow function returns a product position, it loops tru the product struct
  * trying to find a product which has a code equal to the code given in the parameters, if found,
@@ -374,6 +386,7 @@ int findProductPosition(Products *product, char code[COD_MATERIAL_SIZE]) {
         return -1;
     }
 }
+
 /*
  * The bellow function saves all of a material information, it does so by passing all the
  * data passed by in the current material struct to the Materials material struct in the given position.
@@ -416,6 +429,7 @@ void deleteMaterial(char code[COD_MATERIAL_SIZE], Materials *material, Products 
         }
     }
 }
+
 /*
  * Bellow function is the menu responsible for all the changes who are made to a certain material,
  * first it asks the user for a material code, then it verifies if the material exists, if not
@@ -520,6 +534,7 @@ void deleteProduct(Products *product, char code[COD_PRODUCT_SIZE]) {
     product->counter--;
     printf("\n\t\t\tPRODUCT DELETED SUCCESSFULLY");
 }
+
 /*
  * The bellow function gets the product_position and adds data to the line_product struct until
  * the option is equal to zero.
@@ -553,6 +568,7 @@ void addMaterialLineProduct(Materials *material, Products *product, int position
     product->product[position].line_product_size = i;
     printf("%d", product->product[position].line_product_size);
 }
+
 /*
  * Bellow function is responsible for changing all the product data this function
  * receives the product struct the product position and code written by the user.
@@ -650,6 +666,7 @@ void editProduct(Materials *material, Products *product) {
         errorMessage(NO_PRODUCTS_FOUND_MESSAGE);
     }
 }
+
 /*
  * The bellow menu is responsible to any data manipulation related to products.
  */
@@ -701,6 +718,7 @@ void materialManagementMenu(Products *products, Materials *material) {
         }
     } while (option != 0);
 }
+
 /*
  * The bellow menu is the primary product/material menu, this menu is divided into other
  */
