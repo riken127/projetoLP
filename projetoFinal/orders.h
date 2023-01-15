@@ -6,9 +6,9 @@
 #include "products.h"
 
 //macro definition
-#define ASK_ORDER_DATE "\n\t\t\tPlease type the desired date:"
+#define ASK_ORDER_DATE "\n\t\t\tPlease type the desired date - "
 
-#define ASK_ORDER_QUANTITY "\n\t\t\tPlease type the desired quantity:"
+#define ASK_ORDER_QUANTITY "\n\t\t\tPlease type the desired quantity - "
 
 #define MIN_DAY 0
 
@@ -44,7 +44,7 @@
 
 #define ERROR_IN_LOADING_ORDERS "\nAn error has occures while loading the orders! :/"
 
-#define ASK_ANOTHER_PRODUCT "\n\t\t\tDo wish to add another product?[1/0]"
+#define ASK_ANOTHER_PRODUCT "\n\t\t\tDo you want to add another product?[y/n] - "
 
 //struct definition
 typedef struct {
@@ -69,6 +69,7 @@ typedef struct {
 } Orders;
 
 //function definition
+int verifyExistenceOfClientesAndProducts(Customers *customer, Products *product);
 void greetCustomer(Customers *customer, int nif);
 void listAvailableProducts(Products *product);
 int newOrderId(Orders *order);
