@@ -59,7 +59,7 @@ void listMaterials(Materials *material, Orders *order, Products *product) {
                                     if (strcmp(material->material[d].cod_Material, product->product[k].line_product[f].code) == 0){
                                         printf("\n\n\t\t\tMaterial Code   : %s", material->material[d].cod_Material);
                                         printf("\n\t\t\tDescription   : %s", material->material[d].description);
-                                        printf("\n\t\t\tQuantity      : %d",  order->order[i].line_order[j].quantity);
+                                        printf("\n\t\t\tQuantity      : %d",  order->order[i].line_order[j].quantity*product->product[k].line_product[f].quantity);
                                         printf("\n\t\t\tUnit          : %d", material->material[k].unit);
                                         printf("\n\t\t\t__________________________________");
                                     }
