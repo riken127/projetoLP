@@ -4,7 +4,6 @@
 
 #ifndef PROJETO_PRODUCTS_H
 #define PROJETO_PRODUCTS_H
-#include <stdbool.h>
 
 #define MAX_MATERIALS 20
 #define MAX_QUANTITY 20

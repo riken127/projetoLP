@@ -5,9 +5,7 @@
 #include "clients.h"
 #include "orders.h"
 #include <stdio.h>
-#include <string.h>
 #include <stdlib.h>
-
 /*
  * Bellow function appears when an error appears, it receives the error message
  * as a parameter, and then waits for the user to press a key, if so, the screen is cleaned
@@ -366,7 +364,7 @@ void listCustomers(Customers *customer) {
 void exportCustomers(Customers *customer) {
     FILE *fp;
     int i;
-    char fn[MAX_FN_CHARS];
+    char fn[100];//TODO
     askFileName(fn);
     fp = fopen(fn, "w");
     if (fp == NULL) {

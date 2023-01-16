@@ -1,9 +1,10 @@
+
+#include "products.h"
+#include "clients.h"
 //created by r1ken
 #ifndef PROJETO_ORDERS_H
 #define PROJETO_ORDERS_H
 
-#include "clients.h"
-#include "products.h"
 
 //macro definition
 #define ASK_ORDER_DATE "\n\t\t\tPlease type the desired date - "

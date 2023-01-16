@@ -1,14 +1,9 @@
 //
 // Created by r1ken on 12-12-2022.
 //
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <time.h>
 #include "production.h"
-#include "orders.h"
-#include "products.h"
-#include "clients.h"
+#include <stdio.h>
+#include <time.h>
 /*
  * Bellow function ask the user for a date and verifies if the date is valid, if so then the date
  * is returned.

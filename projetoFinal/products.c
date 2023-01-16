@@ -1,14 +1,13 @@
 //
 // Created by gui on 12-12-2022.
 //
-
 #include "products.h"
+#include "clients.h"
 #include "orders.h"
-
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
 
 /*
  * The bellow function gets the material's code as a parameter

@@ -1,14 +1,9 @@
 //
 // Created by r1ken on 12-12-2022.
 //
-
+#include "orders.h"
 #ifndef PROJECT_PRODUCTION_H
 #define PROJECT_PRODUCTION_H
-
-#include "production.h"
-#include "orders.h"
-#include "products.h"
-#include "clients.h"
 //macro  definition
 #define MSG_MENU_PRODUCTION "\n\t\t\t========= Production Management Menu =========\n\n\t\t\t[1] - List materials.\n\t\t\t[0] - Quit.\n\t\t\t______________________________________________"
 
