@@ -1,6 +1,12 @@
-//
-// Created by r1ken on 11-12-2022.
-//
+/**
+ * 
+ * @file clients.h
+ * @author João Pereira, Henrique Noronha, Ângelo Lopes
+ * @date 16 Janeiro 2023
+ * @brief Biblioteca clientes
+ * 
+ *  Biblioteca com todas as funções sobre os clientes.
+ */
 
 #ifndef PROJETOLP_CLIENTS_H
 #define PROJETOLP_CLIENTS_H
