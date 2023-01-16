@@ -25,7 +25,7 @@ int verifyExistenceOfClientesAndProducts(Customers *customer, Products *product)
 
 int verifyCustomerOrders(int nif){
     int i;
-
+ 
     return 0;
 }
 /*
