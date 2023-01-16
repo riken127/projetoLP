@@ -2,6 +2,7 @@
 #include "orders.h"
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 int verifyExistenceOfClientesAndProducts(Customers *customer, Products *product) {
     char any_key[20];
     if (customer->counter != 0) {

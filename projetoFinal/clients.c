@@ -6,6 +6,7 @@
 #include "orders.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 /*
  * Bellow function appears when an error appears, it receives the error message
  * as a parameter, and then waits for the user to press a key, if so, the screen is cleaned
