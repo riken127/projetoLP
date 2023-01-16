@@ -1,3 +1,12 @@
+/**
+ * 
+ * @file Orders.h
+ * @author João Pereira, Henrique Noronha, Ângelo Lopes
+ * @date 16 Janeiro 2023
+ * @brief Biblioteca orders
+ * 
+ *  Biblioteca com todas as funções sobre as ordens.
+ */
 
 #include "products.h"
 #include "clients.h"

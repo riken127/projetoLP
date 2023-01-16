@@ -1,6 +1,13 @@
-//
-// Created by r1ken on 12-12-2022.
-//
+/**
+ * 
+ * @file production.h
+ * @author João Pereira, Henrique Noronha, Ângelo Lopes
+ * @date 16 Janeiro 2023
+ * @brief Biblioteca production
+ * 
+ *  Biblioteca com todas as funções sobre as produções.
+ */
+
 #include "orders.h"
 #ifndef PROJECT_PRODUCTION_H
 #define PROJECT_PRODUCTION_H

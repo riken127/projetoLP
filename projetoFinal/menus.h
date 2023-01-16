@@ -1,6 +1,12 @@
-//
-// Created by r1ken on 16-01-2023.
-//
+/**
+ * 
+ * @file menus.h
+ * @author João Pereira, Henrique Noronha, Ângelo Lopes
+ * @date 16 Janeiro 2023
+ * @brief Biblioteca menus
+ * 
+ *  Biblioteca com todas as funções sobre os Menus.
+ */
 
 #ifndef PROJECT_MENUS_H
 #define PROJECT_MENUS_H
