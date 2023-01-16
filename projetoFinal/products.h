@@ -1,6 +1,12 @@
-//
-// Created by r1ken on 12-12-2022.
-//
+/**
+ * 
+ * @file products.h
+ * @author João Pereira, Henrique Noronha, Ângelo Lopes
+ * @date 16 Janeiro 2023
+ * @brief Biblioteca products
+ * 
+ *  Biblioteca com todas as funções sobre os produtos.
+ */
 
 #ifndef PROJETO_PRODUCTS_H
 #define PROJETO_PRODUCTS_H
