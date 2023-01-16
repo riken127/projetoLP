@@ -3,7 +3,7 @@
  * @file clients.h
  * @author João Pereira, Henrique Noronha, Ângelo Lopes
  * @date 16 Janeiro 2023
- * @brief Biblioteca clientes
+ * @brief Biblioteca clients
  * 
  *  Biblioteca com todas as funções sobre os clientes.
  */
