@@ -4,6 +4,7 @@
 
 #ifndef PROJETOLP_CLIENTS_H
 #define PROJETOLP_CLIENTS_H
+
 //macro definition
 #define INITIAL_CLIENT_SIZE 1
 
@@ -45,6 +46,7 @@ typedef struct {
     char address[MAX_ADDRESS_CHARS];
     int nif;
     char country[MAX_COUNTRY_CHARS];
+    int state;
 } Customer;
 
 typedef struct {

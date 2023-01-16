@@ -7,6 +7,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+
 /*
  * Bellow function appears when an error appears, it receives the error message
  * as a parameter, and then waits for the user to press a key, if so, the screen is cleaned
@@ -50,6 +51,7 @@ int menuRead(char message[], int min, int max) {
     } while (option < min || option > max);
     return option;
 }
+
 /*
  * Bellow function receives a message and depending on the character that was written
  * the value that is returned is different.
@@ -99,6 +101,7 @@ void customerName(char name[]) {
     scanf("%c", &temp);
     scanf("%[^\n]", name);
 }
+
 /*
  * Bellow function takes a given address and stores it in the struct array
  * In the given position. The first scanf makes sure the buffer is clean,
@@ -145,6 +148,7 @@ int customerNif() {
 
     return nif;
 }
+
 /*
  * Bellow function takes a given country name and stores it in the struct array
  * in the given position. The first scanf makes sure the buffer is clean,
@@ -156,6 +160,7 @@ void customerCountry(char country[]) {
     scanf("%c", &temp);
     scanf("%[^\n]", country);
 }
+
 /*
  * Bellow function creates an id for the user who is beeing created,
  * the given id is equal to the last given id (from the last created user)
@@ -164,6 +169,7 @@ void customerCountry(char country[]) {
 int customerId(int curentID) {
     return (curentID + 1);
 }
+
 /*
  * Bellow function saves a specific customer data, it receives the position and the input data, and then
  * saves the data of the customer in the given position
@@ -175,7 +181,9 @@ void saveCustomer(char name[], char address[], int nif, char country[], int id,
     strcpy(*(&customer->customers[pos].address), address);
     *(&customer->customers[pos].nif) = nif;
     strcpy(*(&customer->customers[pos].country), country);
+    *(&customer->customers[pos].state) = 1;
 }
+
 /*
  * The above function calls other 5 functions that help create the customer,
  * each function fills a field in the new user's position in the struct array.
@@ -217,6 +225,7 @@ void recordCustomers(Customers *customer) {
         customerAddress(address);
         customerCountry(country);
         nif = customerNif();
+
         printf("\t\t\t__________________________________\n");
         saveCustomer(name, address, nif, country, customerId(customer->counter),
                 *(&customer), customer->counter);
@@ -225,6 +234,7 @@ void recordCustomers(Customers *customer) {
         system("cls || clear");
     } while (option != 2);
 }
+
 /*
  * The Bellow function edit's a line in the struct array. It receives the struct array,
  * the current id of the customer, and the position in the struct array, it then passes all the
@@ -279,7 +289,7 @@ void changeCustomerData(Customers *customer, int pos, int id) {
  */
 
 int deleteCustomers(Customers *customer) {
-    int id, i, verify;
+    int id, i, verify,verifyOrders;
     do {
         printf(CLIENT_ID_MSG);
         scanf("%d", &id);
@@ -292,26 +302,34 @@ int deleteCustomers(Customers *customer) {
             } else {
                 for (i = 0; i < *(&customer->counter); i++) {
                     if (*(&customer->customers[i].id) == id) {
-                        *(&customer->customers[i].id) = *(&customer->customers[i + 1].id);
-                        strcpy(*(&customer->customers[i].name),
-                                *(&customer->customers[i + 1].name));
-                        strcpy(*(&customer->customers[i].address),
-                                *(&customer->customers[i + 1].address));
-                        *(&customer->customers[i].nif) = *(&customer->customers[i + 1].nif);
-                        strcpy(*(&customer->customers[i].country),
-                                *(&customer->customers[i + 1].country));
+                        //verifyOrders = verifyCustomerOrders(*(&customer->customers[i].nif));
+                        //if (verifyOrders == 0) {
+                            *(&customer->customers[i].id) = *(&customer->customers[i + 1].id);
+                            strcpy(*(&customer->customers[i].name),
+                                    *(&customer->customers[i + 1].name));
+                            strcpy(*(&customer->customers[i].address),
+                                    *(&customer->customers[i + 1].address));
+                            *(&customer->customers[i].nif) = *(&customer->customers[i + 1].nif);
+                            strcpy(*(&customer->customers[i].country),
+                                    *(&customer->customers[i + 1].country));
+                            *(&customer->customers[i].state) = *(&customer->customers[i + 1].state);
+                        /*}
+                        else{
+                            *(&customer->customers[i].state) = 0;
+                        }*/
                     }
                 }
+
             }
         }
     } while (verify != 1);
     system("cls || clear");
     if (id == 0)
         return customer->counter;
+
     else
         return customer->counter--;
 }
-
 
 /*
  * The bellow function displays all available customers if possible, if not a message appears saying
@@ -326,11 +344,13 @@ void listCustomers(Customers *customer) {
     } else {
         printf("\n\t\t\tList Of Clients\n\t\t\t__________________________________");
         for (i = 0; i < customer->counter; i++) {
+
             printf("\n\n\t\t\tClient Id : %d", customer->customers[i].id);
             printf("\n\t\t\tName      : %s", customer->customers[i].name);
             printf("\n\t\t\tAddress   : %s", customer->customers[i].address);
             printf("\n\t\t\tNif       : %d", customer->customers[i].nif);
             printf("\n\t\t\tCountry   : %s", customer->customers[i].country);
+            printf("\n\t\t\tState     : %s", customer->customers[i].state == 1 ? "Active" : "Inactive");
             printf("\n\t\t\t__________________________________");
         }
     }
@@ -338,6 +358,7 @@ void listCustomers(Customers *customer) {
     scanf("%s", any_key);
     system("cls || clear");
 }
+
 /*
  * The bellow function exports all the customer data, it does so by looping tru the struct array
  * and saving all the customer fields separated by a comma.
@@ -353,15 +374,18 @@ void exportCustomers(Customers *customer) {
         exit(EXIT_FAILURE);
     }
     for (i = 0; i < customer->counter; i++) {
-        fprintf(fp, "%s,%s,%d,%s\n",
+
+        fprintf(fp, "%s,%s,%d,%s,%d\n",
                 customer->customers[i].name,
                 customer->customers[i].address,
                 customer->customers[i].nif,
-                customer->customers[i].country);
+                customer->customers[i].country,
+                customer->customers[i].state);
     }
     fclose(fp);
     printf(SUCCESS_IN_WRITING_CUSTOMERS);
 }
+
 /*
  * The bellow function imports customers to the program, it does so by asking the user for the file name,
  * then it passes all the data in the file to a string, and reallocates one more position (until the end of the file),
@@ -377,6 +401,7 @@ void importCustomers(Customers *customer) {
         printf(ERROR_IN_WRITING_CUSTOMERS);
     } else {
         while (fgets(buff, 1024, fp) != NULL) {
+
             customer->customers = (Customer*) realloc(customer->customers, sizeof (Customer) * (customer->counter + 1));
 
             customer->customers[customer->counter].id = (customer->counter + 1);
@@ -388,12 +413,15 @@ void importCustomers(Customers *customer) {
             customer->customers[customer->counter].nif = atoi(sp);
             sp = strtok(NULL, ",");
             strcpy(customer->customers[customer->counter].country, sp);
+            sp = strtok(NULL, ",");
+            customer->customers[customer->counter].state = atoi(sp);
             ++customer->counter;
         }
         fclose(fp);
         printf(SUCCESS_IN_IMPORTING_CUSTOMERS);
     }
 }
+
 /*
  * The bellow menu manages the customers, it loops until the integer [option] given by
  * the user is equal to zero.
