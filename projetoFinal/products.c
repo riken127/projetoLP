@@ -125,7 +125,6 @@ void productPrice(double *price) {
  */
 void listMaterial(Materials *material) {
     int i;
-    char any_key[20];
     if (material->counter == 0) {
         printf("\n\t\t\tNo materials were found\n\t\t\t__________________________________");
     } else {
@@ -137,9 +136,7 @@ void listMaterial(Materials *material) {
             printf("\n\t\t\t__________________________________");
         }
     }
-    printf("\n\t\t\tPress any key to exit ");
-    scanf("%s", any_key);
-    system("cls || clear");
+    pressAnyKeyToContinueFunctionListVersion();
 }
 
 /*
@@ -218,7 +215,6 @@ void newProduct(Products *product, Materials *material) {
  */
 void listProduct(Products *product) {
     int i, j;
-    char any_key[20];
     if (product->counter == 0) {
         printf("\n\t\t\tNo products were found\n\t\t\t__________________________________");
     } else {
@@ -237,9 +233,7 @@ void listProduct(Products *product) {
             printf("\t\t\t__________________________________");
         }
     }
-    printf("\n\t\t\tPress any key to exit ");
-    scanf("%s", any_key);
-    system("cls || clear");
+    pressAnyKeyToContinueFunctionListVersion();
 }
 
 /*
@@ -756,12 +750,6 @@ void productsMaterialsManagementMenu(Products *products, Materials *material, Or
                 break;
             case 2:
                 materialManagementMenu(products, material);
-                break;
-            case 3:
-                loadProductMaterials(products, material);
-                break;
-            case 4:
-                saveProductMaterials(products, material);
                 break;
             case 0:
                 break;

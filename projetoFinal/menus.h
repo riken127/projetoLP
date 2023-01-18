@@ -16,8 +16,14 @@
 #include "products.h"
 #include "production.h"
 
+void pressAnyKeyToContinueFunction();
+void pressAnyKeyToContinueFunctionListVersion();
 void adminMenu(Customers *customer, Orders **order, Products **product, Materials **material);
 void clientMenu(Customers *customer, Products **product, Orders **order);
+void importMenu(Customers *customer, Orders **order,
+        Products **product, Materials **material);
+void exportMenu(Customers *customer, Orders **order,
+        Products **product, Materials **material);
 void mainMenu(Customers *customer, Products **product, Orders **order, Materials **material);
 
 #endif //PROJECT_MENUS_H

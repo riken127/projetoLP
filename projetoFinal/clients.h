@@ -22,7 +22,7 @@
 #define MAX_VERIFY_CHARS 50
 
 #define MSG_CUSTOMER_MANAGEMENT_MENU                                           \
-  "\n\t\t\t========= Customer Management Menu =========\n\n\t\t\t[1] - Record.\n\t\t\t[2] - Edit.\n\t\t\t[3] - Delete.\n\t\t\t[4] - List.\n\t\t\t[5] - Export file.\n\t\t\t[6] - Import file.\n\t\t\t[0] - Quit.\n\t\t\t____________________________________________"
+  "\n\t\t\t========= Customer Management Menu =========\n\n\t\t\t[1] - Record.\n\t\t\t[2] - Edit.\n\t\t\t[3] - Delete.\n\t\t\t[4] - List.\n\t\t\t[0] - Quit.\n\t\t\t____________________________________________"
 
 #define MSG_CHANGE_CUSTOMER_DATA "\n\t\t\t========= Edit =========\n\n\t\t\t[1] - Name\n\t\t\t[2] - Adress\n\t\t\t[3] - Nif\n\t\t\t[4] - Country.\n\t\t\t[0] - Quit.\n\t\t\t________________________"
 #define MSG_CUSTOMER_NAME "\t\t\tName - "
@@ -35,7 +35,7 @@
 
 #define CLIENT_ID_MSG "\n\t\t\tType the desired client id - "
 
-#define MSG_ERROR_MESSAGE "\n\t\t\t========== ERROR MESSAGE ==========\n\n\t\t\tThe given value is out of reach\n\t\t\t___________________________________"
+#define MSG_ERROR_MESSAGE "\n\t\t\t========== ERROR MESSAGE ==========\n\n\t\t\tThe given value is out of reach"
 
 #define YES_OR_NO_MESSAGE_RECORD "\t\t\tDo you want to add another record?[y/n] - "
 

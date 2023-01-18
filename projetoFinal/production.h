@@ -25,10 +25,11 @@
 Date askDate();
 void listRankClients();
 void listRankProducts();
-void listRankMaterials();
-void list4();
-void list5();
-void listMenu(Materials *material, Orders *order, Products *product, Date *date);
+void exportRankedMaterials();
+void listRankMaterials(Materials *material, Orders *order, Products *product, Date date);
+void avgMaterialPerProduct();
+void quantityPerOrder();
+void listMenu(Materials *material, Orders *order, Products *product, Date date);
 void listMaterials(Materials *material, Orders *order, Products *product);
 void productionManagementMenu(Orders **order, Materials **material, Products **product);
 void errorMessage(char message[]);

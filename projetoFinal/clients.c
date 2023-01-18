@@ -7,18 +7,16 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
 /*
  * Bellow function appears when an error appears, it receives the error message
  * as a parameter, and then waits for the user to press a key, if so, the screen is cleaned
  * and the function ends.
  */
 void errorMessage(char message[]) {
-    char any_key[20];
     system("cls || clear");
     puts(message);
-    printf("\t\t\tPress any key to exit ");
-    scanf("%s", any_key);
-    system("cls || clear");
+    pressAnyKeyToContinueFunction();
 }
 
 /*
@@ -226,7 +224,7 @@ void recordCustomers(Customers *customer) {
         nif = customerNif();
 
         printf("\t\t\t__________________________________\n");
-        customer->customers = (Customer *)realloc(customer->customers, sizeof(Customer)* (customer->counter + 1));
+        customer->customers = (Customer *) realloc(customer->customers, sizeof (Customer)* (customer->counter + 1));
 
         saveCustomer(name, address, nif, country, customerId(customer->counter),
                 *(&customer), customer->counter);
@@ -281,6 +279,7 @@ void changeCustomerData(Customers *customer, int pos, int id) {
 
     saveCustomer(name, address, nif, country, id, *(&customer), pos);
 }
+
 int verifyCustomerOrders(int nif, Orders *orders) {
     int i, j;
     for (i = 0; i < orders->counter; i++) {
@@ -291,6 +290,7 @@ int verifyCustomerOrders(int nif, Orders *orders) {
 
     return 0;
 }
+
 /*
  * The bellow function deletes a user in the struct array. It receives the struct and
  * the amount of users by parameter then asks the user for an integer and loops
@@ -299,7 +299,7 @@ int verifyCustomerOrders(int nif, Orders *orders) {
  */
 
 int deleteCustomers(Customers *customer, Orders *orders) {
-    int id, i, verify,verifyOrders;
+    int id, i, verify, verifyOrders;
     do {
         printf(CLIENT_ID_MSG);
         scanf("%d", &id);
@@ -311,27 +311,27 @@ int deleteCustomers(Customers *customer, Orders *orders) {
                 errorMessage(MSG_ERROR_MESSAGE);
             } else {
                 for (i = 0; i < *(&customer->counter); i++) {
-                        if (*(&customer->customers[i].id) == id) {
-                            verifyOrders = verifyCustomerOrders(customer->customers[i].nif, orders);
-                            if (verifyOrders == 0) {
-                                *(&customer->customers[i].id) = *(&customer->customers[i + 1].id);
-                                strcpy(*(&customer->customers[i].name),
-                                       *(&customer->customers[i + 1].name));
-                                strcpy(*(&customer->customers[i].address),
-                                       *(&customer->customers[i + 1].address));
-                                *(&customer->customers[i].nif) = *(&customer->customers[i + 1].nif);
-                                strcpy(*(&customer->customers[i].country),
-                                       *(&customer->customers[i + 1].country));
-                                *(&customer->customers[i].state) = *(&customer->customers[i + 1].state);
-                            }else{
-                                *(&customer->customers[i].state) = 0;
+                    if (*(&customer->customers[i].id) == id) {
+                        verifyOrders = verifyCustomerOrders(customer->customers[i].nif, orders);
+                        if (verifyOrders == 0) {
+                            *(&customer->customers[i].id) = *(&customer->customers[i + 1].id);
+                            strcpy(*(&customer->customers[i].name),
+                                    *(&customer->customers[i + 1].name));
+                            strcpy(*(&customer->customers[i].address),
+                                    *(&customer->customers[i + 1].address));
+                            *(&customer->customers[i].nif) = *(&customer->customers[i + 1].nif);
+                            strcpy(*(&customer->customers[i].country),
+                                    *(&customer->customers[i + 1].country));
+                            *(&customer->customers[i].state) = *(&customer->customers[i + 1].state);
+                        } else {
+                            *(&customer->customers[i].state) = 0;
 
-                            }
                         }
                     }
                 }
-
             }
+
+        }
 
     } while (verify != 1);
     system("cls || clear");
@@ -349,7 +349,6 @@ int deleteCustomers(Customers *customer, Orders *orders) {
  */
 void listCustomers(Customers *customer) {
     int i;
-    char any_key[20];
     if (customer->counter == 0) {
         printf("\n\t\t\tNo customers were found\n\t\t\t__________________________________");
     } else {
@@ -365,9 +364,7 @@ void listCustomers(Customers *customer) {
             printf("\n\t\t\t__________________________________");
         }
     }
-    printf("\n\t\t\tPress any key to exit ");
-    scanf("%s", any_key);
-    system("cls || clear");
+    pressAnyKeyToContinueFunctionListVersion();
 }
 
 /*
@@ -377,24 +374,26 @@ void listCustomers(Customers *customer) {
 void exportCustomers(Customers *customer) {
     FILE *fp;
     int i;
-    char fn[100];//TODO
+    char fn[100];
     askFileName(fn);
     fp = fopen(fn, "w");
     if (fp == NULL) {
         printf(ERROR_IN_WRITING_CUSTOMERS);
-        exit(EXIT_FAILURE);
-    }
-    for (i = 0; i < customer->counter; i++) {
+        pressAnyKeyToContinueFunction();
+    } else {
+        for (i = 0; i < customer->counter; i++) {
 
-        fprintf(fp, "%s,%s,%d,%s,%d\n",
-                customer->customers[i].name,
-                customer->customers[i].address,
-                customer->customers[i].nif,
-                customer->customers[i].country,
-                customer->customers[i].state);
+            fprintf(fp, "%s,%s,%d,%s,%d\n",
+                    customer->customers[i].name,
+                    customer->customers[i].address,
+                    customer->customers[i].nif,
+                    customer->customers[i].country,
+                    customer->customers[i].state);
+        }
+        fclose(fp);
+        printf(SUCCESS_IN_WRITING_CUSTOMERS);
+        pressAnyKeyToContinueFunction();
     }
-    fclose(fp);
-    printf(SUCCESS_IN_WRITING_CUSTOMERS);
 }
 
 /*
@@ -410,9 +409,10 @@ void importCustomers(Customers *customer) {
     fp = fopen(fn, "r");
     if (fp == NULL) {
         printf(ERROR_IN_WRITING_CUSTOMERS);
+        pressAnyKeyToContinueFunction();
     } else {
         while (fgets(buff, 1024, fp) != NULL) {
-            customer->customers = (Customer*) realloc(customer->customers, sizeof(Customer) * (customer->counter + 1));
+            customer->customers = (Customer*) realloc(customer->customers, sizeof (Customer) * (customer->counter + 1));
 
             customer->customers[customer->counter].id = (customer->counter + 1);
             sp = strtok(buff, ",");
@@ -429,6 +429,7 @@ void importCustomers(Customers *customer) {
         }
         fclose(fp);
         printf(SUCCESS_IN_IMPORTING_CUSTOMERS);
+        pressAnyKeyToContinueFunction();
     }
 }
 
@@ -439,7 +440,7 @@ void importCustomers(Customers *customer) {
 void customerManagementMenu(Customers *customer, Orders *orders) {
     int option;
     do {
-        option = menuRead(MSG_CUSTOMER_MANAGEMENT_MENU, 0, 6);
+        option = menuRead(MSG_CUSTOMER_MANAGEMENT_MENU, 0, 4);
 
         switch (option) {
             case 0:
@@ -455,12 +456,6 @@ void customerManagementMenu(Customers *customer, Orders *orders) {
                 break;
             case 4:
                 listCustomers(customer);
-                break;
-            case 5:
-                exportCustomers(customer);
-                break;
-            case 6:
-                importCustomers(customer);
                 break;
         }
     } while (option != 0);

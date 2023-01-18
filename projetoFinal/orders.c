@@ -3,22 +3,18 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+
 int verifyExistenceOfClientesAndProducts(Customers *customer, Products *product) {
-    char any_key[20];
     if (customer->counter != 0) {
         if (product->counter != 0) {
             return 1;
         } else {
-            printf("\n\t\t\tNo products were found\n\t\t\t__________________________________");
-            printf("\n\t\t\tPress any key to exit ");
-            scanf("%s", any_key);
-            system("cls || clear");
+            printf("\n\t\t\tNo products were found");
+            pressAnyKeyToContinueFunction();
         }
     } else {
-        printf("\n\t\t\tNo clients were found\n\t\t\t__________________________________");
-        printf("\n\t\t\tPress any key to exit ");
-        scanf("%s", any_key);
-        system("cls || clear");
+        printf("\n\t\t\tNo clients were found");
+        pressAnyKeyToContinueFunction();
     }
     return 0;
 }
@@ -182,7 +178,6 @@ void doOrder(Customers *customer, Products *product, Orders * order) {
  */
 void listOrders(Orders *order) {
     int i, j;
-    char any_key[20];
     if (order->counter != 0) {
         printf("\n\n\t\t\tList Of Orders\n\t\t\t__________________________________");
         for (i = 0; i < order->counter; i++) {
@@ -195,14 +190,10 @@ void listOrders(Orders *order) {
             }
             printf("\t\t\t__________________________________");
         }
-        printf("\n\t\t\tPress any key to exit ");
-        scanf("%s", any_key);
-        system("cls || clear");
+        pressAnyKeyToContinueFunctionListVersion();
     } else {
-        printf("\n\t\t\tNo orders were found\n\t\t\t__________________________________");
-        printf("\n\t\t\tPress any key to exit ");
-        scanf("%s", any_key);
-        system("cls || clear");
+        printf("\n\t\t\tNo orders were found");
+        pressAnyKeyToContinueFunctionListVersion();
     }
 }
 
