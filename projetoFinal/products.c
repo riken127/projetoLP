@@ -228,6 +228,7 @@ void listProduct(Products *product) {
             printf("\n\t\t\tName            : %s", product->product[i].name);
             printf("\n\t\t\tPrice           : %f", product->product[i].price);
             printf("\n\t\t\tDimensions      : %dx%dx%d", product->product[i].dimension.height, product->product[i].dimension.lenght, product->product[i].dimension.width);
+            printf("\n\t\t\tState     : %s", product->product[i].state == 1 ? "Active" : "Inactive");
             printf("\n\t\t\t__________________________________\n");
             for (j = 0; j < product->product[i].line_product_size; j++) {
                 printf("\n\t\t\tMaterial Id - %s\n\t\t\tQuantity - %d\n", product->product[i].line_product[j].code,
@@ -270,6 +271,7 @@ void saveProductMaterials(Products *product, Materials *material) {
         fwrite(&product->product[i].dimension.height, sizeof (int), 1, fp);
         fwrite(&product->product[i].dimension.lenght, sizeof (int), 1, fp);
         fwrite(&product->product[i].dimension.width, sizeof (int), 1, fp);
+        fread(&product->product[i].state, sizeof(int), 1, fp);
         i++;
     } while (i < product->counter);
 
@@ -323,6 +325,7 @@ void loadProductMaterials(Products *product, Materials *material) {
         fread(&product->product[product->counter].dimension.height, sizeof (int), 1, fp);
         fread(&product->product[product->counter].dimension.lenght, sizeof (int), 1, fp);
         fread(&product->product[product->counter].dimension.width, sizeof (int), 1, fp);
+        fread(&product->product[product->counter].state, sizeof(int), 1, fp);
         product->counter++;
     }
     for (i = 0; i < c; i++) {
@@ -498,7 +501,17 @@ void saveProductChanges(Product product, Products *products, int pos) {
     products->product[pos].price = product.price;
     products->product[pos].dimension = product.dimension;
 }
-
+int verifyProductOrders(char code[COD_PRODUCT_SIZE], Orders *orders){
+    int i, j;
+    for (i = 0; i < orders->counter; i++){
+        for (j = 0; j < orders->order[i].line_order_size; j++){
+           if (strcmp(orders->order[i].line_order[j].code, code) == 0){
+               return 1;
+           }
+        }
+    }
+    return 0;
+}
 /*
  * The bellow function deletes a product, it does this by firstly getting the product's struct,
  * then the product code, which indicates what product the user wishes to delete,
@@ -517,21 +530,28 @@ void deleteProduct(Products *product, char code[COD_PRODUCT_SIZE], Orders *order
 
     for (i = 0; i < product->counter; i++) {
         if (strcmp(product->product[i].cod_Produto, code) == 0) {
-            strcpy(product->product[i].cod_Produto,
-                    product->product[i + 1].cod_Produto);
-            strcpy(product->product[i].name,
-                    product->product[i + 1].name);
-            product->product[i].price = product->product[i + 1].price;
-            product->product[i].dimension = product->product[i + 1].dimension;
-            product->product[i].line_product_size = product->product[i + 1].line_product_size;
-            product->product[i].line_product = (LineProduct *) realloc(product->product[i].line_product, sizeof (LineProduct) * product->product[i + 1].line_product_size);
-            for (j = 0; j < product->product[i + 1].line_product_size; j++) {
-                strcpy(product->product[i].line_product[j].code, product->product[i + 1].line_product[j].code);
-                product->product[i].line_product[j].quantity = product->product[i + 1].line_product[j].quantity;
+            if (!verifyProductOrders(code, orders)) {
+                strcpy(product->product[i].cod_Produto,
+                       product->product[i + 1].cod_Produto);
+                strcpy(product->product[i].name,
+                       product->product[i + 1].name);
+                product->product[i].price = product->product[i + 1].price;
+                product->product[i].dimension = product->product[i + 1].dimension;
+                product->product[i].line_product_size = product->product[i + 1].line_product_size;
+                product->product[i].line_product = (LineProduct *) realloc(product->product[i].line_product,
+                                                                           sizeof(LineProduct) *
+                                                                           product->product[i + 1].line_product_size);
+                for (j = 0; j < product->product[i + 1].line_product_size; j++) {
+                    strcpy(product->product[i].line_product[j].code, product->product[i + 1].line_product[j].code);
+                    product->product[i].line_product[j].quantity = product->product[i + 1].line_product[j].quantity;
+                }
+                product->counter--;
+            }else {
+                product->product[i].state = 0;
             }
         }
     }
-    product->counter--;
+
     printf("\n\t\t\tPRODUCT DELETED SUCCESSFULLY");
 }
 
@@ -636,7 +656,7 @@ void editProduct(Materials *material, Products *product, Orders *orders) {
     char code[COD_PRODUCT_SIZE];
     if (product->counter != 0) {
         printf("\n\t\t\tList Of Products\n\t\t\t_______________________________________");
-        for (i = 0; i < material->counter; i++) {
+        for (i = 0; i < product->counter; i++) {
             printf("\n\n\t\t\tProduct Id      : %s", product->product[i].cod_Produto);
             printf("\n\t\t\tName            : %s", product->product[i].name);
             printf("\n\t\t\tPrice           : %f", product->product[i].price);

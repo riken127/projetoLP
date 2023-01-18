@@ -226,6 +226,8 @@ void recordCustomers(Customers *customer) {
         nif = customerNif();
 
         printf("\t\t\t__________________________________\n");
+        customer->customers = (Customer *)realloc(customer->customers, sizeof(Customer)* (customer->counter + 1));
+
         saveCustomer(name, address, nif, country, customerId(customer->counter),
                 *(&customer), customer->counter);
         customer->counter++;
@@ -410,8 +412,7 @@ void importCustomers(Customers *customer) {
         printf(ERROR_IN_WRITING_CUSTOMERS);
     } else {
         while (fgets(buff, 1024, fp) != NULL) {
-
-            customer->customers = (Customer*) realloc(customer->customers, sizeof (Customer) * (customer->counter + 1));
+            customer->customers = (Customer*) realloc(customer->customers, sizeof(Customer) * (customer->counter + 1));
 
             customer->customers[customer->counter].id = (customer->counter + 1);
             sp = strtok(buff, ",");

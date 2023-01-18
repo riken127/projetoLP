@@ -35,10 +35,10 @@ void listRankProducts(){
 void listRankMaterials(){
     
 }
-void list4(){
+void avgMaterialPerProduct(Orders *orders, Date date){
     
 }
-void list5(){
+void quantityPerOrder(){
     
 }
 
