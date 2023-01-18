@@ -28,7 +28,7 @@ void listRankProducts();
 void listRankMaterials();
 void list4();
 void list5();
-void listMenu();
+void listMenu(Materials *material, Orders *order, Products *product, Date *date);
 void listMaterials(Materials *material, Orders *order, Products *product);
 void productionManagementMenu(Orders **order, Materials **material, Products **product);
 void errorMessage(char message[]);

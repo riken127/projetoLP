@@ -18,9 +18,11 @@ Date askDate() {
                 &insertedDate.day,
                 &insertedDate.month,
                 &insertedDate.year);
+        system("cls || clear");
     } while (insertedDate.day < MIN_DAY || insertedDate.day > MAX_DAY ||
             insertedDate.month < MIN_MONTH || insertedDate.month > MAX_MONTH ||
             insertedDate.year < MIN_YEAR);
+    
     return insertedDate;
 }
 
@@ -40,7 +42,7 @@ void list5(){
     
 }
 
-void listMenu() {
+void listMenu(Materials *material, Orders *order, Products *product, Date *date) {
     int option;
 
     do {
@@ -96,9 +98,9 @@ void listMaterials(Materials *material, Orders *order, Products *product) {
                                 for (d = 0; d < material->counter; d++) {
                                     if (strcmp(material->material[d].cod_Material, product->product[k].line_product[f].code) == 0) {
                                         printf("\n\n\t\t\tMaterial Code   : %s", material->material[d].cod_Material);
-                                        printf("\n\t\t\tDescription   : %s", material->material[d].description);
-                                        printf("\n\t\t\tQuantity      : %d", order->order[i].line_order[j].quantity * product->product[k].line_product[f].quantity);
-                                        printf("\n\t\t\tUnit          : %d", material->material[k].unit);
+                                        printf("\n\t\t\tDescription     : %s", material->material[d].description);
+                                        printf("\n\t\t\tQuantity        : %d", order->order[i].line_order[j].quantity * product->product[k].line_product[f].quantity);
+                                        printf("\n\t\t\tUnit            : %d", material->material[k].unit);
                                         printf("\n\t\t\t__________________________________");
                                     }
                                 }
@@ -106,6 +108,7 @@ void listMaterials(Materials *material, Orders *order, Products *product) {
                         }
                     }
                 }
+                listMenu(*(&material), *(&order), *(&product), date);
             } else {
                 errorMessage(NO_ORDERS_FOUND_TO_THAT_DATE_MESSAGE);
             }
@@ -113,7 +116,6 @@ void listMaterials(Materials *material, Orders *order, Products *product) {
     } else {
         errorMessage(NO_ORDERS_FOUND_MESSAGE);
     }
-    listMenu();
 }
 
 /*
