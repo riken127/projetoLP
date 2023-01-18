@@ -271,6 +271,7 @@ void saveProductMaterials(Products *product, Materials *material) {
         fwrite(&product->product[i].dimension.height, sizeof (int), 1, fp);
         fwrite(&product->product[i].dimension.lenght, sizeof (int), 1, fp);
         fwrite(&product->product[i].dimension.width, sizeof (int), 1, fp);
+        fread(&product->product[i].state, sizeof(int), 1, fp);
         i++;
     } while (i < product->counter);
 
@@ -324,6 +325,7 @@ void loadProductMaterials(Products *product, Materials *material) {
         fread(&product->product[product->counter].dimension.height, sizeof (int), 1, fp);
         fread(&product->product[product->counter].dimension.lenght, sizeof (int), 1, fp);
         fread(&product->product[product->counter].dimension.width, sizeof (int), 1, fp);
+        fread(&product->product[product->counter].state, sizeof(int), 1, fp);
         product->counter++;
     }
     for (i = 0; i < c; i++) {
