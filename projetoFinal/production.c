@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include <time.h>
 #include <string.h>
+
 /*
  * Bellow function ask the user for a date and verifies if the date is valid, if so then the date
  * is returned.
@@ -22,6 +23,51 @@ Date askDate() {
             insertedDate.year < MIN_YEAR);
     return insertedDate;
 }
+
+void listRankClients(){
+    
+}
+void listRankProducts(){
+    
+}
+void listRankMaterials(){
+    
+}
+void list4(){
+    
+}
+void list5(){
+    
+}
+
+void listMenu() {
+    int option;
+
+    do {
+        option = menuRead(MSG_LIST_MENU, 0, 5);
+
+        switch (option) {
+            case 0:
+                break;
+            case 1:
+                listRankClients();
+                break;
+            case 2:
+                listRankProducts();
+                break;
+            case 3:
+                listRankMaterials();
+                break;
+            case 4:
+                list4();
+                break;
+            case 5:
+                list5();
+                break;
+        }
+    } while (option != 0);
+}
+
 /*
  * Bellow function lists all needed materials in a range of 5 days, firstly it verifies if
  * the order->counter is equal to zero, if so a message appear saying that no orders where
@@ -33,47 +79,43 @@ Date askDate() {
  */
 void listMaterials(Materials *material, Orders *order, Products *product) {
     Date date;
-    int i, j, k, d, f, nif;
+    int i, j, k, d, f;
     if (order->counter != 0) {
         date = askDate();
-        nif = customerNif();
-        struct tm t = { .tm_year = date.year, .tm_mon = date.month, .tm_mday = date.day};
+        struct tm t = {.tm_year = date.year, .tm_mon = date.month, .tm_mday = date.day};
         t.tm_mday += 5;
         mktime(&t);
+        printf("\n\t\t\tList Of Materials for %d-%d-%d\n\t\t\t__________________________________", date.day, date.month, date.year);
         for (i = 0; i < order->counter; i++) {
-            printf("%d %d",order->order[i].nif, nif);
-            if ((order->order[i].order_date.day >= date.day && order->order[i].order_date.month >= date.month && order->order[i].order_date.year >= date.year ||
-                order->order[i].order_date.day <= t.tm_mday && order->order[i].order_date.month <= t.tm_mon && order->order[i].order_date.year <= t.tm_year) &&
-                order->order[i].nif == nif) {
-                printf("\n\t\t\tOrder Number O%d", (i + 1));
-                printf("\n\t\t\tList Of Materials for %d-%d-%d\n\t\t\t__________________________________", date.day, date.month, date.year);
+            if (order->order[i].order_date.day >= date.day && order->order[i].order_date.month >= date.month && order->order[i].order_date.year >= date.year ||
+                    order->order[i].order_date.day <= t.tm_mday && order->order[i].order_date.month <= t.tm_mon && order->order[i].order_date.year <= t.tm_year) {
                 for (j = 0; j < order->order[i].line_order_size; j++) {
-                    for(k = 0; k < product->counter; k++) {
+                    for (k = 0; k < product->counter; k++) {
                         if (strcmp(order->order[i].line_order[j].code, product->product[k].cod_Produto) == 0) {
                             for (f = 0; f < product->product[k].line_product_size; ++f) {
-                                for (d = 0; d < material->counter; d++){
-                                    if (strcmp(material->material[d].cod_Material, product->product[k].line_product[f].code) == 0){
+                                for (d = 0; d < material->counter; d++) {
+                                    if (strcmp(material->material[d].cod_Material, product->product[k].line_product[f].code) == 0) {
                                         printf("\n\n\t\t\tMaterial Code   : %s", material->material[d].cod_Material);
                                         printf("\n\t\t\tDescription   : %s", material->material[d].description);
-                                        printf("\n\t\t\tQuantity      : %d",  order->order[i].line_order[j].quantity*product->product[k].line_product[f].quantity);
+                                        printf("\n\t\t\tQuantity      : %d", order->order[i].line_order[j].quantity * product->product[k].line_product[f].quantity);
                                         printf("\n\t\t\tUnit          : %d", material->material[k].unit);
                                         printf("\n\t\t\t__________________________________");
                                     }
                                 }
                             }
-
                         }
                     }
                 }
-            }
-            else {
+            } else {
                 errorMessage(NO_ORDERS_FOUND_TO_THAT_DATE_MESSAGE);
             }
         }
     } else {
         errorMessage(NO_ORDERS_FOUND_MESSAGE);
     }
+    listMenu();
 }
+
 /*
  * Bellow menu is where the listMaterials function can be found.
  */
