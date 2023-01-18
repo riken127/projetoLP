@@ -177,6 +177,7 @@ void newProduct(Products *product, Materials *material) {
             productName(product->product[product->counter].name);
             productPrice(&product->product[product->counter].price);
             productDimension(&product->product[product->counter].dimension);
+            product->product[product->counter].state = 1;
             printf("\t\t\t__________________________________\n");
             i = 0;
             product->product[product->counter].line_product = (LineProduct *) malloc(sizeof (LineProduct) * 1);
@@ -511,7 +512,7 @@ void saveProductChanges(Product product, Products *products, int pos) {
  *                  if true?
  *                      counter --
  */
-void deleteProduct(Products *product, char code[COD_PRODUCT_SIZE]) {
+void deleteProduct(Products *product, char code[COD_PRODUCT_SIZE], Orders *orders) {
     int i, j;
 
     for (i = 0; i < product->counter; i++) {
@@ -577,7 +578,7 @@ void addMaterialLineProduct(Materials *material, Products *product, int position
  *      ->change Dimension (productDimension),
  *      ->change Materials (addMaterialLineProduct) <- another menu;
  */
-void changeProductData(Products *products, int pos, char code[COD_PRODUCT_SIZE], Materials *material) {
+void changeProductData(Products *products, int pos, char code[COD_PRODUCT_SIZE], Materials *material, Orders *orders) {
     int option;
     Product product;
     strcpy(product.name, products->product[pos].name);
@@ -613,7 +614,7 @@ void changeProductData(Products *products, int pos, char code[COD_PRODUCT_SIZE],
                 system("cls || clear");
                 break;
             case 4:
-                deleteProduct(products, code);
+                deleteProduct(products, code, orders);
                 option = 0;
                 break;
             case 5:
@@ -630,7 +631,7 @@ void changeProductData(Products *products, int pos, char code[COD_PRODUCT_SIZE],
  * the code written by the user, if not found, an error message appears,
  * if found, the user is redirected to the menu (changeProductData).
  */
-void editProduct(Materials *material, Products *product) {
+void editProduct(Materials *material, Products *product, Orders *orders) {
     int i, count = 0, position;
     char code[COD_PRODUCT_SIZE];
     if (product->counter != 0) {
@@ -651,7 +652,7 @@ void editProduct(Materials *material, Products *product) {
         } else {
             for (i = 0; i < product->counter; i++) {
                 if (strcmp(code, product->product[i].cod_Produto) == 0) {
-                    changeProductData(product, i, code, material);
+                    changeProductData(product, i, code, material, orders);
                 } else {
                     count++;
                     continue;
@@ -669,7 +670,7 @@ void editProduct(Materials *material, Products *product) {
 /*
  * The bellow menu is responsible to any data manipulation related to products.
  */
-void productsManagementMenu(Products *products, Materials *material) {
+void productsManagementMenu(Products *products, Materials *material, Orders *orders) {
     int option;
 
     do {
@@ -680,7 +681,7 @@ void productsManagementMenu(Products *products, Materials *material) {
                 newProduct(products, material);
                 break;
             case 2:
-                editProduct(material, products);
+                editProduct(material, products, orders);
                 break;
             case 3:
                 listProduct(products);
@@ -721,7 +722,7 @@ void materialManagementMenu(Products *products, Materials *material) {
 /*
  * The bellow menu is the primary product/material menu, this menu is divided into other
  */
-void ProductsMaterialsManagementMenu(Products *products, Materials *material) {
+void productsMaterialsManagementMenu(Products *products, Materials *material, Orders *orders) {
     int option;
 
     do {
@@ -731,7 +732,7 @@ void ProductsMaterialsManagementMenu(Products *products, Materials *material) {
             default:
                 break;
             case 1:
-                productsManagementMenu(products, material);
+                productsManagementMenu(products, material, orders);
                 break;
             case 2:
                 materialManagementMenu(products, material);

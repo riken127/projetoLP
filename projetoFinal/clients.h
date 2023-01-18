@@ -7,7 +7,6 @@
  * 
  *  Biblioteca com todas as funções sobre os clientes.
  */
-
 #ifndef PROJETOLP_CLIENTS_H
 #define PROJETOLP_CLIENTS_H
 
@@ -75,9 +74,7 @@ void saveCustomer(char name[], char address[], int nif, char country[], int id,
 void recordCustomers(Customers *customer);
 void changeCustomerData(Customers *customer, int pos, int id);
 void editCustomers(Customers *customer);
-int deleteCustomers(Customers *customer);
 void listCustomers(Customers *customer);
 void exportCustomers(Customers *customer);
 void importCustomers(Customers *customer);
-void customerManagementMenu(Customers *customer);
 #endif // PROJETOLP_CLIENTS_H

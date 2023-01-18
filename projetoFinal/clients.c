@@ -279,7 +279,16 @@ void changeCustomerData(Customers *customer, int pos, int id) {
 
     saveCustomer(name, address, nif, country, id, *(&customer), pos);
 }
+int verifyCustomerOrders(int nif, Orders *orders) {
+    int i, j;
+    for (i = 0; i < orders->counter; i++) {
+        if (orders->order[i].nif == nif) {
+            return 1;
+        }
+    }
 
+    return 0;
+}
 /*
  * The bellow function deletes a user in the struct array. It receives the struct and
  * the amount of users by parameter then asks the user for an integer and loops
@@ -287,7 +296,7 @@ void changeCustomerData(Customers *customer, int pos, int id) {
  * not an error message is displayed.
  */
 
-int deleteCustomers(Customers *customer) {
+int deleteCustomers(Customers *customer, Orders *orders) {
     int id, i, verify,verifyOrders;
     do {
         printf(CLIENT_ID_MSG);
@@ -300,30 +309,31 @@ int deleteCustomers(Customers *customer) {
                 errorMessage(MSG_ERROR_MESSAGE);
             } else {
                 for (i = 0; i < *(&customer->counter); i++) {
-                    if (*(&customer->customers[i].id) == id) {
-                        //verifyOrders = verifyCustomerOrders(*(&customer->customers[i].nif));
-                        //if (verifyOrders == 0) {
-                            *(&customer->customers[i].id) = *(&customer->customers[i + 1].id);
-                            strcpy(*(&customer->customers[i].name),
-                                    *(&customer->customers[i + 1].name));
-                            strcpy(*(&customer->customers[i].address),
-                                    *(&customer->customers[i + 1].address));
-                            *(&customer->customers[i].nif) = *(&customer->customers[i + 1].nif);
-                            strcpy(*(&customer->customers[i].country),
-                                    *(&customer->customers[i + 1].country));
-                            *(&customer->customers[i].state) = *(&customer->customers[i + 1].state);
-                        /*}
-                        else{
-                            *(&customer->customers[i].state) = 0;
-                        }*/
+                        if (*(&customer->customers[i].id) == id) {
+                            verifyOrders = verifyCustomerOrders(customer->customers[i].nif, orders);
+                            if (verifyOrders == 0) {
+                                *(&customer->customers[i].id) = *(&customer->customers[i + 1].id);
+                                strcpy(*(&customer->customers[i].name),
+                                       *(&customer->customers[i + 1].name));
+                                strcpy(*(&customer->customers[i].address),
+                                       *(&customer->customers[i + 1].address));
+                                *(&customer->customers[i].nif) = *(&customer->customers[i + 1].nif);
+                                strcpy(*(&customer->customers[i].country),
+                                       *(&customer->customers[i + 1].country));
+                                *(&customer->customers[i].state) = *(&customer->customers[i + 1].state);
+                            }else{
+                                *(&customer->customers[i].state) = 0;
+
+                            }
+                        }
                     }
                 }
 
             }
-        }
+
     } while (verify != 1);
     system("cls || clear");
-    if (id == 0)
+    if (id == 0 || verifyOrders == 1)
         return customer->counter;
 
     else
@@ -425,7 +435,7 @@ void importCustomers(Customers *customer) {
  * The bellow menu manages the customers, it loops until the integer [option] given by
  * the user is equal to zero.
  */
-void customerManagementMenu(Customers *customer) {
+void customerManagementMenu(Customers *customer, Orders *orders) {
     int option;
     do {
         option = menuRead(MSG_CUSTOMER_MANAGEMENT_MENU, 0, 6);
@@ -440,7 +450,7 @@ void customerManagementMenu(Customers *customer) {
                 editCustomers(customer);
                 break;
             case 3:
-                deleteCustomers(customer);
+                deleteCustomers(customer, orders);
                 break;
             case 4:
                 listCustomers(customer);

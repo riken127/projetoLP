@@ -22,12 +22,6 @@ int verifyExistenceOfClientesAndProducts(Customers *customer, Products *product)
     }
     return 0;
 }
-
-int verifyCustomerOrders(int nif){
-    int i;
- 
-    return 0;
-}
 /*
  * Bellow function greets a customer, it receives the customer struct as a parameter
  * and the nif written by the user, and then greets the user by his name.

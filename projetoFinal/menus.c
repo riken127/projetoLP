@@ -27,10 +27,10 @@ void adminMenu(Customers *customer, Orders **order,
             case 0:
                 break;
             case 1:
-                customerManagementMenu(customer);
+                customerManagementMenu(customer, *order);
                 break;
             case 2:
-                ProductsMaterialsManagementMenu(*product, *material);
+                productsMaterialsManagementMenu(*product, *material, *order);
                 break;
             case 3:
                 productionManagementMenu(order, material, product);

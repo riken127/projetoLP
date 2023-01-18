@@ -10,7 +10,6 @@
 
 #ifndef PROJETO_PRODUCTS_H
 #define PROJETO_PRODUCTS_H
-
 #define MAX_MATERIALS 20
 #define MAX_QUANTITY 20
 //macro definition
@@ -94,6 +93,7 @@ typedef struct {
     Dimensions dimension;
     LineProduct  *line_product;
     int line_product_size;
+    int state;
 } Product;
 typedef struct {
     Product *product;
@@ -122,15 +122,15 @@ void saveProductMaterials(Products *products, Materials *material);//
 void loadProductMaterials(Products *product, Materials *material);
 int findMaterialPosition(Materials *material, char code[COD_MATERIAL_SIZE]);//
 void saveMaterialChanges(Materials *material, int position, Material current);//
-void deleteMaterial(char code[COD_MATERIAL_SIZE], Materials *material, Products *product);//
+//void deleteMaterial(char code[COD_MATERIAL_SIZE], Materials *material, Products *product, Orders *orders);//
 void editMaterial(Materials *material, Products *product);
 void saveProductChanges(Product product, Products *products, int pos);//
-void deleteProduct(Products *product, char code[COD_PRODUCT_SIZE]);
+//void deleteProduct(Products *product, char code[COD_PRODUCT_SIZE], Orders *orders);
 void addMaterialLineProduct(Materials *material, Products *product, int position);
-void changeProductData(Products *products, int pos, char code[COD_PRODUCT_SIZE], Materials *material);
-void editProduct(Materials *material, Products *products);//
+//void changeProductData(Products *products, int pos, char code[COD_PRODUCT_SIZE], Materials *material, Orders *orders);
+//void editProduct(Materials *material, Products *products, Orders *orders);//
 int menuRead(char message[], int min, int max);
-void productsManagementMenu(Products *products, Materials *material);
+//void productsManagementMenu(Products *products, Materials *material, Orders *orders);
 void materialManagementMenu(Products *products, Materials *material);
-void ProductsMaterialsManagementMenu(Products *products, Materials *material);
+//void productsMaterialsManagementMenu(Products *products, Materials *material, Orders *orders);
 #endif //PROJETO_PRODUCTS_H

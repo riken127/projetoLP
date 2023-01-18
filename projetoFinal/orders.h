@@ -80,7 +80,7 @@ typedef struct {
 
 //function definition
 int verifyExistenceOfClientesAndProducts(Customers *customer, Products *product);
-int verifyCustomerOrders(int nif);
+int verifyCustomerOrders(int nif, Orders *orders);
 void greetCustomer(Customers *customer, int nif);
 void listAvailableProducts(Products *product);
 int newOrderId(Orders *order);
