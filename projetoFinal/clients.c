@@ -182,7 +182,7 @@ int customerNif() {
  */
 void customerCountry(char country[]) {
     char temp;
-    printf("\n"MSG_CUSTOMER_COUNTRY);
+    printf("\n"MSG_CUSTOMER_COUNTRY); 
     scanf("%c", &temp);
     scanf("%[^\n]", country);
 }
