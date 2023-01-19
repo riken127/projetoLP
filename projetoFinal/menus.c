@@ -95,7 +95,7 @@ void importMenu(Customers *customer, Orders **order,
                 importCustomers(customer);
                 break;
             case 2:
-                //sloadProductMaterials(products, material);
+                loadProductMaterials(*product, *material);
                 break;
             case 3:
                 importOrders(*order);
@@ -118,7 +118,7 @@ void exportMenu(Customers *customer, Orders **order,
                 exportCustomers(customer);
                 break;
             case 2:
-                //saveProductMaterials(products, material);
+                saveProductMaterials(*product, *material);
                 break;
             case 3:
                 exportOrders(*order);
@@ -135,7 +135,6 @@ void exportMenu(Customers *customer, Orders **order,
 void mainMenu(Customers *customer, Products **product,
         Orders **order, Materials **material) {
     int option;
-
     do {
         option = menuRead(MSG_MAIN_MENU, 0, 4);
 
