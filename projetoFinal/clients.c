@@ -8,10 +8,12 @@
 #include <stdlib.h>
 #include <string.h>
 
-/*
- * Bellow function appears when an error appears, it receives the error message
- * as a parameter, and then waits for the user to press a key, if so, the screen is cleaned
- * and the function ends.
+/**
+ * Below function appears when an error appears, it receives the error message
+ * as a parameter, and then waits for the user to press a key, if so, the screen
+ * is cleaned and the function ends.
+ * 
+ * @param message[] Vector which the error message is going to be stored.
  */
 void errorMessage(char message[]) {
     system("cls || clear");
@@ -19,9 +21,14 @@ void errorMessage(char message[]) {
     pressAnyKeyToContinueFunction();
 }
 
-/*
- * Bellow function checks if the given value
+/**
+ * Below function checks if the given value
  * is between two values, if not, the cycle continues.
+ * 
+ * @param min Minimum value of the menu option.
+ * @param max Maximum value of the menu option.
+ * @param message[] Vector that hold the Menu message.
+ * @return option Returns the option that the user has chosen.
  */
 
 int menuRead(char message[], int min, int max) {
@@ -49,9 +56,13 @@ int menuRead(char message[], int min, int max) {
     return option;
 }
 
-/*
- * Bellow function receives a message and depending on the character that was written
- * the value that is returned is different.
+/**
+ * Bellow function receives a message and depending on what the character that was
+ * written the value that is returned is different.
+ * 
+ * @param message[] Confirmation message.
+ * @return 1 if the letter Y is pressed.
+ * @return 2 if the letter N is pressed.
  */
 int yesOrNoFunction(char message[]) {
     char option;
@@ -71,9 +82,15 @@ int yesOrNoFunction(char message[]) {
     }
 }
 
-/*
+/**
  * Bellow function checks for an id in the struct array,
  * if found, returns the value 1, if not, returns the value 0.
+ * 
+ * @param *customer Brings the customers stored in the struct Customers into the
+ * function.
+ * @param requestedId Stores the Id that the customer has requested.
+ * @return count Receives the number that decides if the Id has been successfully
+ * checked, 1 if the Id exits, 0 if not.
  */
 int verifyCustomersId(Customers *customer, int requestedId) {
     int i = 0, count = 0;
@@ -86,11 +103,12 @@ int verifyCustomersId(Customers *customer, int requestedId) {
     return count;
 }
 
-/*
- * Bellow function takes a given name and stores it in the struct array
+/**
+ * Below function takes a given name and stores it in the struct array
  * in the given position. The first scanf makes sure the buffer is clean,
  * the second scanf gets the value given by the user.
- *
+ * 
+ * @param name[] Stores the customers name its given position.
  */
 void customerName(char name[]) {
     char temp;
@@ -99,10 +117,12 @@ void customerName(char name[]) {
     scanf("%[^\n]", name);
 }
 
-/*
- * Bellow function takes a given address and stores it in the struct array
+/**
+ * Below function takes a given address and stores it in the struct array
  * In the given position. The first scanf makes sure the buffer is clean,
  * the second scanf gets the value given by the user.
+ * 
+ * @param adress[] Stores the customers address its given position.
  */
 void customerAddress(char address[]) {
     char temp;
@@ -111,9 +131,12 @@ void customerAddress(char address[]) {
     scanf("%[^\n]", address);
 }
 
-/*
- * Bellow function verifies if the nif is a number and if the number is greater than zero
- * if not, the loop continues, if so the value is returned as an integer
+/**
+ * Below function verifies if the nif is a number and if the number is greater
+ * than zero, if not, the loop continues. If so, the value is returned
+ * as an integer.
+ * 
+ * @return nif Returns the nif as an integer.
  */
 int nifVerify() {
     int nif;
@@ -133,10 +156,13 @@ int nifVerify() {
     return nif;
 }
 
-/*
- * Bellow function takes a given integer and passes the value as an
- * argument to a function that verifies the data, if the written field is an
- * integer greater than zero, the value is returned, if not, the loop continues.
+/**
+ * Below function takes a given integer and passes the value as an
+ * argument to a function that verifies the data (nifVerify function), if the
+ * written field is an integer greater than zero, the value is returned, if not,
+ * the loop continues.
+ * 
+ * @return nif Returns the nif.
  */
 int customerNif() {
     int nif;
@@ -146,10 +172,13 @@ int customerNif() {
     return nif;
 }
 
-/*
- * Bellow function takes a given country name and stores it in the struct array
+/**
+ * Below function takes a given country name and stores it in the struct array
  * in the given position. The first scanf makes sure the buffer is clean,
  * the second scanf gets the value given by the user.
+ * 
+ * @param country[] Receives the empty country vector, to be eventually filled
+ * information.
  */
 void customerCountry(char country[]) {
     char temp;
@@ -159,7 +188,7 @@ void customerCountry(char country[]) {
 }
 
 /*
- * Bellow function creates an id for the user who is beeing created,
+ * Bellow function creates an id for the user who is being created,
  * the given id is equal to the last given id (from the last created user)
  * incremented by one.
  */
