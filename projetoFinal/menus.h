@@ -11,10 +11,7 @@
 #ifndef PROJECT_MENUS_H
 #define PROJECT_MENUS_H
 
-#include "clients.h"
-#include "orders.h"
-#include "products.h"
-#include "production.h"
+#include "general.h"
 
 void pressAnyKeyToContinueFunction();
 void pressAnyKeyToContinueFunctionListVersion();

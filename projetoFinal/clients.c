@@ -12,7 +12,7 @@
  * Below function appears when an error appears, it receives the error message
  * as a parameter, and then waits for the user to press a key, if so, the screen
  * is cleaned and the function ends.
- * 
+ *
  * @param message[] Vector which the error message is going to be stored.
  */
 void errorMessage(char message[]) {
@@ -24,42 +24,18 @@ void errorMessage(char message[]) {
 /**
  * Below function checks if the given value
  * is between two values, if not, the cycle continues.
- * 
+ *
  * @param min Minimum value of the menu option.
  * @param max Maximum value of the menu option.
  * @param message[] Vector that hold the Menu message.
  * @return option Returns the option that the user has chosen.
  */
 
-int menuRead(char message[], int min, int max) {
-    int option = 0;
-    char verify[MAX_VERIFY_CHARS] = "";
-    do {
-        do {
-            puts(message);
-            printf("\t\t\tInsert here - ");
-            scanf("%s", verify);
-            if (strcmp(verify, "0") == 0) {
-                system("cls || clear");
-                return option;
-            }
-            if (!(option = atoi(verify))) {
-                errorMessage(MSG_ERROR_MESSAGE);
-            }
-        } while (!(option = atoi(verify)));
-
-        system("cls || clear");
-        if (option < min || option > max) {
-            errorMessage(MSG_ERROR_MESSAGE);
-        }
-    } while (option < min || option > max);
-    return option;
-}
 
 /**
  * Bellow function receives a message and depending on what the character that was
  * written the value that is returned is different.
- * 
+ *
  * @param message[] Confirmation message.
  * @return 1 if the letter Y is pressed.
  * @return 2 if the letter N is pressed.
@@ -85,7 +61,7 @@ int yesOrNoFunction(char message[]) {
 /**
  * Bellow function checks for an id in the struct array,
  * if found, returns the value 1, if not, returns the value 0.
- * 
+ *
  * @param *customer Brings the customers stored in the struct Customers into the
  * function.
  * @param requestedId Stores the Id that the customer has requested.
@@ -107,7 +83,7 @@ int verifyCustomersId(Customers *customer, int requestedId) {
  * Below function takes a given name and stores it in the struct array
  * in the given position. The first scanf makes sure the buffer is clean,
  * the second scanf gets the value given by the user.
- * 
+ *
  * @param name[] Stores the customers name its given position.
  */
 void customerName(char name[]) {
@@ -121,7 +97,7 @@ void customerName(char name[]) {
  * Below function takes a given address and stores it in the struct array
  * In the given position. The first scanf makes sure the buffer is clean,
  * the second scanf gets the value given by the user.
- * 
+ *
  * @param adress[] Stores the customers address its given position.
  */
 void customerAddress(char address[]) {
@@ -135,7 +111,7 @@ void customerAddress(char address[]) {
  * Below function verifies if the nif is a number and if the number is greater
  * than zero, if not, the loop continues. If so, the value is returned
  * as an integer.
- * 
+ *
  * @return nif Returns the nif as an integer.
  */
 int nifVerify() {
@@ -161,7 +137,7 @@ int nifVerify() {
  * argument to a function that verifies the data (nifVerify function), if the
  * written field is an integer greater than zero, the value is returned, if not,
  * the loop continues.
- * 
+ *
  * @return nif Returns the nif.
  */
 int customerNif() {
@@ -176,13 +152,13 @@ int customerNif() {
  * Below function takes a given country name and stores it in the struct array
  * in the given position. The first scanf makes sure the buffer is clean,
  * the second scanf gets the value given by the user.
- * 
+ *
  * @param country[] Receives the empty country vector, to be eventually filled
  * information.
  */
 void customerCountry(char country[]) {
     char temp;
-    printf("\n"MSG_CUSTOMER_COUNTRY); 
+    printf("\n"MSG_CUSTOMER_COUNTRY);
     scanf("%c", &temp);
     scanf("%[^\n]", country);
 }

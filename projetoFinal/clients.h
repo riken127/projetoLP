@@ -7,20 +7,12 @@
  * 
  *  Biblioteca com todas as funções sobre os clientes.
  */
+
 #ifndef PROJETOLP_CLIENTS_H
 #define PROJETOLP_CLIENTS_H
-
+#include "orders.h"
+#include "general.h"
 //macro definition
-#define INITIAL_CLIENT_SIZE 1
-
-#define MAX_NAME_CHARS 50
-
-#define MAX_ADDRESS_CHARS 50
-
-#define MAX_COUNTRY_CHARS 50
-
-#define MAX_VERIFY_CHARS 50
-
 #define MSG_CUSTOMER_MANAGEMENT_MENU                                           \
   "\n\t\t\t========= Customer Management Menu =========\n\n\t\t\t[1] - Record.\n\t\t\t[2] - Edit.\n\t\t\t[3] - Delete.\n\t\t\t[4] - List.\n\t\t\t[0] - Quit.\n\t\t\t____________________________________________"
 
@@ -35,7 +27,6 @@
 
 #define CLIENT_ID_MSG "\n\t\t\tType the desired client id - "
 
-#define MSG_ERROR_MESSAGE "\n\t\t\t========== ERROR MESSAGE ==========\n\n\t\t\tThe given value is out of reach"
 
 #define YES_OR_NO_MESSAGE_RECORD "\t\t\tDo you want to add another record?[y/n] - "
 
@@ -44,20 +35,7 @@
 #define SUCCESS_IN_IMPORTING_CUSTOMERS "\n\t\t\tCustomer were imported successfully"
 
 #define ERROR_IN_WRITING_CUSTOMERS "\nt\t\t\tAn error has occurred"
-//struct definition
-typedef struct {
-    int id;
-    char name[MAX_NAME_CHARS];
-    char address[MAX_ADDRESS_CHARS];
-    int nif;
-    char country[MAX_COUNTRY_CHARS];
-    int state;
-} Customer;
 
-typedef struct {
-    int counter;
-    Customer *customers;
-} Customers;
 //function definition
 void errorMessage(char message[]);
 int yesOrNoFunction(char message[]);
@@ -75,6 +53,7 @@ void recordCustomers(Customers *customer);
 void changeCustomerData(Customers *customer, int pos, int id);
 void editCustomers(Customers *customer);
 void listCustomers(Customers *customer);
+void customerManagementMenu(Customers *customer, Orders *order);
 void exportCustomers(Customers *customer);
 void importCustomers(Customers *customer);
 #endif // PROJETOLP_CLIENTS_H

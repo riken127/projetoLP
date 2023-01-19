@@ -10,8 +10,7 @@
 
 #ifndef PROJETO_PRODUCTS_H
 #define PROJETO_PRODUCTS_H
-#define MAX_MATERIALS 20
-#define MAX_QUANTITY 20
+#include "general.h"
 //macro definition
 #define MSG_PRODUCTS_MATERIALS_MANAGEMENT_MENU "\n\t\t\t========= Products & Materials Management Menu =========\n\n\t\t\t[1] - Products.\n\t\t\t[2] - Materials.\n\t\t\t" \
                                      "[0] - Quit.\n\t\t\t________________________________________________________"
@@ -32,27 +31,7 @@
 
 #define YES_OR_NO_MESSAGE_RECORD_PRODUCT "\t\t\tDo you want to add another product?[y/n] - "
 
-#define COD_MATERIAL_SIZE 6
-#define COD_PRODUCT_SIZE 7
 
-#define MAX_DESCRIPTION_SIZE 100
-#define MAX_PRODUCT_NAME_SIZE 100
-
-#define ASK_PRODUCT_CODE "\t\t\tProduct code - "
-
-#define ASK_PRODUCT_NAME "\t\t\tProduct name - "
-
-#define ASK_PRODUCT_DIMENSION "\n\t\t\tProduct dimension (#x#x#) - "
-
-#define ASK_PRODUCT_PRICE "\t\t\tProduct price - "
-
-#define ASK_MATERIAL_CODE "\t\t\tMaterial code - "
-
-#define ASK_MATERIAL_DESCRIPTION "\t\t\tMaterial description - "
-
-#define ASK_MATERIAL_QUANTITY "\t\t\tMaterial quantity - "
-
-#define ASK_MATERIAL_UNIT "\t\t\tMaterial unit [1|0] - "
 
 #define ASK_ANOTHER_MATERIAL "Would you like to type another material?[y/n]\n"
 
@@ -72,37 +51,7 @@
 /*
  * Product struct definition
  */
-typedef enum {UN, PAR} units;
 
-typedef struct {
-    int lenght, height, width;
-} Dimensions;
-typedef struct {
-    char cod_Material[COD_MATERIAL_SIZE];
-    char description[MAX_DESCRIPTION_SIZE];
-    units unit;
-} Material;
-typedef struct {
-    char code[COD_MATERIAL_SIZE];
-    short int quantity;
-} LineProduct;
-typedef struct {
-    char cod_Produto[COD_PRODUCT_SIZE];
-    char name[MAX_PRODUCT_NAME_SIZE];
-    double price;
-    Dimensions dimension;
-    LineProduct  *line_product;
-    int line_product_size;
-    int state;
-} Product;
-typedef struct {
-    Product *product;
-    int counter;
-}Products;
-typedef struct{
-    Material *material;
-    int counter;
-}Materials;
 /*
  * Product functions definition
  */

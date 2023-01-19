@@ -8,8 +8,7 @@
  *  Biblioteca com todas as funções sobre as ordens.
  */
 
-#include "products.h"
-#include "clients.h"
+#include "general.h"
 //created by r1ken
 #ifndef PROJETO_ORDERS_H
 #define PROJETO_ORDERS_H
@@ -20,15 +19,6 @@
 
 #define ASK_ORDER_QUANTITY "\n\t\t\tPlease type the desired quantity - "
 
-#define MIN_DAY 0
-
-#define MAX_DAY 31
-
-#define MIN_MONTH 0
-
-#define MAX_MONTH 12
-
-#define MIN_YEAR 2022
 
 #define MIN_ORDER_QUANTITY 0
 
@@ -56,27 +46,6 @@
 
 #define ASK_ANOTHER_PRODUCT "\n\t\t\tDo you want to add another product?[y/n] - "
 
-//struct definition
-typedef struct {
-    int day, month, year;
-} Date;
-
-typedef struct{
-    char code[COD_PRODUCT_SIZE];
-    int quantity;
-}OrderLine;
-
-typedef struct {
-    int order_id, nif;
-    Date order_date;
-    OrderLine *line_order;
-    int line_order_size;
-} Order;
-
-typedef struct {
-    Order *order;
-    int counter;
-} Orders;
 
 //function definition
 int verifyExistenceOfClientesAndProducts(Customers *customer, Products *product);

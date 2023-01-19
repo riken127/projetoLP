@@ -1,5 +1,6 @@
 // Macro and Library definition
 #include "menus.h"
+#include "general.h"
 #include <stdlib.h>
 /**
  * This is the main function, this is all the Structs are instantiated, here the
