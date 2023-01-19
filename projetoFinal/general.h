@@ -125,4 +125,6 @@ typedef struct{
 }Materials;
 
 int menuRead(char message[], int min, int max);
+void errorMessage(char message[]);
+int yesOrNoFunction(char message[]);
 #endif //PROJECT_GENERAL_H

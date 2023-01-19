@@ -1,7 +1,7 @@
 //
 // Created by r1ken on 11-12-2022.
 //
-
+#include "menus.h"
 #include "clients.h"
 #include "orders.h"
 #include <stdio.h>
@@ -168,8 +168,8 @@ void customerCountry(char country[]) {
  * the given id is equal to the last given id (from the last created user)
  * incremented by one.
  */
-int customerId(int currentID) {
-    return (currentID + 1);
+int customerId(int curentID) {
+    return (curentID + 1);
 }
 
 /*

@@ -5,6 +5,7 @@
 #include "general.h"
 #include <string.h>
 #include <stdio.h>
+#include <stdlib.h>
 /*
  * Bellow function checks if the given value
  * is between two values, if not, the cycle continues.

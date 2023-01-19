@@ -1,11 +1,12 @@
 //
 // Created by r1ken on 16-01-2023.
 //
-
+#include "products.h"
 #include "menus.h"
+#include "clients.h"
+#include "production.h"
 #include <stdio.h>
 #include <stdlib.h>
-
 //macro definition
 
 #define MSG_MAIN_MENU "\n\t\t\t========= Main Menu =========\n\n\t\t\t[1] - User.\n\t\t\t[2] - Admin.\n\t\t\t[3] - Import.\n\t\t\t[4] - Export.\n\t\t\t[0] - Quit.\n\t\t\t_____________________________"

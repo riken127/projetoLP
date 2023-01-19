@@ -32,5 +32,4 @@ void quantityPerOrder();
 void listMenu(Materials *material, Orders *order, Products *product, Date date);
 void listMaterials(Materials *material, Orders *order, Products *product);
 void productionManagementMenu(Orders **order, Materials **material, Products **product);
-void errorMessage(char message[]);
 #endif //PROJECT_PRODUCTION_H
