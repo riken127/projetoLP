@@ -46,7 +46,7 @@ void customerAddress(char address[]);
 int customerNif();
 int nifVerify();
 void customerCountry(char country[]);
-int customerId(int curentID);
+int customerId(int currentID);
 void saveCustomer(char name[], char address[], int nif, char country[], int id,
         Customers *customer, int pos);
 void recordCustomers(Customers *customer);

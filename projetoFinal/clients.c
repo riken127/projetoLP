@@ -168,8 +168,8 @@ void customerCountry(char country[]) {
  * the given id is equal to the last given id (from the last created user)
  * incremented by one.
  */
-int customerId(int curentID) {
-    return (curentID + 1);
+int customerId(int currentID) {
+    return (currentID + 1);
 }
 
 /*
