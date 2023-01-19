@@ -5,6 +5,9 @@
  * This is the main function, this is all the Structs are instantiated, here the
  * main menu is invoked.
  */
+/*
+*NETBEANS É QUE BATE
+*/
 int main(int argc, char **argv) {
     Customers *customer;
     customer = (Customers *)malloc(sizeof(Customers) * INITIAL_CLIENT_SIZE);
