@@ -1,8 +1,8 @@
 // Macro and Library definition
 #include "menus.h"
 #include <stdlib.h>
-/*
- * This is the main function, this is all the structs are instantiated, here the
+/**
+ * This is the main function, this is all the Structs are instantiated, here the
  * main menu is invoked.
  */
 int main(int argc, char **argv) {
