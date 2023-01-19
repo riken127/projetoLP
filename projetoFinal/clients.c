@@ -7,7 +7,7 @@
  * 
  * Source file containing all the functions about clients.
  */
-
+#include "menus.h"
 #include "clients.h"
 #include "orders.h"
 #include <stdio.h>
@@ -130,8 +130,8 @@ void customerCountry(char country[]) {
  * @param currentID Has the last user's ID stored. If last ID is 45, 46 will be
  * the next one.
  */
-int customerId(int currentID) {
-    return (currentID + 1);
+int customerId(int curentID) {
+    return (curentID + 1);
 }
 
 /**
