@@ -16,18 +16,6 @@
 
 
 
-/**
- * Function below checks if the given value
- * is between two values, if not, the cycle continues.
- *
- * @param min Minimum value of the menu option.
- * @param max Maximum value of the menu option.
- * @param message[] Vector that hold the Menu message.
- * @return option Returns the option that the user has chosen.
- */
-
-
-
 
 /**
  * Function below checks for an id in the struct array,

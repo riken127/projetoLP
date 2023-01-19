@@ -31,27 +31,9 @@
 
 #define YES_OR_NO_MESSAGE_RECORD_PRODUCT "\t\t\tDo you want to add another product?[y/n] - "
 
-
-
-#define ASK_ANOTHER_MATERIAL "Would you like to type another material?[y/n]\n"
-
 #define MSG_CHANGE_PRODUCT_DATA "\n\t\t\t[1] - Name.\n\t\t\t[2] - Price.\n\t\t\t[3] - Dimension.\n\t\t\t[4] - Delete\n\t\t\t[5] - Materials.\n\t\t\t[0] - Quit.\n\t\t\t__________________________________"
+
 #define MSG_CHANGE_PRODUCT_MATERIAL_DATA "\n\t\t\t[1] - Unit.\n\t\t\t[2] - Description.\n\t\t\t[3] - Delete.\n\t\t\t[0] - Quit.\n\t\t\t__________________________________"
-
-#define MSG_DELETE_PRODUCT "Are you sure?[Y/n]"
-
-#define INITIAL_PRODUCT_SIZE 1
-#define INITIAL_MATERIAL_SIZE 1
-
-#define ERROR_READING "ERROR READING FROM FILE\n"
-#define SUCCESS_READING "DATA READ OK.\n"
-
-#define ERROR_WRITING "ERROR WRITING IN FILE\n"
-#define SUCCESS_WRITING "WRITE DATA OK.\n"
-/*
- * Product struct definition
- */
-
 /*
  * Product functions definition
  */
@@ -71,15 +53,9 @@ void saveProductMaterials(Products *products, Materials *material);//
 void loadProductMaterials(Products *product, Materials *material);
 int findMaterialPosition(Materials *material, char code[COD_MATERIAL_SIZE]);//
 void saveMaterialChanges(Materials *material, int position, Material current);//
-//void deleteMaterial(char code[COD_MATERIAL_SIZE], Materials *material, Products *product, Orders *orders);//
 void editMaterial(Materials *material, Products *product);
 void saveProductChanges(Product product, Products *products, int pos);//
-//void deleteProduct(Products *product, char code[COD_PRODUCT_SIZE], Orders *orders);
 void addMaterialLineProduct(Materials *material, Products *product, int position);
-//void changeProductData(Products *products, int pos, char code[COD_PRODUCT_SIZE], Materials *material, Orders *orders);
-//void editProduct(Materials *material, Products *products, Orders *orders);//
-int menuRead(char message[], int min, int max);
-//void productsManagementMenu(Products *products, Materials *material, Orders *orders);
 void materialManagementMenu(Products *products, Materials *material);
 void productsMaterialsManagementMenu(Products *products, Materials *material, Orders *orders);
 #endif //PROJETO_PRODUCTS_H

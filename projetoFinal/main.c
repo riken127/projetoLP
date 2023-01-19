@@ -9,7 +9,7 @@
 /*
 *NETBEANS É QUE BATE
 */
-int main(int argc, char **argv) {
+int main() {
     Customers *customer;
     customer = (Customers *)malloc(sizeof(Customers) * INITIAL_CLIENT_SIZE);
     customer->customers = (Customer *)malloc(sizeof(Customer) * INITIAL_CLIENT_SIZE);

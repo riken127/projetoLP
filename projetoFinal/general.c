@@ -6,9 +6,15 @@
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
-/*
- * Bellow function checks if the given value
+
+/**
+ * Function below checks if the given value
  * is between two values, if not, the cycle continues.
+ *
+ * @param min Minimum value of the menu option.
+ * @param max Maximum value of the menu option.
+ * @param message[] Vector that hold the Menu message.
+ * @return option Returns the option that the user has chosen.
  */
 
 int menuRead(char message[], int min, int max) {
@@ -55,10 +61,10 @@ void errorMessage(const char message[]) {
  * @return 1 if the letter Y is pressed.
  * @return 2 if the letter N is pressed.
  */
-int yesOrNoFunction(const char message[]) {
+int yesOrNoFunction(const char *message) {
     char option;
     do {
-        printf(message);
+        printf("%s", message);
         scanf(" %c", &option);
     } while (option != 'y' && option != 'n' && option != 'Y' && option != 'N');
     switch (option) {

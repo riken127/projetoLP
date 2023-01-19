@@ -1,11 +1,11 @@
 //
-// Created by r1ken on 16-01-2023.
+// Created by riken on 16-01-2023.
 //
 
 #include "menus.h"
-#include <stdio.h>
-#include <stdlib.h>
-
+#include "clients.h"
+#include "production.h"
+#include "products.h"
 //macro definition
 
 #define MSG_MAIN_MENU "\n\t\t\t========= Main Menu =========\n\n\t\t\t[1] - User.\n\t\t\t[2] - Admin.\n\t\t\t[3] - Import.\n\t\t\t[4] - Export.\n\t\t\t[0] - Quit.\n\t\t\t_____________________________"
@@ -50,6 +50,8 @@ void adminMenu(Customers *customer, Orders **order,
             case 3:
                 productionManagementMenu(order, material, product);
                 break;
+            default:
+                break;
         }
     } while (option != 0);
 }
@@ -72,6 +74,8 @@ void clientMenu(Customers *customer, Products **product,
                 break;
             case 2:
                 listOrders(*order);
+                break;
+            default:
                 break;
         }
     } while (option != 0);
@@ -96,6 +100,8 @@ void importMenu(Customers *customer, Orders **order,
             case 3:
                 importOrders(*order);
                 break;
+            default:
+                break;
         }
     } while (option != 0);
 }
@@ -118,6 +124,8 @@ void exportMenu(Customers *customer, Orders **order,
                 break;
             case 3:
                 exportOrders(*order);
+                break;
+            default:
                 break;
         }
     } while (op != 0);
@@ -148,6 +156,8 @@ void mainMenu(Customers *customer, Products **product,
                 break;
             case 4:
                 exportMenu(*(&customer), *(&order), *(&product), *(&material));
+                break;
+            default:
                 break;
         }
     } while (option != 0);
