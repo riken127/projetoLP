@@ -253,7 +253,7 @@ void saveProductMaterials(Products *product, Materials *material) {
     askFileName(fn);
     fp = fopen(fn, "w+");
     if (fp == NULL) {
-        printf("An erro has occured!");
+        printf("An error has occured!");
         exit(EXIT_FAILURE);
     }
     fwrite(&product->counter, sizeof (int), 1, fp);
@@ -265,7 +265,7 @@ void saveProductMaterials(Products *product, Materials *material) {
         fwrite(&product->product[i].dimension.height, sizeof (int), 1, fp);
         fwrite(&product->product[i].dimension.lenght, sizeof (int), 1, fp);
         fwrite(&product->product[i].dimension.width, sizeof (int), 1, fp);
-        fread(&product->product[i].state, sizeof(int), 1, fp);
+        fwrite(&product->product[i].state, sizeof(int), 1, fp);
         i++;
     } while (i < product->counter);
 

@@ -122,12 +122,12 @@ void importMenu(Customers *customer, Orders **order,
 
 void exportMenu(Customers *customer, Orders **order,
         Products **product, Materials **material) {
-    int option;
+    int op;
 
     do {
-        option = menuRead(MSG_EXPORT_MENU, 0, 3);
+        op = menuRead(MSG_EXPORT_MENU, 0, 3);
 
-        switch (option) {
+        switch (op) {
             case 0:
                 break;
             case 1:
@@ -140,7 +140,7 @@ void exportMenu(Customers *customer, Orders **order,
                 exportOrders(*order);
                 break;
         }
-    } while (option != 0);
+    } while (op != 0);
 }
 
 /*

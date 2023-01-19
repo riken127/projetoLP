@@ -188,7 +188,7 @@ void customerCountry(char country[]) {
 }
 
 /*
- * Bellow function creates an id for the user who is being created,
+ * Below function creates an id for the user who is being created,
  * the given id is equal to the last given id (from the last created user)
  * incremented by one.
  */
@@ -197,7 +197,7 @@ int customerId(int curentID) {
 }
 
 /*
- * Bellow function saves a specific customer data, it receives the position and the input data, and then
+ * Below function saves a specific customer data, it receives the position and the input data, and then
  * saves the data of the customer in the given position
  */
 void saveCustomer(char name[], char address[], int nif, char country[], int id,
