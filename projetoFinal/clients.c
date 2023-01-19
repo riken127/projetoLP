@@ -14,18 +14,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-/**
- * Function below appears when an error appears, it receives the error message
- * as a parameter, and then waits for the user to press a key, if so, the screen
- * is cleaned and the function ends.
- *
- * @param message[] Vector which the error message is going to be stored.
- */
-void errorMessage(char message[]) {
-    system("cls || clear");
-    puts(message);
-    pressAnyKeyToContinueFunction();
-}
+
 
 /**
  * Function below checks if the given value
@@ -38,31 +27,7 @@ void errorMessage(char message[]) {
  */
 
 
-/**
- * Function below receives a message and depending on what the character that was
- * written the value that is returned is different.
- *
- * @param message[] Confirmation message.
- * @return 1 if the letter Y is pressed.
- * @return 2 if the letter N is pressed.
- */
-int yesOrNoFunction(char message[]) {
-    char option;
-    do {
-        printf(message);
-        scanf(" %c", &option);
-    } while (option != 'y' && option != 'n' && option != 'Y' && option != 'N');
-    switch (option) {
-        case 'y':
-        case 'Y':
-            return 1;
-            break;
-        case 'n':
-        case 'N':
-            return 2;
-            break;
-    }
-}
+
 
 /**
  * Function below checks for an id in the struct array,

@@ -153,6 +153,7 @@ int verifyCustomerNif(Customers *customers, int customerNif) {
             }
         }
         errorMessage(MSG_ERROR_MESSAGE);
+
     }
     return 0;
 }

@@ -18,26 +18,6 @@
 #define MSG_IMPORT_MENU "\n\t\t\t========= Import Menu =========\n\n\t\t\t[1] - Clients.\n\t\t\t[2] - Products & Materials\n\t\t\t[3] - Orders.\n\t\t\t[0] - Quit.\n\t\t\t_______________________________"
 #define MSG_EXPORT_MENU "\n\t\t\t========= Export Menu =========\n\n\t\t\t[1] - Clients.\n\t\t\t[2] - Products & Materials\n\t\t\t[3] - Orders.\n\t\t\t[0] - Quit.\n\t\t\t_______________________________"
 
-/**
- * These functions make it so when a function is over, the user can press any
- * key to continue with the program.
- */
-
-void pressAnyKeyToContinueFunction() {
-    char any_key[20];
-
-    printf("\n\t\t\t__________________________________");
-    printf("\n\t\t\tPress any key to exit ");
-    scanf("%s", any_key);
-    system("cls || clear");
-}
-void pressAnyKeyToContinueFunctionListVersion() {
-    char any_key[20];
-
-    printf("\n\t\t\tPress any key to exit ");
-    scanf("%s", any_key);
-    system("cls || clear");
-}
 
 /**
  * This menu is divided into three sub-menus, it loops until the integer
