@@ -1,6 +1,12 @@
-//
-// Created by r1ken on 11-12-2022.
-//
+/**
+ * 
+ * @file clients.c
+ * @author João Pereira, Henrique Noronha, Ângelo Lopes
+ * @date 16 Janeiro 2023
+ * @brief Source file clients
+ * 
+ * Source file containing all the functions about clients.
+ */
 
 #include "clients.h"
 #include "orders.h"
@@ -9,7 +15,7 @@
 #include <string.h>
 
 /**
- * Below function appears when an error appears, it receives the error message
+ * Function below appears when an error appears, it receives the error message
  * as a parameter, and then waits for the user to press a key, if so, the screen
  * is cleaned and the function ends.
  *
@@ -22,7 +28,7 @@ void errorMessage(char message[]) {
 }
 
 /**
- * Below function checks if the given value
+ * Function below checks if the given value
  * is between two values, if not, the cycle continues.
  *
  * @param min Minimum value of the menu option.
@@ -33,7 +39,7 @@ void errorMessage(char message[]) {
 
 
 /**
- * Bellow function receives a message and depending on what the character that was
+ * Function below receives a message and depending on what the character that was
  * written the value that is returned is different.
  *
  * @param message[] Confirmation message.
@@ -59,7 +65,7 @@ int yesOrNoFunction(char message[]) {
 }
 
 /**
- * Bellow function checks for an id in the struct array,
+ * Function below checks for an id in the struct array,
  * if found, returns the value 1, if not, returns the value 0.
  *
  * @param *customer Brings the customers stored in the struct Customers into the
@@ -80,7 +86,7 @@ int verifyCustomersId(Customers *customer, int requestedId) {
 }
 
 /**
- * Below function takes a given name and stores it in the struct array
+ * Function below takes a given name and stores it in the struct array
  * in the given position. The first scanf makes sure the buffer is clean,
  * the second scanf gets the value given by the user.
  *
@@ -94,7 +100,7 @@ void customerName(char name[]) {
 }
 
 /**
- * Below function takes a given address and stores it in the struct array
+ * Function below takes a given address and stores it in the struct array
  * In the given position. The first scanf makes sure the buffer is clean,
  * the second scanf gets the value given by the user.
  *
@@ -108,7 +114,7 @@ void customerAddress(char address[]) {
 }
 
 /**
- * Below function verifies if the nif is a number and if the number is greater
+ * Function below verifies if the nif is a number and if the number is greater
  * than zero, if not, the loop continues. If so, the value is returned
  * as an integer.
  *
@@ -133,7 +139,7 @@ int nifVerify() {
 }
 
 /**
- * Below function takes a given integer and passes the value as an
+ * Function below takes a given integer and passes the value as an
  * argument to a function that verifies the data (nifVerify function), if the
  * written field is an integer greater than zero, the value is returned, if not,
  * the loop continues.
@@ -149,7 +155,7 @@ int customerNif() {
 }
 
 /**
- * Below function takes a given country name and stores it in the struct array
+ * Function below takes a given country name and stores it in the struct array
  * in the given position. The first scanf makes sure the buffer is clean,
  * the second scanf gets the value given by the user.
  *
@@ -163,19 +169,31 @@ void customerCountry(char country[]) {
     scanf("%[^\n]", country);
 }
 
-/*
- * Below function creates an id for the user who is being created,
+/**
+ * Function below creates an id for the user who is being created,
  * the given id is equal to the last given id (from the last created user)
  * incremented by one.
+ * 
+ * @param currentID Has the last user's ID stored. If last ID is 45, 46 will be
+ * the next one.
  */
 int customerId(int currentID) {
     return (currentID + 1);
 }
 
-/*
- * Below function saves a specific customer data, it receives the position and the input data, and then
- * saves the data of the customer in the given position
+/**
+ * Function below saves a specific customer data, it receives the position and
+ * the input data, and then saves the data of the customer in the given position.
+ * 
+ * @param name Brings the current name vector into the funtion.
+ * @param address Brings the current address vector into the funtion.
+ * @param nif Brings the current nif into the funtion.
+ * @param country Brings the current country vector into the funtion.
+ * @param id Brings the current id value into the funtion.
+ * @param customer Brings the customer struct into the funtion.
+ * @param pos Brings the position value into the funtion.
  */
+
 void saveCustomer(char name[], char address[], int nif, char country[], int id,
         Customers *customer, int pos) {
     *(&customer->customers[pos].id) = id;
@@ -186,9 +204,16 @@ void saveCustomer(char name[], char address[], int nif, char country[], int id,
     *(&customer->customers[pos].state) = 1;
 }
 
-/*
- * The above function calls other 5 functions that help create the customer,
+//ESTE COMENTARIO N ENTENDI TA BUGADO CONFIA VVVVVVVV
+
+/**
+ * The function above calls other 5 functions that help create the customer,
  * each function fills a field in the new user's position in the struct array.
+ */
+
+/**
+ * 
+ * @param customer
  */
 void editCustomers(Customers *customer) {
     int id, i, verify;
@@ -217,6 +242,8 @@ void editCustomers(Customers *customer) {
  * then the program asks the user tru the yesOrNoFunction if the user wants to add another user,
  * if so the loop continues.
  */
+
+
 void recordCustomers(Customers *customer) {
     char name[MAX_NAME_CHARS], address[MAX_ADDRESS_CHARS],
             country[MAX_COUNTRY_CHARS];
