@@ -5,7 +5,7 @@
 #include <stdio.h>
 #include <time.h>
 #include <string.h>
-
+#include <stdlib.h>
 /*
  * Bellow function ask the user for a date and verifies if the date is valid, if so then the date
  * is returned.

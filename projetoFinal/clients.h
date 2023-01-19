@@ -37,8 +37,8 @@
 #define ERROR_IN_WRITING_CUSTOMERS "\nt\t\t\tAn error has occurred"
 
 //function definition
-void errorMessage(char message[]);
-int yesOrNoFunction(char message[]);
+void errorMessage(const char message[]);
+int yesOrNoFunction(const char message[]);
 int menuRead(char message[], int min, int max);
 int verifyCustomersId(Customers *customer, int requestedId);
 void customerName(char name[]);

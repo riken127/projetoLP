@@ -81,5 +81,5 @@ void addMaterialLineProduct(Materials *material, Products *product, int position
 int menuRead(char message[], int min, int max);
 //void productsManagementMenu(Products *products, Materials *material, Orders *orders);
 void materialManagementMenu(Products *products, Materials *material);
-//void productsMaterialsManagementMenu(Products *products, Materials *material, Orders *orders);
+void productsMaterialsManagementMenu(Products *products, Materials *material, Orders *orders);
 #endif //PROJETO_PRODUCTS_H
