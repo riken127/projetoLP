@@ -6,10 +6,10 @@
 /**
  * This is the main function, this is all the Structs are instantiated, here the
  * main menu is invoked.
- * 
+ *
  * @param argc Number of arguments passed.
  * @param argv The list of arguments passed.
- * 
+ *
  * @return 0 if success, another number in case of an error.
  */
 

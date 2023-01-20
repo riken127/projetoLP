@@ -179,9 +179,60 @@ void listRankMaterials(Materials *material, Orders *order, Products *product, Da
     }
     exportRankedMaterials(cod, description, quantity, unit, count);
 }
-
-void avgMaterialPerProduct() {
-
+//quick sort
+int sortOrder(Order *a, Order *b){
+    if (a->order_date.day == b->order_date.day &&
+        a->order_date.month == b->order_date.month &&
+        a->order_date.year == b->order_date.year){
+        return 0;
+    }else if (a->order_date.day <= b->order_date.day &&
+        a->order_date.month <= b->order_date.month &&
+        a->order_date.year <= b->order_date.year){
+        return -1;
+    }else {
+        return +1;
+    }
+}
+void listRankOrders(Orders *order) {
+    Orders *temp;
+    int i, j;
+    temp = (Orders *)malloc(sizeof(Orders));
+    temp->counter = order->counter;
+    temp->order = (Order *) malloc(sizeof(Order)*(temp->counter + 1));
+    for (i = 0; i < temp->counter; i++){
+        temp->order[i].order_date.month = order->order[i].order_date.month;
+        temp->order[i].order_date.year = order->order[i].order_date.year;
+        temp->order[i].order_date.day = order->order[i].order_date.day;
+        temp->order[i].line_order_size = order->order[i].line_order_size;
+        temp->order[i].order_id = order->order[i].order_id;
+        temp->order[i].nif = order->order[i].nif;
+        temp->order[i].line_order = (OrderLine *)malloc(sizeof(OrderLine) *
+                                                                temp->order[i].line_order_size);
+        for (j = 0; j < temp->order[i].line_order_size; j++){
+            strcpy(temp->order[i].line_order[j].code, order->order[i].line_order[j].code);
+            temp->order[i].line_order[j].quantity = order->order[i].line_order[j].quantity;
+        }
+    }
+    qsort(temp->order, temp->counter, sizeof(Order), sortOrder);
+    if (temp->counter != 0){
+        printf("\n\n\t\t\tList Of Orders (By date)\n\t\t\t________________________");
+        for (i = 0; i < temp->counter; i++) {
+            printf("\n\n\t\t\tOrder Id             : %d", temp->order[i].order_id);
+            printf("\n\t\t\tClient Nif           : %d", temp->order[i].nif);
+            printf("\n\t\t\tDate                 : %d-%d-%d", temp->order[i].order_date.day, temp->order[i].order_date.month, temp->order[i].order_date.year);
+            printf("\n\t\t\t__________________________________\n");
+            for (j = 0; j < temp->order[i].line_order_size; j++){
+                printf("\n\t\t\tProduct Id - %s\n\t\t\tQuantity - %d\n", temp->order[i].line_order[j].code, temp->order[i].line_order[j].quantity);
+            }
+            printf("\t\t\t__________________________________");
+        }
+        pressAnyKeyToContinueFunctionListVersion();
+    }else{
+        printf("\n\t\t\tNo orders were found");
+        pressAnyKeyToContinueFunctionListVersion();
+    }
+    free(temp);
+    free(temp->order);
 }
 
 void quantityPerOrder() {
@@ -206,10 +257,12 @@ int listMenu(Materials *material, Orders *order, Products *product, Date date) {
             listRankMaterials(*(&material), *(&order), *(&product), date);
             break;
         case 4:
-            avgMaterialPerProduct();
+            listRankOrders(order);
             break;
         case 5:
             quantityPerOrder();
+            break;
+        default:
             break;
     }
     return option;
