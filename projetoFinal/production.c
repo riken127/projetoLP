@@ -157,28 +157,28 @@ void quantityPerOrder() {
 int listMenu(Materials *material, Orders *order, Products *product, Date date) {
     int option;
 
-        option = menuRead(MSG_LIST_MENU, 0, 5);
+    option = menuRead(MSG_LIST_MENU, 0, 5);
 
-        switch (option) {
-            case 0:
-                break;
-            case 1:
-                listRankClients();
-                break;
-            case 2:
-                listRankProducts();
-                break;
-            case 3:
-                listRankMaterials(*(&material), *(&order), *(&product), date);
-                break;
-            case 4:
-                avgMaterialPerProduct();
-                break;
-            case 5:
-                quantityPerOrder();
-                break;
-        }
-        return option;
+    switch (option) {
+        case 0:
+            break;
+        case 1:
+            listRankClients();
+            break;
+        case 2:
+            listRankProducts();
+            break;
+        case 3:
+            listRankMaterials(*(&material), *(&order), *(&product), date);
+            break;
+        case 4:
+            avgMaterialPerProduct();
+            break;
+        case 5:
+            quantityPerOrder();
+            break;
+    }
+    return option;
 }
 
 /*
@@ -192,47 +192,49 @@ int listMenu(Materials *material, Orders *order, Products *product, Date date) {
  */
 void listMaterials(Materials *material, Orders *order, Products *product) {
     Date date;
-    int i, j, k, d, f,verify = 0, option = 1;
-    do{
+    int i, j, k, d, f, verify = 0, option = 1;
+
     if (order->counter != 0) {
         date = askDate();
         struct tm t = {.tm_year = date.year, .tm_mon = date.month, .tm_mday = date.day};
         t.tm_mday += 5;
         mktime(&t);
-        printf("\n\t\t\tList Of Materials for %d-%d-%d\n\t\t\t__________________________________", date.day, date.month, date.year);
-        for (i = 0; i < order->counter; i++) {
-            if (order->order[i].order_date.day >= date.day && order->order[i].order_date.month >= date.month && order->order[i].order_date.year >= date.year ||
-                    order->order[i].order_date.day <= t.tm_mday && order->order[i].order_date.month <= t.tm_mon && order->order[i].order_date.year <= t.tm_year) {
-                for (j = 0; j < order->order[i].line_order_size; j++) {
-                    for (k = 0; k < product->counter; k++) {
-                        if (strcmp(order->order[i].line_order[j].code, product->product[k].cod_Produto) == 0) {
-                            for (f = 0; f < product->product[k].line_product_size; ++f) {
-                                for (d = 0; d < material->counter; d++) {
-                                    if (strcmp(material->material[d].cod_Material, product->product[k].line_product[f].code) == 0) {
-                                        printf("\n\n\t\t\tMaterial Code   : %s", material->material[d].cod_Material);
-                                        printf("\n\t\t\tDescription     : %s", material->material[d].description);
-                                        printf("\n\t\t\tQuantity        : %d", order->order[i].line_order[j].quantity * product->product[k].line_product[f].quantity);
-                                        printf("\n\t\t\tUnit            : %d", material->material[k].unit);
-                                        printf("\n\t\t\t__________________________________");
+        do {
+            printf("\n\t\t\tList Of Materials for %d-%d-%d\n\t\t\t__________________________________", date.day, date.month, date.year);
+            for (i = 0; i < order->counter; i++) {
+                if (order->order[i].order_date.day >= date.day && order->order[i].order_date.month >= date.month && order->order[i].order_date.year >= date.year ||
+                        order->order[i].order_date.day <= t.tm_mday && order->order[i].order_date.month <= t.tm_mon && order->order[i].order_date.year <= t.tm_year) {
+                    for (j = 0; j < order->order[i].line_order_size; j++) {
+                        for (k = 0; k < product->counter; k++) {
+                            if (strcmp(order->order[i].line_order[j].code, product->product[k].cod_Produto) == 0) {
+                                for (f = 0; f < product->product[k].line_product_size; ++f) {
+                                    for (d = 0; d < material->counter; d++) {
+                                        if (strcmp(material->material[d].cod_Material, product->product[k].line_product[f].code) == 0) {
+                                            printf("\n\n\t\t\tMaterial Code   : %s", material->material[d].cod_Material);
+                                            printf("\n\t\t\tDescription     : %s", material->material[d].description);
+                                            printf("\n\t\t\tQuantity        : %d", order->order[i].line_order[j].quantity * product->product[k].line_product[f].quantity);
+                                            printf("\n\t\t\tUnit            : %d", material->material[k].unit);
+                                            printf("\n\t\t\t__________________________________");
+                                        }
                                     }
                                 }
                             }
                         }
                     }
+                } else {
+                    errorMessage(NO_ORDERS_FOUND_TO_THAT_DATE_MESSAGE);
+                    verify = 1;
                 }
-            } else {
-                errorMessage(NO_ORDERS_FOUND_TO_THAT_DATE_MESSAGE);
-                verify = 1;
             }
-        }
+            if (verify == 0) {
+                option = listMenu(*(&material), *(&order), *(&product), date);
+            }
+        } while (option != 0);
     } else {
         errorMessage(NO_ORDERS_FOUND_MESSAGE);
         verify = 1;
     }
-    if(verify==0){
-        option = listMenu(*(&material), *(&order), *(&product), date);
-    }
-    }while(option!=0);
+
 }
 
 /*
