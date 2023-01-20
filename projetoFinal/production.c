@@ -38,37 +38,35 @@ void listRankProducts() {
 void exportRankedMaterials(char cod[MAX_MATERIALS][COD_MATERIAL_SIZE], char description[MAX_MATERIALS][MAX_DESCRIPTION_SIZE], int quantity[MAX_MATERIALS], int unit[MAX_MATERIALS], int count) {
     int option;
 
-    do {
-        option = menuRead(MSG_EXPORT_RANK_MATERIALS, 0, 1);
+    option = menuRead(MSG_EXPORT_RANK_MATERIALS, 0, 1);
 
-        switch (option) {
-            case 0:
-                break;
-            case 1:
-                FILE *fp;
-                int i;
-                char fn[100];
-                askFileName(fn);
-                fp = fopen(fn, "w");
-                if (fp == NULL) {
-                    printf(ERROR_IN_WRITING_MATERIALS);
-                    pressAnyKeyToContinueFunction();
-                } else {
-                    fprintf(fp,"Material Code;Description;Quantity;Unit\n\n");
-                    for (i = 0; i < count; i++) {
-                        fprintf(fp,"%s;%s;%d;%d\n",
-                                cod[i],
-                                description[i],
-                                quantity[i],
-                                unit[i]);
-                    }
-                    fclose(fp);
-                    printf(SUCCESS_IN_WRITING_MATERIALS);
-                    pressAnyKeyToContinueFunction();
+    switch (option) {
+        case 0:
+            break;
+        case 1:
+            FILE *fp;
+            int i;
+            char fn[100];
+            askFileName(fn);
+            fp = fopen(fn, "w");
+            if (fp == NULL) {
+                printf(ERROR_IN_WRITING_MATERIALS);
+                pressAnyKeyToContinueFunction();
+            } else {
+                fprintf(fp, "Material Code;Description;Quantity;Unit\n\n");
+                for (i = 0; i < count; i++) {
+                    fprintf(fp, "%s;%s;%d;%d\n",
+                            cod[i],
+                            description[i],
+                            quantity[i],
+                            unit[i]);
                 }
-                break;
-        }
-    } while (option != 0);
+                fclose(fp);
+                printf(SUCCESS_IN_WRITING_MATERIALS);
+                pressAnyKeyToContinueFunction();
+            }
+            break;
+    }
 }
 
 void listRankMaterials(Materials *material, Orders *order, Products *product, Date date) {
@@ -156,10 +154,9 @@ void quantityPerOrder() {
 
 }
 
-void listMenu(Materials *material, Orders *order, Products *product, Date date) {
+int listMenu(Materials *material, Orders *order, Products *product, Date date) {
     int option;
 
-    do {
         option = menuRead(MSG_LIST_MENU, 0, 5);
 
         switch (option) {
@@ -181,7 +178,7 @@ void listMenu(Materials *material, Orders *order, Products *product, Date date) 
                 quantityPerOrder();
                 break;
         }
-    } while (option != 0);
+    return option;
 }
 
 /*
@@ -195,7 +192,7 @@ void listMenu(Materials *material, Orders *order, Products *product, Date date) 
  */
 void listMaterials(Materials *material, Orders *order, Products *product) {
     Date date;
-    int i, j, k, d, f;
+    int i, j, k, d, f, option = 1;
     if (order->counter != 0) {
         date = askDate();
         struct tm t = {.tm_year = date.year, .tm_mon = date.month, .tm_mday = date.day};
@@ -205,6 +202,7 @@ void listMaterials(Materials *material, Orders *order, Products *product) {
         for (i = 0; i < order->counter; i++) {
             if (order->order[i].order_date.day >= date.day && order->order[i].order_date.month >= date.month && order->order[i].order_date.year >= date.year ||
                     order->order[i].order_date.day <= t.tm_mday && order->order[i].order_date.month <= t.tm_mon && order->order[i].order_date.year <= t.tm_year) {
+                do{
                 for (j = 0; j < order->order[i].line_order_size; j++) {
                     for (k = 0; k < product->counter; k++) {
                         if (strcmp(order->order[i].line_order[j].code, product->product[k].cod_Produto) == 0) {
@@ -222,7 +220,10 @@ void listMaterials(Materials *material, Orders *order, Products *product) {
                         }
                     }
                 }
-                listMenu(*(&material), *(&order), *(&product), date);
+                option = listMenu(*(&material), *(&order), *(&product), date);
+                system("cls || clear");
+                printf("\n\t\t\tList Of Materials for %d-%d-%d\n\t\t\t__________________________________", date.day, date.month, date.year);
+                }while (option != 0);
             } else {
                 errorMessage(NO_ORDERS_FOUND_TO_THAT_DATE_MESSAGE);
             }

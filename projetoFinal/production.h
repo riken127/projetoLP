@@ -37,7 +37,7 @@ void exportRankedMaterials(char cod[MAX_MATERIALS][COD_MATERIAL_SIZE], char desc
 void listRankMaterials(Materials *material, Orders *order, Products *product, Date date);
 void avgMaterialPerProduct();
 void quantityPerOrder();
-void listMenu(Materials *material, Orders *order, Products *product, Date date);
+int listMenu(Materials *material, Orders *order, Products *product, Date date);
 void listMaterials(Materials *material, Orders *order, Products *product);
 void productionManagementMenu(Orders **order, Materials **material, Products **product);
 #endif //PROJECT_PRODUCTION_H
