@@ -9,7 +9,8 @@
  *
  * @param argc Number of arguments passed.
  * @param argv The list of arguments passed.
- *
+ * 
+ * @return EXIT_SUCCESS if success, another number in case of an error.
  * @return 0 if success, another number in case of an error.
  */
 
