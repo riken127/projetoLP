@@ -1,6 +1,13 @@
-//
-// Created by r1ken on 19-01-2023.
-//
+/**
+ * 
+ * @file general.h
+ * @author João Pereira, Henrique Noronha, Ângelo Lopes
+ * @date 16 Janeiro 2023
+ * @brief Header general
+ * 
+ * Header file containing all the general functions/structs/macros that are used
+ * all around the program.
+ */
 
 #ifndef PROJECT_GENERAL_H
 #define PROJECT_GENERAL_H

@@ -1,11 +1,12 @@
 /**
  * 
- * @file Orders.h
+ * @file orders.h
  * @author João Pereira, Henrique Noronha, Ângelo Lopes
  * @date 16 Janeiro 2023
- * @brief Biblioteca orders
+ * @brief Header orders
  * 
- *  Biblioteca com todas as funções sobre as ordens.
+ * Header file with all the funcitons about orders.
+ * Also has some macros that are used in those functions.
  */
 
 #include "general.h"
