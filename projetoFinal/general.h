@@ -58,6 +58,11 @@
 #define ASK_MATERIAL_UNIT "\t\t\tMaterial unit [1|0] - "
 
 #define MAX_VERIFY_CHARS 50
+
+#define ERROR_IN_FILES "\n\t\t\tAn error has occurred"
+
+#define SUCCESS_IN_FILES "\n\t\t\tOperation success"
+
 typedef struct {
     int id;
     char name[MAX_NAME_CHARS];

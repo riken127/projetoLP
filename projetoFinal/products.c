@@ -9,7 +9,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-
 /*
  * The bellow function gets the material's code as a parameter
  * and asks the user to type a material code, the first scan makes
@@ -254,39 +253,41 @@ void saveProductMaterials(Products *product, Materials *material) {
     askFileName(fn);
     fp = fopen(fn, "w+");
     if (fp == NULL) {
-        printf("An error has occured!");
-        exit(EXIT_FAILURE);
-    }
-    fwrite(&product->counter, sizeof (int), 1, fp);
-    i = 0;
-    do {
-        fwrite(&product->product[i].cod_Produto, sizeof (char)*COD_PRODUCT_SIZE, 1, fp);
-        fwrite(&product->product[i].name, sizeof (char)*MAX_PRODUCT_NAME_SIZE, 1, fp);
-        fwrite(&product->product[i].price, sizeof (double), 1, fp);
-        fwrite(&product->product[i].dimension.height, sizeof (int), 1, fp);
-        fwrite(&product->product[i].dimension.lenght, sizeof (int), 1, fp);
-        fwrite(&product->product[i].dimension.width, sizeof (int), 1, fp);
-        fwrite(&product->product[i].state, sizeof(int), 1, fp);
-        i++;
-    } while (i < product->counter);
-
-    for (i = 0; i < product->counter; i++) {
-        j = 0;
-        fwrite(&product->product[i].line_product_size, sizeof (int), 1, fp);
+        printf(ERROR_IN_FILES);
+        pressAnyKeyToContinueFunction();
+    } else {
+        fwrite(&product->counter, sizeof (int), 1, fp);
+        i = 0;
         do {
-            fwrite(&product->product[i].line_product[j].code, sizeof (char)*COD_MATERIAL_SIZE, 1, fp);
-            fwrite(&product->product[i].line_product[j].quantity, sizeof (int), 1, fp);
-            j++;
-        } while (j < product->product[i].line_product_size);
+            fwrite(&product->product[i].cod_Produto, sizeof (char)*COD_PRODUCT_SIZE, 1, fp);
+            fwrite(&product->product[i].name, sizeof (char)*MAX_PRODUCT_NAME_SIZE, 1, fp);
+            fwrite(&product->product[i].price, sizeof (double), 1, fp);
+            fwrite(&product->product[i].dimension.height, sizeof (int), 1, fp);
+            fwrite(&product->product[i].dimension.lenght, sizeof (int), 1, fp);
+            fwrite(&product->product[i].dimension.width, sizeof (int), 1, fp);
+            fwrite(&product->product[i].state, sizeof (int), 1, fp);
+            i++;
+        } while (i < product->counter);
+
+        for (i = 0; i < product->counter; i++) {
+            j = 0;
+            fwrite(&product->product[i].line_product_size, sizeof (int), 1, fp);
+            do {
+                fwrite(&product->product[i].line_product[j].code, sizeof (char)*COD_MATERIAL_SIZE, 1, fp);
+                fwrite(&product->product[i].line_product[j].quantity, sizeof (int), 1, fp);
+                j++;
+            } while (j < product->product[i].line_product_size);
+        }
+        fwrite(&material->counter, sizeof (int), 1, fp);
+        for (i = 0; i < material->counter; i++) {
+            fwrite(&material->material[i].cod_Material, sizeof (char)*COD_MATERIAL_SIZE, 1, fp);
+            fwrite(&material->material[i].description, sizeof (char)*MAX_DESCRIPTION_SIZE, 1, fp);
+            fwrite(&material->material[i].unit, sizeof (units), 1, fp);
+        }
+        fclose(fp);
+        printf(SUCCESS_IN_FILES);
+        pressAnyKeyToContinueFunction();
     }
-    fwrite(&material->counter, sizeof (int), 1, fp);
-    for (i = 0; i < material->counter; i++) {
-        fwrite(&material->material[i].cod_Material, sizeof (char)*COD_MATERIAL_SIZE, 1, fp);
-        fwrite(&material->material[i].description, sizeof (char)*MAX_DESCRIPTION_SIZE, 1, fp);
-        fwrite(&material->material[i].unit, sizeof (units), 1, fp);
-    }
-    fclose(fp);
-    printf("\nSUCCESS!");
 }
 
 /*
@@ -306,45 +307,47 @@ void loadProductMaterials(Products *product, Materials *material) {
     askFileName(fn);
     fp = fopen(fn, "rb+");
     if (fp == NULL) {
-        printf("An erro has occured!");
-        exit(EXIT_FAILURE);
-    }
-    fread(&c, sizeof (int), 1, fp);
-    k = product->counter;
-    for (i = 0; i < c; i++) {
-        product->product = (Product *) realloc(product->product,
-                (product->counter + 1) * sizeof (Product));
-        fread(&product->product[product->counter].cod_Produto, sizeof (char)*COD_PRODUCT_SIZE, 1, fp);
-        fread(&product->product[product->counter].name, sizeof (char)*MAX_PRODUCT_NAME_SIZE, 1, fp);
-        fread(&product->product[product->counter].price, sizeof (double), 1, fp);
-        fread(&product->product[product->counter].dimension.height, sizeof (int), 1, fp);
-        fread(&product->product[product->counter].dimension.lenght, sizeof (int), 1, fp);
-        fread(&product->product[product->counter].dimension.width, sizeof (int), 1, fp);
-        fread(&product->product[product->counter].state, sizeof(int), 1, fp);
-        product->counter++;
-    }
-    for (i = 0; i < c; i++) {
-        fread(&product->product[k + i].line_product_size, sizeof (int), 1, fp);
-        product->product[k + i].line_product = (LineProduct *) malloc(
-                sizeof (LineProduct) * product->product[k + i].line_product_size);
-        for (j = 0; j < product->product[k + i].line_product_size; j++) {
-            fread(&product->product[k + i].line_product[j].code, sizeof (char)*COD_MATERIAL_SIZE, 1, fp);
-            fread(&product->product[k + i].line_product[j].quantity, sizeof (int), 1, fp);
+        printf(ERROR_IN_FILES);
+        pressAnyKeyToContinueFunction();
+    } else {
+        fread(&c, sizeof (int), 1, fp);
+        k = product->counter;
+        for (i = 0; i < c; i++) {
+            product->product = (Product *) realloc(product->product,
+                    (product->counter + 1) * sizeof (Product));
+            fread(&product->product[product->counter].cod_Produto, sizeof (char)*COD_PRODUCT_SIZE, 1, fp);
+            fread(&product->product[product->counter].name, sizeof (char)*MAX_PRODUCT_NAME_SIZE, 1, fp);
+            fread(&product->product[product->counter].price, sizeof (double), 1, fp);
+            fread(&product->product[product->counter].dimension.height, sizeof (int), 1, fp);
+            fread(&product->product[product->counter].dimension.lenght, sizeof (int), 1, fp);
+            fread(&product->product[product->counter].dimension.width, sizeof (int), 1, fp);
+            fread(&product->product[product->counter].state, sizeof (int), 1, fp);
+            product->counter++;
         }
-    }
+        for (i = 0; i < c; i++) {
+            fread(&product->product[k + i].line_product_size, sizeof (int), 1, fp);
+            product->product[k + i].line_product = (LineProduct *) malloc(
+                    sizeof (LineProduct) * product->product[k + i].line_product_size);
+            for (j = 0; j < product->product[k + i].line_product_size; j++) {
+                fread(&product->product[k + i].line_product[j].code, sizeof (char)*COD_MATERIAL_SIZE, 1, fp);
+                fread(&product->product[k + i].line_product[j].quantity, sizeof (int), 1, fp);
+            }
+        }
 
-    fread(&c, sizeof (int), 1, fp);
-    k = material->counter;
-    for (i = 0; i < c; i++) {
-        material->material = (Material *) realloc(material->material,
-                (material->counter + 1) * sizeof (Material));
-        fread(&material->material[k + i].cod_Material, sizeof (char)*COD_MATERIAL_SIZE, 1, fp);
-        fread(&material->material[k + i].description, sizeof (char)*MAX_DESCRIPTION_SIZE, 1, fp);
-        fread(&material->material[k + i].unit, sizeof (int), 1, fp);
-        material->counter++;
+        fread(&c, sizeof (int), 1, fp);
+        k = material->counter;
+        for (i = 0; i < c; i++) {
+            material->material = (Material *) realloc(material->material,
+                    (material->counter + 1) * sizeof (Material));
+            fread(&material->material[k + i].cod_Material, sizeof (char)*COD_MATERIAL_SIZE, 1, fp);
+            fread(&material->material[k + i].description, sizeof (char)*MAX_DESCRIPTION_SIZE, 1, fp);
+            fread(&material->material[k + i].unit, sizeof (int), 1, fp);
+            material->counter++;
+        }
+        fclose(fp);
+        printf(SUCCESS_IN_FILES);
+        pressAnyKeyToContinueFunction();
     }
-    fclose(fp);
-    printf("\n\t\t\tSUCCESS IN IMPORTING DATA.");
 }
 
 /*
@@ -496,17 +499,19 @@ void saveProductChanges(Product product, Products *products, int pos) {
     products->product[pos].price = product.price;
     products->product[pos].dimension = product.dimension;
 }
-int verifyProductOrders(char code[COD_PRODUCT_SIZE], Orders *orders){
+
+int verifyProductOrders(char code[COD_PRODUCT_SIZE], Orders *orders) {
     int i, j;
-    for (i = 0; i < orders->counter; i++){
-        for (j = 0; j < orders->order[i].line_order_size; j++){
-           if (strcmp(orders->order[i].line_order[j].code, code) == 0){
-               return 1;
-           }
+    for (i = 0; i < orders->counter; i++) {
+        for (j = 0; j < orders->order[i].line_order_size; j++) {
+            if (strcmp(orders->order[i].line_order[j].code, code) == 0) {
+                return 1;
+            }
         }
     }
     return 0;
 }
+
 /*
  * The bellow function deletes a product, it does this by firstly getting the product's struct,
  * then the product code, which indicates what product the user wishes to delete,
@@ -527,21 +532,21 @@ void deleteProduct(Products *product, char code[COD_PRODUCT_SIZE], Orders *order
         if (strcmp(product->product[i].cod_Produto, code) == 0) {
             if (!verifyProductOrders(code, orders)) {
                 strcpy(product->product[i].cod_Produto,
-                       product->product[i + 1].cod_Produto);
+                        product->product[i + 1].cod_Produto);
                 strcpy(product->product[i].name,
-                       product->product[i + 1].name);
+                        product->product[i + 1].name);
                 product->product[i].price = product->product[i + 1].price;
                 product->product[i].dimension = product->product[i + 1].dimension;
                 product->product[i].line_product_size = product->product[i + 1].line_product_size;
                 product->product[i].line_product = (LineProduct *) realloc(product->product[i].line_product,
-                                                                           sizeof(LineProduct) *
-                                                                           product->product[i + 1].line_product_size);
+                        sizeof (LineProduct) *
+                        product->product[i + 1].line_product_size);
                 for (j = 0; j < product->product[i + 1].line_product_size; j++) {
                     strcpy(product->product[i].line_product[j].code, product->product[i + 1].line_product[j].code);
                     product->product[i].line_product[j].quantity = product->product[i + 1].line_product[j].quantity;
                 }
                 product->counter--;
-            }else {
+            } else {
                 product->product[i].state = 0;
             }
         }

@@ -37,10 +37,6 @@
 
 #define NIF_ERROR_MSG "Typed nif does not exist!"
 
-#define SUCCESS_IN_WRITING_ORDERS "\n\t\t\tOrders where written successfully!"
-
-#define ERROR_IN_WRITING_ORDERS "\nAn error has occured while writing the orders! :/"
-
 #define SUCCESS_IN_LOADING_ORDERS "\nOrders where loaded successfully!"
 
 #define ERROR_IN_LOADING_ORDERS "\nAn error has occures while loading the orders! :/"
