@@ -16,16 +16,24 @@
 
 #define MSG_LIST_MENU "\n\n\t\t\t[1] - Rank Clients.\n\t\t\t[2] - Rank Products.\n\t\t\t[3] - Rank Materials.\n\t\t\t[4] - List 4.\n\t\t\t[5] - List 5.\n\t\t\t[0] - Quit.\n\t\t\t__________________________________"
 
+#define MSG_EXPORT_RANK_MATERIALS "\n\n\t\t\t[1] - Export to file.\n\t\t\t[0] - Quit.\n\t\t\t__________________________________"
+
 #define ASK_DESIRED_DATE "\n\t\t\tPlease type the desired date (xx-xx-xxxx) - "
 
 #define NO_ORDERS_FOUND_MESSAGE "\n\t\t\tNo orders were found\n\t\t\t__________________________________"
 
 #define NO_ORDERS_FOUND_TO_THAT_DATE_MESSAGE "\n\t\t\tNo orders were found for that date\n\t\t\t__________________________________"
+
+#define SUCCESS_IN_WRITING_MATERIALS "\n\t\t\tCustomer were written successfully"
+
+#define ERROR_IN_WRITING_MATERIALS "\nt\t\t\tAn error has occurred"
+
+#define MAX_MATERIALS 9999
 //function definition
 Date askDate();
 void listRankClients();
 void listRankProducts();
-void exportRankedMaterials();
+void exportRankedMaterials(char cod[MAX_MATERIALS][COD_MATERIAL_SIZE], char description[MAX_MATERIALS][MAX_DESCRIPTION_SIZE], int unit[MAX_MATERIALS], int quantity[MAX_MATERIALS], int count);
 void listRankMaterials(Materials *material, Orders *order, Products *product, Date date);
 void avgMaterialPerProduct();
 void quantityPerOrder();
