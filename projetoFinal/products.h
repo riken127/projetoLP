@@ -3,9 +3,9 @@
  * @file products.h
  * @author João Pereira, Henrique Noronha, Ângelo Lopes
  * @date 16 Janeiro 2023
- * @brief Biblioteca products
+ * @brief Header products
  * 
- *  Biblioteca com todas as funções sobre os produtos.
+ * Header file with all the functions about products.
  */
 
 #ifndef PROJETO_PRODUCTS_H
