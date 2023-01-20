@@ -3,9 +3,9 @@
  * @file menus.h
  * @author João Pereira, Henrique Noronha, Ângelo Lopes
  * @date 16 Janeiro 2023
- * @brief Biblioteca menus
+ * @brief Header menus
  * 
- *  Biblioteca com todas as funções sobre os Menus.
+ * Header file containing all the functions that are menus.
  */
 
 #ifndef PROJECT_MENUS_H

@@ -3,9 +3,9 @@
  * @file production.h
  * @author João Pereira, Henrique Noronha, Ângelo Lopes
  * @date 16 Janeiro 2023
- * @brief Biblioteca production
+ * @brief Header production
  * 
- *  Biblioteca com todas as funções sobre as produções.
+ * Header file with all the functions about productions.
  */
 
 #include "general.h"

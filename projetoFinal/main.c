@@ -2,13 +2,18 @@
 #include "menus.h"
 #include "general.h"
 #include <stdlib.h>
+
 /**
  * This is the main function, this is all the Structs are instantiated, here the
  * main menu is invoked.
+ * 
+ * @param argc Number of arguments passed.
+ * @param argv The list of arguments passed.
+ * 
+ * @return 0 if success, another number in case of an error.
  */
-/*
-*NETBEANS É QUE BATE
-*/
+
+
 int main(int argc, char **argv) {
     Customers *customer;
     customer = (Customers *)malloc(sizeof(Customers) * INITIAL_CLIENT_SIZE);
