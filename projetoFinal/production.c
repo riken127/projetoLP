@@ -226,7 +226,6 @@ int listMenu(Materials *material, Orders *order, Products *product, Date date) {
             listRankOrders(order);
             break;
         case 5:
-            quantityPerOrder();
             break;
         default:
             break;
