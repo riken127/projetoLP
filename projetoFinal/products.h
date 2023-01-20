@@ -34,6 +34,16 @@
 #define MSG_CHANGE_PRODUCT_DATA "\n\t\t\t[1] - Name.\n\t\t\t[2] - Price.\n\t\t\t[3] - Dimension.\n\t\t\t[4] - Delete\n\t\t\t[5] - Materials.\n\t\t\t[0] - Quit.\n\t\t\t__________________________________"
 
 #define MSG_CHANGE_PRODUCT_MATERIAL_DATA "\n\t\t\t[1] - Unit.\n\t\t\t[2] - Description.\n\t\t\t[3] - Delete.\n\t\t\t[0] - Quit.\n\t\t\t__________________________________"
+
+#define MSG_DELETE_PRODUCT "Are you sure?[Y/n]"
+
+#define INITIAL_PRODUCT_SIZE 1
+#define INITIAL_MATERIAL_SIZE 1
+
+/*
+ * Product struct definition
+ */
+
 /*
  * Product functions definition
  */

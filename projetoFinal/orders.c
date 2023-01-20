@@ -20,6 +20,7 @@ int verifyExistenceOfClientesAndProducts(Customers *customer, Products *product)
     }
     return 0;
 }
+
 /*
  * Bellow function greets a customer, it receives the customer struct as a parameter
  * and the nif written by the user, and then greets the user by his name.
@@ -225,22 +226,25 @@ void exportOrders(Orders *order) {
     askFileName(fn);
     fp = fopen(fn, "wb+");
     if (fp == NULL) {
-        exit(EXIT_FAILURE);
-    }
-    fwrite(&order->counter, sizeof (int), 1, fp);
-    for (i = 0; i < order->counter; i++) {
-        fwrite(&order->order[i].nif, sizeof (int), 1, fp);
-        fwrite(&order->order[i].order_date.day, sizeof (int), 1, fp);
-        fwrite(&order->order[i].order_date.month, sizeof (int), 1, fp);
-        fwrite(&order->order[i].order_date.year, sizeof (int), 1, fp);
-        fwrite(&order->order[i].line_order_size, sizeof (int), 1, fp);
-        for (j = 0; j < order->order[i].line_order_size; j++) {
-            fwrite(&order->order[i].line_order[j].code, sizeof (char)*COD_MATERIAL_SIZE, 1, fp);
-            fwrite(&order->order[i].line_order[j].quantity, sizeof (int), 1, fp);
+        printf(ERROR_IN_FILES);
+        pressAnyKeyToContinueFunction();
+    } else {
+        fwrite(&order->counter, sizeof (int), 1, fp);
+        for (i = 0; i < order->counter; i++) {
+            fwrite(&order->order[i].nif, sizeof (int), 1, fp);
+            fwrite(&order->order[i].order_date.day, sizeof (int), 1, fp);
+            fwrite(&order->order[i].order_date.month, sizeof (int), 1, fp);
+            fwrite(&order->order[i].order_date.year, sizeof (int), 1, fp);
+            fwrite(&order->order[i].line_order_size, sizeof (int), 1, fp);
+            for (j = 0; j < order->order[i].line_order_size; j++) {
+                fwrite(&order->order[i].line_order[j].code, sizeof (char)*COD_MATERIAL_SIZE, 1, fp);
+                fwrite(&order->order[i].line_order[j].quantity, sizeof (int), 1, fp);
+            }
         }
+        fclose(fp);
+        printf(SUCCESS_IN_FILES);
+        pressAnyKeyToContinueFunction();
     }
-    fclose(fp);
-    printf(SUCCESS_IN_WRITING_ORDERS);
 }
 
 /*
@@ -259,23 +263,30 @@ void importOrders(Orders *order) {
     char fn[MAX_FN_CHARS];
     askFileName(fn);
     fp = fopen(fn, "rb+");
-    fread(&c, sizeof (int), 1, fp);
-    for (i = 0; i < c; i++) {
-        order->order = realloc(order->order, sizeof (Order)*(order->counter + 1));
-        order->order[i].order_id = (order->counter + 1);
-        fread(&order->order[i].nif, sizeof (int), 1, fp);
-        fread(&order->order[i].order_date.day, sizeof (int), 1, fp);
-        fread(&order->order[i].order_date.month, sizeof (int), 1, fp);
-        fread(&order->order[i].order_date.year, sizeof (int), 1, fp);
-        fread(&order->order[i].line_order_size, sizeof (int), 1, fp);
-        order->order[i].line_order = malloc(1 * sizeof (OrderLine));
-        for (j = 0; j < order->order[i].line_order_size; j++) {
-            order->order[i].line_order = realloc(order->order[i].line_order,
-                    sizeof (OrderLine)*(j + 1));
-            fread(&order->order[i].line_order[j].code, sizeof (char)*COD_MATERIAL_SIZE, 1, fp);
-            fread(&order->order[i].line_order[j].quantity, sizeof (int), 1, fp);
+    if (fp == NULL) {
+        printf(ERROR_IN_FILES);
+        pressAnyKeyToContinueFunction();
+    } else {
+        fread(&c, sizeof (int), 1, fp);
+        for (i = 0; i < c; i++) {
+            order->order = realloc(order->order, sizeof (Order)*(order->counter + 1));
+            order->order[i].order_id = (order->counter + 1);
+            fread(&order->order[i].nif, sizeof (int), 1, fp);
+            fread(&order->order[i].order_date.day, sizeof (int), 1, fp);
+            fread(&order->order[i].order_date.month, sizeof (int), 1, fp);
+            fread(&order->order[i].order_date.year, sizeof (int), 1, fp);
+            fread(&order->order[i].line_order_size, sizeof (int), 1, fp);
+            order->order[i].line_order = malloc(1 * sizeof (OrderLine));
+            for (j = 0; j < order->order[i].line_order_size; j++) {
+                order->order[i].line_order = realloc(order->order[i].line_order,
+                        sizeof (OrderLine)*(j + 1));
+                fread(&order->order[i].line_order[j].code, sizeof (char)*COD_MATERIAL_SIZE, 1, fp);
+                fread(&order->order[i].line_order[j].quantity, sizeof (int), 1, fp);
+            }
+            order->counter++;
         }
-        order->counter++;
+        fclose(fp);
+        printf(SUCCESS_IN_FILES);
+        pressAnyKeyToContinueFunction();
     }
-    fclose(fp);
 }

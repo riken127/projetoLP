@@ -363,7 +363,7 @@ void exportCustomers(Customers *customer) {
     askFileName(fn);
     fp = fopen(fn, "w");
     if (fp == NULL) {
-        printf(ERROR_IN_WRITING_CUSTOMERS);
+        printf(ERROR_IN_FILES);
         pressAnyKeyToContinueFunction();
     } else {
         for (i = 0; i < customer->counter; i++) {
@@ -376,7 +376,7 @@ void exportCustomers(Customers *customer) {
                     customer->customers[i].state);
         }
         fclose(fp);
-        printf(SUCCESS_IN_WRITING_CUSTOMERS);
+        printf(SUCCESS_IN_FILES);
         pressAnyKeyToContinueFunction();
     }
 }
@@ -393,7 +393,7 @@ void importCustomers(Customers *customer) {
     askFileName(fn);
     fp = fopen(fn, "r");
     if (fp == NULL) {
-        printf(ERROR_IN_WRITING_CUSTOMERS);
+        printf(ERROR_IN_FILES);
         pressAnyKeyToContinueFunction();
     } else {
         while (fgets(buff, 1024, fp) != NULL) {
@@ -413,7 +413,7 @@ void importCustomers(Customers *customer) {
             ++customer->counter;
         }
         fclose(fp);
-        printf(SUCCESS_IN_IMPORTING_CUSTOMERS);
+        printf(SUCCESS_IN_FILES);
         pressAnyKeyToContinueFunction();
     }
 }
