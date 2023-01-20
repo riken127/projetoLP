@@ -231,12 +231,8 @@ void listRankOrders(Orders *order) {
         printf("\n\t\t\tNo orders were found");
         pressAnyKeyToContinueFunctionListVersion();
     }
-    free(temp);
     free(temp->order);
-}
-
-void quantityPerOrder() {
-
+    free(temp);
 }
 
 int listMenu(Materials *material, Orders *order, Products *product, Date date) {

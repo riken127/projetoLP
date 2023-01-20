@@ -52,7 +52,7 @@ void listAvailableProducts(Products * product) {
 /*
  * Bellow function returns a new order id.
  */
-int newOrderId(Orders * order) {
+int newOrderId(Orders *order) {
     return (order->counter + 1);
 }
 
@@ -122,9 +122,11 @@ int newOrder(Customers *customer, int nif, Products *product, Orders * order) {
     order->order[order->counter].order_id = newOrderId(order);
     order->order[order->counter].nif = nif;
     j = 0;
+    order->order[order->counter].line_order_size = 0;
+    order->order[order->counter].line_order = (OrderLine *)malloc(sizeof(OrderLine) * 1);
     do {
         order->order[order->counter].line_order = (OrderLine *) realloc(order->order[order->counter].line_order,
-                sizeof (OrderLine) * (j + 1));
+                sizeof(OrderLine) * (j + 1));
         order->order[order->counter].line_order_size += 1;
         newOrderChoosenProductCode(product, order->order[order->counter].line_order[j].code);
         order->order[order->counter].line_order[j].quantity = newOrderQuantity();
@@ -163,7 +165,7 @@ int verifyCustomerNif(Customers *customers, int customerNif) {
  * The bellow function asks for the customer nif while the written nif doesn't exist, then, the customer
  * is greeted, and goes to the newOrder function where all the order information will be filled by the user.
  */
-void doOrder(Customers *customer, Products *product, Orders * order) {
+void doOrder(Customers *customer, Products *product, Orders *order) {
     int customerNif, verify;
     verify = verifyExistenceOfClientesAndProducts(*(&customer), *(&product));
     if (verify == 1) {
@@ -237,7 +239,7 @@ void exportOrders(Orders *order) {
             fwrite(&order->order[i].order_date.year, sizeof (int), 1, fp);
             fwrite(&order->order[i].line_order_size, sizeof (int), 1, fp);
             for (j = 0; j < order->order[i].line_order_size; j++) {
-                fwrite(&order->order[i].line_order[j].code, sizeof (char)*COD_MATERIAL_SIZE, 1, fp);
+                fwrite(&order->order[i].line_order[j].code, sizeof (char)*COD_PRODUCT_SIZE, 1, fp);
                 fwrite(&order->order[i].line_order[j].quantity, sizeof (int), 1, fp);
             }
         }
@@ -269,7 +271,8 @@ void importOrders(Orders *order) {
     } else {
         fread(&c, sizeof (int), 1, fp);
         for (i = 0; i < c; i++) {
-            order->order = realloc(order->order, sizeof (Order)*(order->counter + 1));
+            order->order = realloc(order->order,
+                                   sizeof (Order) * (order->counter + 1));
             order->order[i].order_id = (order->counter + 1);
             fread(&order->order[i].nif, sizeof (int), 1, fp);
             fread(&order->order[i].order_date.day, sizeof (int), 1, fp);
@@ -279,8 +282,8 @@ void importOrders(Orders *order) {
             order->order[i].line_order = malloc(1 * sizeof (OrderLine));
             for (j = 0; j < order->order[i].line_order_size; j++) {
                 order->order[i].line_order = realloc(order->order[i].line_order,
-                        sizeof (OrderLine)*(j + 1));
-                fread(&order->order[i].line_order[j].code, sizeof (char)*COD_MATERIAL_SIZE, 1, fp);
+                        sizeof(OrderLine)*(j + 1));
+                fread(&order->order[i].line_order[j].code, sizeof (char)*COD_PRODUCT_SIZE, 1, fp);
                 fread(&order->order[i].line_order[j].quantity, sizeof (int), 1, fp);
             }
             order->counter++;
