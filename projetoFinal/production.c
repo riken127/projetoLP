@@ -27,8 +27,8 @@ Date askDate() {
     return insertedDate;
 }
 
-void listRankClients() {
-
+void listRankCustomers() {
+    printf("b");
 }
 void exportRankedProducts(){
     int option;
@@ -180,7 +180,8 @@ void listRankMaterials(Materials *material, Orders *order, Products *product, Da
     exportRankedMaterials(cod, description, quantity, unit, count);
 }
 //quick sort
-int sortOrder(Order *a, Order *b){
+int sortOrder(const void *aa, const void *bb){
+    const Order *a = aa, *b = bb;
     if (a->order_date.day == b->order_date.day &&
         a->order_date.month == b->order_date.month &&
         a->order_date.year == b->order_date.year){
@@ -234,17 +235,55 @@ void listRankOrders(Orders *order) {
     free(temp->order);
     free(temp);
 }
+int sortCustomerPerAddress(const void *aa, const void *bb){
+    const Customer *a = aa, *b = bb;
+    return strcmp(a->address, b->address);
 
-int listMenu(Materials *material, Orders *order, Products *product, Date date) {
+}
+void listRankCustomersPerAddress(Customers *customers){
+    Customers *temp;
+    int i;
+    temp = (Customers *)malloc(sizeof(Customers));
+    temp->counter = customers->counter;
+    temp->customers = (Customer *)malloc(sizeof(Customer)*(temp->counter + 1));
+    for (i = 0; i < temp->counter; i++){
+        temp->customers[i].id = customers->customers[i].id;
+        temp->customers[i].nif = customers->customers[i].nif;
+        strcpy(temp->customers[i].country, customers->customers[i].country);
+        strcpy(temp->customers[i].address, customers->customers[i].address);
+        strcpy(temp->customers[i].name, customers->customers[i].name);
+        temp->customers[i].state = customers->customers[i].state;
+    }
+    qsort(temp->customers, temp->counter, sizeof(Customer), sortCustomerPerAddress);
+    if (temp->counter != 0) {
+        printf("\n\n\t\t\tCustomers by Address\n\t\t\t________________________");
+        for (i = 0; i < temp->counter; i++) {
+
+            printf("\n\n\t\t\tClient Id : %d", temp->customers[i].id);
+            printf("\n\t\t\tName      : %s", temp->customers[i].name);
+            printf("\n\t\t\tAddress   : %s", temp->customers[i].address);
+            printf("\n\t\t\tNif       : %d", temp->customers[i].nif);
+            printf("\n\t\t\tCountry   : %s", temp->customers[i].country);
+            printf("\n\t\t\tState     : %s", temp->customers[i].state == 1 ? "Active" : "Inactive");
+            printf("\n\t\t\t__________________________________");
+        }
+        pressAnyKeyToContinueFunctionListVersion();
+    }else{
+        printf("\n\t\t\tNo customer were found");
+        pressAnyKeyToContinueFunctionListVersion();
+    }
+    free(temp->customers);
+    free(temp);
+}
+int listMenu(Materials *material, Orders *order, Products *product, Date date, Customers *customers) {
     int option;
 
-    option = menuRead(MSG_LIST_MENU, 0, 5);
-
+    option = menuRead(MSG_LIST_MENU, 0, 6);
     switch (option) {
         case 0:
             break;
         case 1:
-            listRankClients();
+            listRankCustomers();
             break;
         case 2:
             listRankProducts(*(&material), *(&order), *(&product), date);
@@ -256,6 +295,7 @@ int listMenu(Materials *material, Orders *order, Products *product, Date date) {
             listRankOrders(order);
             break;
         case 5:
+            listRankCustomersPerAddress(customers);
             break;
         default:
             break;
@@ -272,7 +312,7 @@ int listMenu(Materials *material, Orders *order, Products *product, Date date) {
  * the material codes present in the order to the material  codes present in the material struct, if the codes are equal
  * it will list all the material information + the quantity of the product in a certain order.
  */
-void listMaterials(Materials *material, Orders *order, Products *product) {
+void listMaterials(Materials *material, Orders *order, Products *product, Customers *customer) {
     Date date;
     int i, j, k, d, f, verify = 0, option = 1;
 
@@ -309,7 +349,7 @@ void listMaterials(Materials *material, Orders *order, Products *product) {
                 }
             }
             if (verify == 0) {
-                option = listMenu(*(&material), *(&order), *(&product), date);
+                option = listMenu(*(&material), *(&order), *(&product), date, *(&customer));
             }
         } while (option != 0);
     } else {
@@ -321,7 +361,7 @@ void listMaterials(Materials *material, Orders *order, Products *product) {
 /*
  * Bellow menu is where the listMaterials function can be found.
  */
-void productionManagementMenu(Orders **order, Materials **material, Products **product) {
+void productionManagementMenu(Orders **order, Materials **material, Products **product, Customers *customers) {
     int option;
 
     do {
@@ -331,7 +371,7 @@ void productionManagementMenu(Orders **order, Materials **material, Products **p
             case 0:
                 break;
             case 1:
-                listMaterials(*material, *order, *product);
+                listMaterials(*material, *order, *product, customers);
                 break;
         }
     } while (option != 0);

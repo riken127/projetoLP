@@ -13,7 +13,7 @@
   "\n\t\t\t=============== Admin Menu ===============\n\n\t\t\t[1] - Clients Management.\n\t\t\t[2] - Products & Materials Management.\n\t\t\t[3] - Production "   \
   "Management.\n\t\t\t[0] - Quit.\n\t\t\t__________________________________________"
 #define MSG_CLIENT_MENU                                                        \
-  "\n\t\t\t========= Client Menu =========\n\n\t\t\t[1] - Do order.\n\t\t\t[2] - List orders.\n\t\t\t[0] - Quit.\n\t\t\t_______________________________"
+  "\n\t\t\t========= Client Menu =========\n\n\t\t\t[1] - Do order.\n\t\t\t[2] - List orders.\n\t\t\t[3] - Edit orders.\n\t\t\t[4] - Remove orders.\n\t\t\t[0] - Quit.\n\t\t\t_______________________________"
 #define MSG_IMPORT_MENU "\n\t\t\t========= Import Menu =========\n\n\t\t\t[1] - Clients.\n\t\t\t[2] - Products & Materials\n\t\t\t[3] - Orders.\n\t\t\t[0] - Quit.\n\t\t\t_______________________________"
 #define MSG_EXPORT_MENU "\n\t\t\t========= Export Menu =========\n\n\t\t\t[1] - Clients.\n\t\t\t[2] - Products & Materials\n\t\t\t[3] - Orders.\n\t\t\t[0] - Quit.\n\t\t\t_______________________________"
 
@@ -48,7 +48,7 @@ void adminMenu(Customers *customer, Orders **order,
                 productsMaterialsManagementMenu(*product, *material, *order);
                 break;
             case 3:
-                productionManagementMenu(order, material, product);
+                productionManagementMenu(order, material, product, customer);
                 break;
             default:
                 break;
@@ -74,6 +74,12 @@ void clientMenu(Customers *customer, Products **product,
                 break;
             case 2:
                 listOrders(*order);
+                break;
+            case 3:
+                editOrders(*order, *product);
+                break;
+            case 4:
+                removeOrders(*order);
                 break;
             default:
                 break;

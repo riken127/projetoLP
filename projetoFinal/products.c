@@ -678,9 +678,6 @@ void editProduct(Materials *material, Products *product, Orders *orders) {
                     continue;
                 }
             }
-            if (count == product->counter) {
-                printf("\n\t\t\tERROR!");
-            }
         }
     } else {
         errorMessage(NO_PRODUCTS_FOUND_MESSAGE);
