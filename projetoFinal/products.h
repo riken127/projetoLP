@@ -31,7 +31,7 @@
 
 #define YES_OR_NO_MESSAGE_RECORD_PRODUCT "\t\t\tDo you want to add another product?[y/n] - "
 
-#define MSG_CHANGE_PRODUCT_DATA "\n\t\t\t[1] - Name.\n\t\t\t[2] - Price.\n\t\t\t[3] - Dimension.\n\t\t\t[4] - Delete\n\t\t\t[5] - Materials.\n\t\t\t[0] - Quit.\n\t\t\t__________________________________"
+#define MSG_CHANGE_PRODUCT_DATA "\n\t\t\t[1] - Name.\n\t\t\t[2] - Price.\n\t\t\t[3] - Dimension.\n\t\t\t[4] - Delete\n\t\t\t[5] - Add Materials.\n\t\t\t[6] - Edit Materials.\n\t\t\t[7] - Remove Materials.\n\t\t\t[0] - Quit.\n\t\t\t__________________________________"
 
 #define MSG_CHANGE_PRODUCT_MATERIAL_DATA "\n\t\t\t[1] - Unit.\n\t\t\t[2] - Description.\n\t\t\t[3] - Delete.\n\t\t\t[0] - Quit.\n\t\t\t__________________________________"
 

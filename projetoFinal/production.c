@@ -66,7 +66,7 @@ void exportRankedCustomers(Customers *customer, int counter, int nif[MAX_CLIENTS
 }
 
 void listRankCustomers(Orders *order, Date date, Customers *customer) {
-    int i, j, k, nif[MAX_CLIENTS], count[MAX_CLIENTS], counter, tempNif, tempCount;
+    int i, j, nif[MAX_CLIENTS], count[MAX_CLIENTS], counter = 0, tempNif, tempCount = 0;
     nif[0] = 0;
     struct tm t = {.tm_year = date.year, .tm_mon = date.month, .tm_mday = date.day};
     t.tm_mday += 5;
@@ -88,9 +88,9 @@ void listRankCustomers(Orders *order, Date date, Customers *customer) {
             }
         }
     }
-    for (int i = 0; i < counter - 1; i++) {
+    for (i = 0; i < counter - 1; i++) {
         int Imin = i;
-        for (int j = i + 1; j < counter; j++) {
+        for (j = i + 1; j < counter; j++) {
             if (count[j] > count[Imin]) {
                 Imin = j;
             }
@@ -374,15 +374,17 @@ void exportRankOrders(Orders *temp) {
                 printf(ERROR_IN_FILES);
                 pressAnyKeyToContinueFunction();
             } else {
+                fprintf(fp, "Order Id;NIF;Order Date\n");
                 for (i = 0; i < temp->counter; i++) {
-                    fprintf(fp, "Order Id - %d;Client Nif - Date - %d;%dx%dx%d",
+                    fprintf(fp, "%d;%d;%d/%d/%d\n",
                             temp->order[i].order_id,
                             temp->order[i].nif,
                             temp->order[i].order_date.day,
                             temp->order[i].order_date.month,
                             temp->order[i].order_date.year);
+                    fprintf(fp, "Product Id;Quantity\n");
                     for (j = 0; j < temp->order[i].line_order_size; j++) {
-                        fprintf(fp, "\nProduct Id - %s;Quantity - %d", temp->order[i].line_order[j].code, temp->order[i].line_order[j].quantity);
+                        fprintf(fp, "%s;%d", temp->order[i].line_order[j].code, temp->order[i].line_order[j].quantity);
                     }
                     fprintf(fp,"\n\n");
                 }

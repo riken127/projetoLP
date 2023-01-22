@@ -570,28 +570,90 @@ void addMaterialLineProduct(Materials *material, Products *product, int position
         product->product[position].line_product = (LineProduct *) realloc(product->product[position].line_product,
                 sizeof (LineProduct) * (i + 1));
         listMaterial(material);
-        printf(ASK_MATERIAL_CODE);
-        scanf("%s", line.code);
-        if (verifyCode(line.code, material)) {
-            strcpy(product->product[position].line_product[i].code, line.code);
+        do {
+            printf(ASK_MATERIAL_CODE);
+            scanf("%s", line.code);
+        }while(!verifyCode(line.code, material));
+        do {
             printf(ASK_MATERIAL_QUANTITY);
             scanf("%hu", &line.quantity);
-            if (line.quantity > 0) {
-                product->product[position].line_product[i].quantity = line.quantity;
-            }
-            ++i;
-        } else {
-            printf("Written material code does not exist.\n");
-        }
+        }while(line.quantity < 0);
 
-        product->product[product->counter].line_product_size = i;
-        printf("Do you wish to add another material?");
-        scanf("%d", &op);
-    } while (op != 0);
-    product->product[position].line_product_size = i;
-    printf("%d", product->product[position].line_product_size);
+        strcpy(product->product[position].line_product[i].code, line.code);
+        product->product[position].line_product[i].quantity = line.quantity;
+        ++i;
+        op = yesOrNoFunction("Do you wish to add another material?");
+    } while (op != 2);
+    product->product[position].line_product_size = (i);
+}
+int verifyCodeInLine(char code[COD_MATERIAL_SIZE],
+                     LineProduct *line_product,
+                     int line_product_size){
+    int i;
+    for (i = 0; i < line_product_size; i++){
+        if (strcmp(line_product[i].code, code) == 0){
+            return 1;
+        }
+    }
+    return 0;
+}
+void saveLineProductChanges(const LineProduct temp,
+                            Products *products,
+                            int position){
+    int i;
+    for (i = 0; i < products->product[position].line_product_size; i++){
+        if (strcmp(products->product[position].line_product[i].code, temp.code) == 0){
+            products->product[position].line_product[i].quantity = temp.quantity;
+        }
+    }
+}
+void editMaterialLineProduct(Materials *materials, Products *products, int position){
+    LineProduct line;
+    int op;
+    do{
+        do {
+            printf(ASK_MATERIAL_CODE);
+            scanf("%s", line.code);
+        }while(!verifyCodeInLine(line.code,
+                                 products->product[position].line_product,
+                                 products->product[position].line_product_size));
+        do {
+            printf(ASK_MATERIAL_QUANTITY);
+            scanf("%hd", &line.quantity);
+        }while(line.quantity < 0);
+
+        op = yesOrNoFunction("Do you wish to edit another product?");
+        saveLineProductChanges(line, products, position);
+    }while(op != 2);
 }
 
+void removeMaterialLineProduct(Materials *materials, Products *products, int position){
+    LineProduct line;
+    char code[COD_MATERIAL_SIZE];
+    int op, i, pos;
+    do{
+        do{
+            printf(ASK_MATERIAL_CODE);
+            scanf("%s", code);
+        }while(!verifyCodeInLine(code,
+                                 products->product[position].line_product,
+                                 products->product[position].line_product_size));
+        op = yesOrNoFunction("Do you wish to delete another product?");
+        for (i = 0; i < products->product[position].line_product_size; i++){
+            if (strcmp(products->product[position].line_product[i].code, code) == 0){
+                pos = i;
+                break;
+            }
+        }
+        for (i = 0; i < products->product[position].line_product_size; i++){
+            strcpy(products->product[position].line_product[pos + i].code,
+                   products->product[position].line_product[pos + i + 1].code);
+            products->product[position].line_product[pos + i].quantity =
+                    products->product[position].line_product[pos + i + 1].quantity;
+        }
+        products->product[position].line_product_size--;
+    }while(op != 2);
+}
 /*
  * Bellow function is responsible for changing all the product data this function
  * receives the product struct the product position and code written by the user.
@@ -612,7 +674,11 @@ void changeProductData(Products *products, int pos, char code[COD_PRODUCT_SIZE],
     do {
         printf("\n\t\t\tChanging %s...", product.name);
         printf("\n\t\t\t__________________________________\n");
-        option = menuRead(MSG_CHANGE_PRODUCT_DATA, 0, 5);
+
+        option = menuRead(MSG_CHANGE_PRODUCT_DATA, 0, 7);
+
+       /* printf(MSG_CHANGE_PRODUCT_DATA);
+        scanf("%d", &option);*/
         switch (option) {
             case 0:
                 break;
@@ -642,6 +708,12 @@ void changeProductData(Products *products, int pos, char code[COD_PRODUCT_SIZE],
                 break;
             case 5:
                 addMaterialLineProduct(material, products, pos);
+                break;
+            case 6:
+                editMaterialLineProduct(material, products, pos);
+                break;
+            case 7:
+                removeMaterialLineProduct(material, products, pos);
                 break;
         }
     } while (option != 0);

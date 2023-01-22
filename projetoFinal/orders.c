@@ -323,6 +323,7 @@ void removeLineProduct(Order *order) {
             for (i = 0; i < order->line_order_size; i++) {
                 if (strcmp(order->line_order[i].code, product.code) == 0) {
                     strcpy(order->line_order[i].code, order->line_order[i + 1].code);
+                    order->line_order[i].quantity = order->line_order[i + 1].quantity;
                 }
             }
             --order->line_order_size;
