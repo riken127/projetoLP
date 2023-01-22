@@ -316,7 +316,7 @@ int listMenu(Materials *material, Orders *order, Products *product, Date date, C
  */
 void listMaterials(Materials *material, Orders *order, Products *product, Customers *customer) {
     Date date;
-    int i, j, k, d, f, verify = 0, option = 1, count = 0;
+    int i, j, k, d, f, option = 1, count = 0;
 
     if (order->counter != 0) {
         date = askDate();
@@ -350,10 +350,7 @@ void listMaterials(Materials *material, Orders *order, Products *product, Custom
             }
             if (count == 0){
                 errorMessage(NO_ORDERS_FOUND_TO_THAT_DATE_MESSAGE);
-                verify = 1;
-            }
-
-            if (verify == 0) {
+            }else{
                 option = listMenu(*(&material), *(&order), *(&product), date, *(&customer));
             }
         } while (option != 0);
