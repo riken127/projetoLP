@@ -1,10 +1,28 @@
-//created by r1ken
+/**
+ * 
+ * @file orders.c
+ * @author João Pereira, Henrique Noronha, Ângelo Lopes
+ * @date 16 Janeiro 2023
+ * @brief Menus file
+ * 
+ * File containing all the funtions about orders.
+ */
 #include "orders.h"
 #include "menus.h"
 
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+
+/**
+ * This function verfies the existence of Clients and Products, if so, it returns 1,
+ * if it doesn't exist any, it returns 0.
+ * 
+ * @param customer Pointer to the customer struct.
+ * @param product Pointer to the product struct.
+ * @return 0 If not verified.
+ * @return 1 If verified.
+ */
 
 int verifyExistenceOfClientesAndProducts(Customers *customer, Products *product) {
     if (customer->counter != 0) {
@@ -21,10 +39,14 @@ int verifyExistenceOfClientesAndProducts(Customers *customer, Products *product)
     return 0;
 }
 
-/*
- * Bellow function greets a customer, it receives the customer struct as a parameter
+/**
+ * This function greets a customer, it receives the customer struct as a parameter
  * and the nif written by the user, and then greets the user by his name.
+ * 
+ * @param customer Pointer to the struct customer.
+ * @param nif Nif of the current customer.
  */
+
 void greetCustomer(Customers *customer, int nif) {
     int i;
     for (i = 0; i < customer->counter; i++) {
@@ -34,9 +56,12 @@ void greetCustomer(Customers *customer, int nif) {
     }
 }
 
-/*
- * Bellow function lists all the available products.
+/**
+ * Listing of all the available products.
+ * 
+ * @param product Pointer of the products struct.
  */
+
 void listAvailableProducts(Products *product) {
     int i;
     printf("\n\n\t\t\tList Of Products\n\t\t\t__________________________________");
@@ -52,17 +77,28 @@ void listAvailableProducts(Products *product) {
     }
 }
 
-/*
- * Bellow function returns a new order id.
+/**
+ * Function below returns a new order id.
+ * 
+ * @param order Pointer to the struct orders.
+ * @return order->counter + 1 The last order Id plus 1. Ex: Last -> 45 New -> 46
  */
+
 int newOrderId(Orders *order) {
     return (order->counter + 1);
 }
 
-/*
- * The bellow function verifies a product code, if the product code is found,
+/**
+ * The function below verifies a product code, if the product code is found,
  * it returns 1, if not, it returns 0.
+ * 
+ * @param code Code of the product requested.
+ * @param product Pointer to the struct products.
+ * @return 0 If not verified.
+ * @return 1 If verified.
  */
+
+
 int verifyChoosenProduct(char code[COD_PRODUCT_SIZE], Products *product) {
     int i;
     for (i = 0; i < product->counter; i++) {
@@ -74,9 +110,13 @@ int verifyChoosenProduct(char code[COD_PRODUCT_SIZE], Products *product) {
     return 0;
 }
 
-/*
- * The bellow function returns a product code, it loops until the product code  is available
+/**
+ * This function returns a product code, it loops until the product code is available.
+ * 
+ * @param product Pointer to the struct products.
+ * @param code Code of the product.
  */
+
 void newOrderChoosenProductCode(Products *product, char code[]) {
     do {
         printf("\n"ASK_PRODUCT_CODE);
@@ -84,10 +124,11 @@ void newOrderChoosenProductCode(Products *product, char code[]) {
     } while (!verifyChoosenProduct(code, product));
 }
 
-/*
- * The bellow function returns an order date, it loops tru the basic date requirements until the
- * requirements are met, then it returns the date struct.
+/**
+ * The bellow function returns an order date, it loops through the basic date
+ * requirements until the requirements are met, then it returns the date struct.
  */
+
 Date newOrderChoosenDate() {
     Date orderDate;
     do {
@@ -100,10 +141,13 @@ Date newOrderChoosenDate() {
     return orderDate;
 }
 
-/*
- * The bellow function returns an order quantity, it asks the user for the desired quantity
+/**
+ * This function returns an order quantity, it asks the user for the desired quantity
  * until the value is between the quantity requirements (zero for minimum and ten thousand for maximum).
+ * 
+ * @return quantity Quantity value.
  */
+
 int newOrderQuantity() {
     int quantity;
     do {
@@ -114,11 +158,20 @@ int newOrderQuantity() {
     return quantity;
 }
 
-/*
- * The bellow function is responsible for the creation of a new order, it receives the customer struct,
- * the nif, the product struct and the order struct. This function reallocates memory everytime a new product
- * is added to the order, the line_product struct records the product code and the product quantity.
+/**
+ * This function is responsible for the creation of a new order, it receives
+ * the customer struct, the nif, the product struct and the order struct. This function
+ * reallocates memory everytime a new product is added to the order, the line_product
+ * struct records the product code and the product quantity.
+ *  
+ * @param customer Pointer to the struct customers.
+ * @param nif Nif of the customer.
+ * @param product Pointer to the struct products.
+ * @param order Pointer to the struct orders.
+ * 
+ * @return 1 Shows that the function was executed successfully.
  */
+
 int newOrder(Customers *customer, int nif, Products *product, Orders *order) {
     int option, j;
     order->order = realloc(order->order, sizeof(Order) * (order->counter + 1));
@@ -144,10 +197,16 @@ int newOrder(Customers *customer, int nif, Products *product, Orders *order) {
     return 1;
 }
 
-/*
- * The bellow function verifies a customer nif, the function loops tru the struct trying to find the nif,
- * if found it returns one, if not it returns zero.
+/**
+ * This function verifies a customer nif, the function loops through the struct
+ * trying to find the nif, if found it returns one, if not it returns zero.
+ * 
+ * @param customers Pointer to the customers struct.
+ * @param customerNif Nif of the customer.
+ * @return 0 If not verified.
+ * @return 1 If verified.
  */
+
 int verifyCustomerNif(Customers *customers, int customerNif) {
     int i;
     if (customerNif == 0) {
@@ -166,10 +225,16 @@ int verifyCustomerNif(Customers *customers, int customerNif) {
     return 0;
 }
 
-/*
- * The bellow function asks for the customer nif while the written nif doesn't exist, then, the customer
- * is greeted, and goes to the newOrder function where all the order information will be filled by the user.
+/**
+ * This function asks for the customer nif while the written nif doesn't exist,
+ * then, the customer is greeted, and goes to the newOrder function where all the
+ * order information will be filled by the user.
+ * 
+ * @param customer Pointer to the struct customers.
+ * @param product Pointer to the struct products.
+ * @param order Pointer to the struct orders.
  */
+
 void doOrder(Customers *customer, Products *product, Orders *order) {
     int customerNif, verify;
     verify = verifyExistenceOfClientesAndProducts(*(&customer), *(&product));
@@ -184,9 +249,12 @@ void doOrder(Customers *customer, Products *product, Orders *order) {
     }
 }
 
-/*
+/**
  * The bellow function lists all the orders' information.
+ * 
+ * @param order Pointer of the orders struct.
  */
+
 void listOrders(Orders *order) {
     int i, j;
     if (order->counter != 0) {
@@ -209,6 +277,13 @@ void listOrders(Orders *order) {
         pressAnyKeyToContinueFunctionListVersion();
     }
 }
+
+/**
+ * Function that asks a Nif. Then it calls the listPerNifOrders function.
+ * 
+ * @param orders Pointer of the orders struct.
+ */
+
 void listPerNif(Orders *orders){
     int nif;
     printf(ASK_CUSTOMER_NIF);
@@ -216,6 +291,14 @@ void listPerNif(Orders *orders){
     listPerNifOrders(orders, nif);
 
 }
+
+/**
+ * Function that list orders by a asked Nif.
+ * 
+ * @param orders Pointer of the orders struct.
+ * @paran nif Nif of the order.
+ */
+
 void listPerNifOrders(Orders *order, int nif) {
     int i, j, count = 0;
     if (order->counter != 0) {
@@ -247,6 +330,17 @@ void listPerNifOrders(Orders *order, int nif) {
     }
 
 }
+
+/**
+ * This function verifies a order Id, the function loops through the struct
+ * trying to find the Id, if found, it returns one, if not it returns zero.
+ * 
+ * @param order Pointer of the orders struct.
+ * @param id Id of the order.
+ * @return 0 If not verified.
+ * @return 1 If verified.
+ */
+
 int verifyOrderId(Orders *order, int id, int nif) {
     int i;
     for (i = 0; i < order->counter; i++) {
@@ -256,6 +350,17 @@ int verifyOrderId(Orders *order, int id, int nif) {
     }
     return 0;
 }
+
+/**
+ * This function verifies a Product line, the function loops through the struct
+ * trying to find the Order, if found, it returns one, if not it returns zero.
+ * 
+ * @param product Pointer to the LineProduct struct.
+ * @param order Pointer of the orders struct.
+ * @return 0 If not verified.
+ * @return 1 If verified.
+ */
+
 
 int verifyProductOrderLine(LineProduct product, Order order) {
     int i;
@@ -267,6 +372,12 @@ int verifyProductOrderLine(LineProduct product, Order order) {
     return -1;
 }
 
+/**
+ * This fucntion receives a orders date and changes it.
+ * 
+ * @param order_date Pointer to the Date struct.
+ */
+
 void changeOrderDate(Date *order_date) {
     do {
         printf(ASK_ORDER_DATE);
@@ -276,6 +387,8 @@ void changeOrderDate(Date *order_date) {
              order_date->year < MIN_YEAR);
     system("cls || clear");
 }
+
+//NAO SEI O QUE E ISTO DEIXO PARA AMANHA PARA VER COM VCS
 
 void editLineProduct(Order *order) {
     int i, position;
@@ -394,6 +507,17 @@ void saveLineOrderChanges(Orders *order, int position, Order temp) {
     }
 }
 
+//ACABA AQUI
+
+/**
+ * This function edits an order.
+ * 
+ * @param order Pointer to the orders struct.
+ * @param position Position of the orden in the struct.
+ * @param id Id of the order.
+ * @param products Pointer to the products struct.
+ */
+
 void changeOrderData(Orders *order, int position, int id, Products *products) {
     int option, i;
     Order temp;
@@ -420,6 +544,15 @@ void changeOrderData(Orders *order, int position, int id, Products *products) {
     saveLineOrderChanges(order, position, temp);
 }
 
+/**
+ * This function ask for a order. Then, it verifies it that order exists, if it
+ * does, it calls the changeOrderData function.
+ * 
+ * @param order Pointer to the orders struct.
+ * @param products Pointer to the products struct.
+ */
+
+
 void editOrders(Orders *order, Products *products) {
     int id, i, verify, nif;
     system("cls || clear");
@@ -443,6 +576,13 @@ void editOrders(Orders *order, Products *products) {
             errorMessage(MSG_ERROR_MESSAGE);
     } while (verify != 1);
 }
+
+/**
+ * This function removes an order.
+ * 
+ * @param orders Pointer to the orders struct.
+ * @param id Id of the order.
+ */
 
 void removeOrder(Orders *orders, int id) {
     int i, j;
@@ -471,6 +611,13 @@ void removeOrder(Orders *orders, int id) {
     --orders->counter;
 }
 
+/**
+ * This function ask for a order. Then, it verifies it that order exists, if it
+ * does, it calls the removeOrder function.
+ * 
+ * @param order Pointer to the orders struct.
+ */
+
 void removeOrders(Orders *order) {
     int id, verify, nif;
     system("cls || clear");
@@ -491,16 +638,19 @@ void removeOrders(Orders *order) {
     } while (verify != 1);
 }
 
-/*
- * Bellow function asks for a product's name.
+/**
+ * This function asks for a product's name.
+ * 
+ * @param fileName Name of the file.
  */
+
 void askFileName(char fileName[MAX_FN_CHARS]) {
     printf(ASK_FILE_NAME);
     scanf("%s", fileName);
 }
 
-/*
- * The bellow function exports the orders' struct, it starts by asking for file name, and then the
+/**
+ * The function below exports the orders' struct, it starts by asking for file name, and then the
  * process goes in the following way:
  *      ->writes order size.
  *          ->loops tru the order_size recording all the products' information.
@@ -508,7 +658,10 @@ void askFileName(char fileName[MAX_FN_CHARS]) {
  *                      ->loop tru a certain product line_order recording all of its information.
  *      ->closes file pointer.
  *      ->success message.
+ * 
+ * @param order Pointer to the orders struct.
  */
+
 void exportOrders(Orders *order) {
     FILE *fp;
     int i, j;
@@ -537,8 +690,8 @@ void exportOrders(Orders *order) {
     }
 }
 
-/*
- * The bellow function imports order data, the importing process goes in the following way:
+/**
+ * The function below imports order data, the importing process goes in the following way:
  *      ->asks for the desired file name.
  *      ->reads the sizeof the orders.
  *          ->loops tru the size of the orders reading the orders.
@@ -546,7 +699,10 @@ void exportOrders(Orders *order) {
  *                  ->loop tru the size of the line_order_size reading the product codes and the quantity's.
  *      ->order counter + 1.
  *      closes file pointer.
+ * 
+ * @param order Pointer to the orders struct.
  */
+
 void importOrders(Orders *order) {
     FILE *fp;
     int i, c, j;
