@@ -71,20 +71,29 @@ void listRankProducts(Materials *material, Orders *order, Products *product, Dat
                             strcpy(cod[k], order->order[i].line_order[j].code);
                             quantity[k] = quantity[k] + order->order[i].line_order[j].quantity;
                         }
-
-                        /*printf("\n\n\t\t\tProduct Id      : %s", product->product[f].cod_Produto);
-                        printf("\n\t\t\tName            : %s", product->product[f].name);
-                        printf("\n\t\t\tPrice           : %f", product->product[f].price);
-                        printf("\n\t\t\tDimensions      : %dx%dx%d", product->product[f].dimension.height, product->product[f].dimension.lenght, product->product[f].dimension.width);
-                        printf("\n\t\t\t_______________________________________");*/
                     }
                 }
             }
         }
     }
-    for (j = 0; j < count; j++) {
-        printf("\n\t\t\tProduct Id - %s\n\t\t\tQuantity - %d\n", cod[j], quantity[j]);
+    for (i = 0; i < order->counter; i++) {
+        if (order->order[i].order_date.day >= date.day && order->order[i].order_date.month >= date.month && order->order[i].order_date.year >= date.year ||
+                order->order[i].order_date.day <= t.tm_mday && order->order[i].order_date.month <= t.tm_mon && order->order[i].order_date.year <= t.tm_year) {
+            for (j = 0; j < order->order[i].line_order_size; j++) {
+                for (k = 0; k < product->counter; k++) {
+                    if (strcmp(order->order[i].line_order[j].code, product->product[k].cod_Produto) == 0) {
+
+                        printf("\n\n\t\t\tProduct Id      : %s", product->product[f].cod_Produto);
+                        printf("\n\t\t\tName            : %s", product->product[f].name);
+                        printf("\n\t\t\tPrice           : %f", product->product[f].price);
+                        printf("\n\t\t\tDimensions      : %dx%dx%d", product->product[f].dimension.height, product->product[f].dimension.lenght, product->product[f].dimension.width);
+                        printf("\n\t\t\t_______________________________________");
+                    }
+                }
+            }
+        }
     }
+
     exportRankedProducts();
 }
 
@@ -369,7 +378,7 @@ void listMaterials(Materials *material, Orders *order, Products *product, Custom
                     ++count;
                 }
             }
-            if (count == 0){
+            if (count == 0) {
                 errorMessage(NO_ORDERS_FOUND_TO_THAT_DATE_MESSAGE);
                 verify = 1;
             }
