@@ -14,7 +14,7 @@
 //macro  definition
 #define MSG_MENU_PRODUCTION "\n\t\t\t========= Production Management Menu =========\n\n\t\t\t[1] - List materials.\n\t\t\t[0] - Quit.\n\t\t\t______________________________________________"
 
-#define MSG_LIST_MENU "\n\n\t\t\t[1] - Rank Clients.\n\t\t\t[2] - Rank Products.\n\t\t\t[3] - Rank Materials.\n\t\t\t[4] - List 4.\n\t\t\t[5] - List 5.\n\t\t\t[0] - Quit.\n\t\t\t__________________________________"
+#define MSG_LIST_MENU "\n\n\t\t\t[1] - Rank Clients.\n\t\t\t[2] - Rank Products.\n\t\t\t[3] - Rank Materials.\n\t\t\t[4] - Rank by Date.\n\t\t\t[5] - Rank by Address.\n\t\t\t[0] - Quit.\n\t\t\t__________________________________"
 
 #define MSG_EXPORT_RANKED_DATA "\n\n\t\t\t[1] - Export to file.\n\t\t\t[0] - Quit.\n\t\t\t__________________________________"
 
@@ -25,6 +25,7 @@
 #define NO_ORDERS_FOUND_TO_THAT_DATE_MESSAGE "\n\t\t\tNo orders were found for that date\n\t\t\t__________________________________"
 
 #define MAX_MATERIALS 9999
+#define MAX_PRODUCTS 9999
 //function definition
 Date askDate();
 void listRankCustomers();

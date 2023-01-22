@@ -45,10 +45,14 @@ void exportRankedProducts() {
 }
 
 void listRankProducts(Materials *material, Orders *order, Products *product, Date date) {
-    int i, j, k, f;
+    int i, j, k, f, quantity[MAX_PRODUCTS], count = 0;
+    char cod[MAX_PRODUCTS][COD_PRODUCT_SIZE];
     struct tm t = {.tm_year = date.year, .tm_mon = date.month, .tm_mday = date.day};
     t.tm_mday += 5;
     mktime(&t);
+    for (i = 0; i < MAX_PRODUCTS; i++) {
+        quantity[i] = 0;
+    }
     printf("\n\t\t\tRanked Products for %d-%d-%d\n\t\t\t__________________________________", date.day, date.month, date.year);
     for (i = 0; i < order->counter; i++) {
         if (order->order[i].order_date.day >= date.day && order->order[i].order_date.month >= date.month && order->order[i].order_date.year >= date.year ||
@@ -56,18 +60,40 @@ void listRankProducts(Materials *material, Orders *order, Products *product, Dat
             for (j = 0; j < order->order[i].line_order_size; j++) {
                 for (k = 0; k < product->counter; k++) {
                     if (strcmp(order->order[i].line_order[j].code, product->product[k].cod_Produto) == 0) {
-                        //for (f = 0; f < product->product[k].line_product_size; ++f) {
-                        printf("\n\n\t\t\tProduct Id      : %s", product->product[k].cod_Produto);
-                        printf("\n\t\t\tName            : %s", product->product[k].name);
-                        printf("\n\t\t\tPrice           : %f", product->product[k].price);
-                        printf("\n\t\t\tDimensions      : %dx%dx%d", product->product[k].dimension.height, product->product[k].dimension.lenght, product->product[k].dimension.width);
-                        printf("\n\t\t\t_______________________________________");
-                        //}
+                        printf("\n\t\t\tProduct Id - %s\n\t\t\tQuantity - %d\n", order->order[i].line_order[j].code,
+                                order->order[i].line_order[j].quantity);
+
+                        if (quantity[k] == 0) {
+                            strcpy(cod[k], order->order[i].line_order[j].code);
+                            quantity[k] = order->order[i].line_order[j].quantity;
+                            count++;
+                        } else {
+                            strcpy(cod[k], order->order[i].line_order[j].code);
+                            quantity[k] = quantity[k] + order->order[i].line_order[j].quantity;
+                        }
                     }
                 }
             }
         }
     }
+    for (i = 0; i < order->counter; i++) {
+        if (order->order[i].order_date.day >= date.day && order->order[i].order_date.month >= date.month && order->order[i].order_date.year >= date.year ||
+                order->order[i].order_date.day <= t.tm_mday && order->order[i].order_date.month <= t.tm_mon && order->order[i].order_date.year <= t.tm_year) {
+            for (j = 0; j < order->order[i].line_order_size; j++) {
+                for (k = 0; k < product->counter; k++) {
+                    if (strcmp(order->order[i].line_order[j].code, product->product[k].cod_Produto) == 0) {
+
+                        printf("\n\n\t\t\tProduct Id      : %s", product->product[f].cod_Produto);
+                        printf("\n\t\t\tName            : %s", product->product[f].name);
+                        printf("\n\t\t\tPrice           : %f", product->product[f].price);
+                        printf("\n\t\t\tDimensions      : %dx%dx%d", product->product[f].dimension.height, product->product[f].dimension.lenght, product->product[f].dimension.width);
+                        printf("\n\t\t\t_______________________________________");
+                    }
+                }
+            }
+        }
+    }
+
     exportRankedProducts();
 }
 
@@ -112,7 +138,7 @@ void listRankMaterials(Materials *material, Orders *order, Products *product, Da
     struct tm t = {.tm_year = date.year, .tm_mon = date.month, .tm_mday = date.day};
     t.tm_mday += 5;
     mktime(&t);
-    for (d = 0; d < 20; d++) {
+    for (d = 0; d < MAX_MATERIALS; d++) {
         quantity[d] = 0;
     }
     printf("\n\t\t\tRanked Materials for %d-%d-%d\n\t\t\t__________________________________", date.day, date.month, date.year);
@@ -182,7 +208,8 @@ void listRankMaterials(Materials *material, Orders *order, Products *product, Da
     exportRankedMaterials(cod, description, quantity, unit, count);
 }
 //quick sort
-int sortOrder(const void *aa, const void *bb){
+
+int sortOrder(const void *aa, const void *bb) {
     const Order *a = aa, *b = bb;
     if (a->order_date.day == b->order_date.day &&
             a->order_date.month == b->order_date.month &&
@@ -200,55 +227,57 @@ int sortOrder(const void *aa, const void *bb){
 void listRankOrders(Orders *order) {
     Orders *temp;
     int i, j;
-    temp = (Orders *)malloc(sizeof(Orders));
+    temp = (Orders *) malloc(sizeof (Orders));
     temp->counter = order->counter;
-    temp->order = (Order *) malloc(sizeof(Order)*(temp->counter + 1));
-    for (i = 0; i < temp->counter; i++){
+    temp->order = (Order *) malloc(sizeof (Order)*(temp->counter + 1));
+    for (i = 0; i < temp->counter; i++) {
         temp->order[i].order_date.month = order->order[i].order_date.month;
         temp->order[i].order_date.year = order->order[i].order_date.year;
         temp->order[i].order_date.day = order->order[i].order_date.day;
         temp->order[i].line_order_size = order->order[i].line_order_size;
         temp->order[i].order_id = order->order[i].order_id;
         temp->order[i].nif = order->order[i].nif;
-        temp->order[i].line_order = (OrderLine *)malloc(sizeof(OrderLine) *
-                                                                temp->order[i].line_order_size);
-        for (j = 0; j < temp->order[i].line_order_size; j++){
+        temp->order[i].line_order = (OrderLine *) malloc(sizeof (OrderLine) *
+                temp->order[i].line_order_size);
+        for (j = 0; j < temp->order[i].line_order_size; j++) {
             strcpy(temp->order[i].line_order[j].code, order->order[i].line_order[j].code);
             temp->order[i].line_order[j].quantity = order->order[i].line_order[j].quantity;
         }
     }
-    qsort(temp->order, temp->counter, sizeof(Order), sortOrder);
-    if (temp->counter != 0){
+    qsort(temp->order, temp->counter, sizeof (Order), sortOrder);
+    if (temp->counter != 0) {
         printf("\n\n\t\t\tList Of Orders (By date)\n\t\t\t________________________");
         for (i = 0; i < temp->counter; i++) {
             printf("\n\n\t\t\tOrder Id             : %d", temp->order[i].order_id);
             printf("\n\t\t\tClient Nif           : %d", temp->order[i].nif);
             printf("\n\t\t\tDate                 : %d-%d-%d", temp->order[i].order_date.day, temp->order[i].order_date.month, temp->order[i].order_date.year);
             printf("\n\t\t\t__________________________________\n");
-            for (j = 0; j < temp->order[i].line_order_size; j++){
+            for (j = 0; j < temp->order[i].line_order_size; j++) {
                 printf("\n\t\t\tProduct Id - %s\n\t\t\tQuantity - %d\n", temp->order[i].line_order[j].code, temp->order[i].line_order[j].quantity);
             }
             printf("\t\t\t__________________________________");
         }
         pressAnyKeyToContinueFunctionListVersion();
-    }else{
+    } else {
         printf("\n\t\t\tNo orders were found");
         pressAnyKeyToContinueFunctionListVersion();
     }
     free(temp->order);
     free(temp);
 }
-int sortCustomerPerAddress(const void *aa, const void *bb){
+
+int sortCustomerPerAddress(const void *aa, const void *bb) {
     const Customer *a = aa, *b = bb;
     return strcmp(a->address, b->address);
 }
-void listRankCustomersPerAddress(Customers *customers){
+
+void listRankCustomersPerAddress(Customers *customers) {
     Customers *temp;
     int i;
-    temp = (Customers *)malloc(sizeof(Customers));
+    temp = (Customers *) malloc(sizeof (Customers));
     temp->counter = customers->counter;
-    temp->customers = (Customer *)malloc(sizeof(Customer)*(temp->counter + 1));
-    for (i = 0; i < temp->counter; i++){
+    temp->customers = (Customer *) malloc(sizeof (Customer)*(temp->counter + 1));
+    for (i = 0; i < temp->counter; i++) {
         temp->customers[i].id = customers->customers[i].id;
         temp->customers[i].nif = customers->customers[i].nif;
         strcpy(temp->customers[i].country, customers->customers[i].country);
@@ -256,7 +285,7 @@ void listRankCustomersPerAddress(Customers *customers){
         strcpy(temp->customers[i].name, customers->customers[i].name);
         temp->customers[i].state = customers->customers[i].state;
     }
-    qsort(temp->customers, temp->counter, sizeof(Customer), sortCustomerPerAddress);
+    qsort(temp->customers, temp->counter, sizeof (Customer), sortCustomerPerAddress);
     if (temp->counter != 0) {
         printf("\n\n\t\t\tCustomers by Address\n\t\t\t________________________");
         for (i = 0; i < temp->counter; i++) {
@@ -270,13 +299,14 @@ void listRankCustomersPerAddress(Customers *customers){
             printf("\n\t\t\t__________________________________");
         }
         pressAnyKeyToContinueFunctionListVersion();
-    }else{
+    } else {
         printf("\n\t\t\tNo customer were found");
         pressAnyKeyToContinueFunctionListVersion();
     }
     free(temp->customers);
     free(temp);
 }
+
 int listMenu(Materials *material, Orders *order, Products *product, Date date, Customers *customers) {
     int option;
 
@@ -348,7 +378,7 @@ void listMaterials(Materials *material, Orders *order, Products *product, Custom
                     ++count;
                 }
             }
-            if (count == 0){
+            if (count == 0) {
                 errorMessage(NO_ORDERS_FOUND_TO_THAT_DATE_MESSAGE);
             }else{
                 option = listMenu(*(&material), *(&order), *(&product), date, *(&customer));
