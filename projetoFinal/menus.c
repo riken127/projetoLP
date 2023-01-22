@@ -6,6 +6,7 @@
 #include "clients.h"
 #include "production.h"
 #include "products.h"
+#include <stdio.h>
 //macro definition
 
 #define MSG_MAIN_MENU "\n\t\t\t========= Main Menu =========\n\n\t\t\t[1] - User.\n\t\t\t[2] - Admin.\n\t\t\t[3] - Import.\n\t\t\t[4] - Export.\n\t\t\t[0] - Quit.\n\t\t\t_____________________________"
@@ -61,7 +62,7 @@ void adminMenu(Customers *customer, Orders **order,
  * [option] given by the user is equal to zero.
  */
 void clientMenu(Customers *customer, Products **product,
-        Orders **order) {
+                Orders **order) {
     int option;
 
     do {
@@ -73,7 +74,7 @@ void clientMenu(Customers *customer, Products **product,
                 doOrder(*(&customer), *product, *order);
                 break;
             case 2:
-                listOrders(*order);
+                listPerNif(*order);
                 break;
             case 3:
                 editOrders(*order, *product);

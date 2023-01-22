@@ -238,7 +238,6 @@ void listRankOrders(Orders *order) {
 int sortCustomerPerAddress(const void *aa, const void *bb){
     const Customer *a = aa, *b = bb;
     return strcmp(a->address, b->address);
-
 }
 void listRankCustomersPerAddress(Customers *customers){
     Customers *temp;

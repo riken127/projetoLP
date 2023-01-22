@@ -37,14 +37,15 @@ void greetCustomer(Customers *customer, int nif) {
 /*
  * Bellow function lists all the available products.
  */
-void listAvailableProducts(Products * product) {
+void listAvailableProducts(Products *product) {
     int i;
     printf("\n\n\t\t\tList Of Products\n\t\t\t__________________________________");
     for (i = 0; i < product->counter; i++) {
         printf("\n\n\t\t\tProduct Id      : %s", product->product[i].cod_Produto);
         printf("\n\t\t\tName            : %s", product->product[i].name);
         printf("\n\t\t\tPrice           : %f", product->product[i].price);
-        printf("\n\t\t\tDimensions      : %dx%dx%d", product->product[i].dimension.height, product->product[i].dimension.lenght, product->product[i].dimension.width);
+        printf("\n\t\t\tDimensions      : %dx%dx%d", product->product[i].dimension.height,
+               product->product[i].dimension.lenght, product->product[i].dimension.width);
         printf("\n\t\t\t__________________________________");
     }
 }
@@ -60,7 +61,7 @@ int newOrderId(Orders *order) {
  * The bellow function verifies a product code, if the product code is found,
  * it returns 1, if not, it returns 0.
  */
-int verifyChoosenProduct(char code[COD_PRODUCT_SIZE], Products * product) {
+int verifyChoosenProduct(char code[COD_PRODUCT_SIZE], Products *product) {
     int i;
     for (i = 0; i < product->counter; i++) {
         if (strcmp(product->product[i].cod_Produto, code) == 0) {
@@ -90,8 +91,8 @@ Date newOrderChoosenDate() {
         printf(ASK_ORDER_DATE);
         scanf("%d-%d-%d", &orderDate.day, &orderDate.month, &orderDate.year);
     } while (orderDate.day < MIN_DAY || orderDate.day > MAX_DAY ||
-            orderDate.month < MIN_MONTH || orderDate.month > MAX_MONTH ||
-            orderDate.year < MIN_YEAR);
+             orderDate.month < MIN_MONTH || orderDate.month > MAX_MONTH ||
+             orderDate.year < MIN_YEAR);
     system("cls || clear");
     return orderDate;
 }
@@ -115,18 +116,18 @@ int newOrderQuantity() {
  * the nif, the product struct and the order struct. This function reallocates memory everytime a new product
  * is added to the order, the line_product struct records the product code and the product quantity.
  */
-int newOrder(Customers *customer, int nif, Products *product, Orders * order) {
+int newOrder(Customers *customer, int nif, Products *product, Orders *order) {
     int option, j;
-    order->order = realloc(order->order, sizeof (Order)*(order->counter + 1));
+    order->order = realloc(order->order, sizeof(Order) * (order->counter + 1));
     listAvailableProducts(*(&product));
     order->order[order->counter].order_id = newOrderId(order);
     order->order[order->counter].nif = nif;
     j = 0;
     order->order[order->counter].line_order_size = 0;
-    order->order[order->counter].line_order = (OrderLine *)malloc(sizeof(OrderLine) * 1);
+    order->order[order->counter].line_order = (OrderLine *) malloc(sizeof(OrderLine) * 1);
     do {
         order->order[order->counter].line_order = (OrderLine *) realloc(order->order[order->counter].line_order,
-                sizeof(OrderLine) * (j + 1));
+                                                                        sizeof(OrderLine) * (j + 1));
         order->order[order->counter].line_order_size += 1;
         newOrderChoosenProductCode(product, order->order[order->counter].line_order[j].code);
         order->order[order->counter].line_order[j].quantity = newOrderQuantity();
@@ -189,10 +190,12 @@ void listOrders(Orders *order) {
         for (i = 0; i < order->counter; i++) {
             printf("\n\n\t\t\tOrder Id             : %d", order->order[i].order_id);
             printf("\n\t\t\tClient Nif           : %d", order->order[i].nif);
-            printf("\n\t\t\tDate                 : %d-%d-%d", order->order[i].order_date.day, order->order[i].order_date.month, order->order[i].order_date.year);
+            printf("\n\t\t\tDate                 : %d-%d-%d", order->order[i].order_date.day,
+                   order->order[i].order_date.month, order->order[i].order_date.year);
             printf("\n\t\t\t__________________________________\n");
             for (j = 0; j < order->order[i].line_order_size; j++) {
-                printf("\n\t\t\tProduct Id - %s\n\t\t\tQuantity - %d\n", order->order[i].line_order[j].code, order->order[i].line_order[j].quantity);
+                printf("\n\t\t\tProduct Id - %s\n\t\t\tQuantity - %d\n", order->order[i].line_order[j].code,
+                       order->order[i].line_order[j].quantity);
             }
             printf("\t\t\t__________________________________");
         }
@@ -202,34 +205,75 @@ void listOrders(Orders *order) {
         pressAnyKeyToContinueFunctionListVersion();
     }
 }
-int verifyOrderId(Orders *order, int id){
+void listPerNif(Orders *orders){
+    int nif;
+    printf(ASK_CUSTOMER_NIF);
+    scanf("%d", &nif);
+    listPerNifOrders(orders, nif);
+
+}
+void listPerNifOrders(Orders *order, int nif) {
+    int i, j, count = 0;
+    if (order->counter != 0) {
+        printf("\n\n\t\t\tList Of Orders\n\t\t\t__________________________________");
+        for (i = 0; i < order->counter; i++) {
+            if (order->order[i].nif == nif) {
+                printf("\n\n\t\t\tOrder Id             : %d", order->order[i].order_id);
+                printf("\n\t\t\tClient Nif           : %d", order->order[i].nif);
+                printf("\n\t\t\tDate                 : %d-%d-%d", order->order[i].order_date.day,
+                       order->order[i].order_date.month, order->order[i].order_date.year);
+                printf("\n\t\t\t__________________________________\n");
+                for (j = 0; j < order->order[i].line_order_size; j++) {
+                    printf("\n\t\t\tProduct Id - %s\n\t\t\tQuantity - %d\n", order->order[i].line_order[j].code,
+                           order->order[i].line_order[j].quantity);
+                }
+                printf("\t\t\t__________________________________");
+                ++count;
+            }
+        }
+        if (count == 0){
+            printf(NO_ORDERS_FOUND_BY_GIVEN_NIF);
+            pressAnyKeyToContinueFunctionListVersion();
+        }else {
+            pressAnyKeyToContinueFunctionListVersion();
+        }
+    } else {
+        printf(NO_ORDERS_FOUND);
+        pressAnyKeyToContinueFunctionListVersion();
+    }
+
+}
+int verifyOrderId(Orders *order, int id, int nif) {
     int i;
-    for (i = 0; i < order->counter; i++){
-        if (order->order[i].order_id == id){
+    for (i = 0; i < order->counter; i++) {
+        if (order->order[i].order_id == id && order->order[i].nif == nif) {
             return 1;
         }
     }
     return 0;
 }
-int verifyProductOrderLine(LineProduct product, Order order){
+
+int verifyProductOrderLine(LineProduct product, Order order) {
     int i;
-    for (i = 0; i < order.line_order_size; i++){
-        if (strcmp(product.code, order.line_order[i].code) == 0){
+    for (i = 0; i < order.line_order_size; i++) {
+        if (strcmp(product.code, order.line_order[i].code) == 0) {
             return i;
         }
     }
     return -1;
 }
-void changeOrderDate(Date *order_date){
-    do{
+
+void changeOrderDate(Date *order_date) {
+    do {
         printf(ASK_ORDER_DATE);
         scanf("%d-%d-%d", &order_date->day, &order_date->month, &order_date->year);
-    }while(order_date->day < MIN_DAY || order_date->day > MAX_DAY ||
-            order_date->month < MIN_MONTH || order_date->month > MAX_MONTH ||
-            order_date->year < MIN_YEAR);
+    } while (order_date->day < MIN_DAY || order_date->day > MAX_DAY ||
+             order_date->month < MIN_MONTH || order_date->month > MAX_MONTH ||
+             order_date->year < MIN_YEAR);
     system("cls || clear");
 }
-void editLineProduct(Order *order){
+
+void editLineProduct(Order *order) {
     int i, position;
     LineProduct product;
     int option;
@@ -241,28 +285,29 @@ void editLineProduct(Order *order){
         printf(ASK_PRODUCT_CODE);
         scanf("%s", product.code);
         position = verifyProductOrderLine(product, *order);
-        if (position != -1){
+        if (position != -1) {
             do {
                 printf(ASK_ORDER_QUANTITY);
                 scanf("%hd", &product.quantity);
-            }while(product.quantity < MIN_ORDER_QUANTITY &&
-                   product.quantity > MAX_ORDER_QUANTITY);
+            } while (product.quantity < MIN_ORDER_QUANTITY &&
+                     product.quantity > MAX_ORDER_QUANTITY);
             order->line_order[position].quantity = product.quantity;
             option = yesOrNoFunction(ASK_EDIT_ORDER);
-            if (option == 2){
+            if (option == 2) {
                 break;
             }
-        }else{
+        } else {
             errorMessage(MSG_ERROR_MESSAGE);
         }
-    }while (position != -1);
+    } while (position != -1);
 
 }
-void removeLineProduct(Order *order){
+
+void removeLineProduct(Order *order) {
     int i, position;
     LineProduct product;
     int option;
-    do{
+    do {
         for (i = 0; i < order->line_order_size; i++) {
             printf("\n\t\t\tProduct Code: %s\n\t\t\tProduct Quantity: %d\n", order->line_order[i].code,
                    order->line_order[i].quantity);
@@ -270,51 +315,51 @@ void removeLineProduct(Order *order){
         printf(ASK_PRODUCT_CODE);
         scanf("%s", product.code);
         position = verifyProductOrderLine(product, *order);
-        if (position != -1){
-            for (i = 0; i < order->line_order_size; i++){
-                if (strcmp(order->line_order[i].code, product.code) == 0){
-                    strcpy(order->line_order[i].code,order->line_order[i + 1].code);
+        if (position != -1) {
+            for (i = 0; i < order->line_order_size; i++) {
+                if (strcmp(order->line_order[i].code, product.code) == 0) {
+                    strcpy(order->line_order[i].code, order->line_order[i + 1].code);
                 }
             }
             --order->line_order_size;
             option = yesOrNoFunction(ASK_DELETE_PRODUCT_LINE_PRODUCT);
-            if (option == 2){
+            if (option == 2) {
                 break;
             }
-        }else{
+        } else {
             errorMessage(MSG_ERROR_MESSAGE);
         }
-    }while(position != -1);
+    } while (position != -1);
 }
 
-void addLineProduct(Order *order, Products *products){
+void addLineProduct(Order *order, Products *products) {
     int i, product_quantity;
     char product_code[COD_PRODUCT_SIZE];
     int option;
-    do{
-        for (i = 0; i < order->line_order_size; i++){
+    do {
+        for (i = 0; i < order->line_order_size; i++) {
             printf("\n\t\t\tProduct Code: %s\n\t\t\tProduct Quantity: %d\n", order->line_order[i].code,
                    order->line_order[i].quantity);
         }
-            do{
-                newOrderChoosenProductCode(products, product_code);
-                do{
-                    printf(ASK_ORDER_QUANTITY);
-                    scanf("%d", &product_quantity);
-                }while(product_quantity < 0);
-                order->line_order = (OrderLine *)realloc(order->line_order,
-                                                         sizeof(OrderLine) * (order->line_order_size + 1));
-                strcpy(order->line_order[order->line_order_size].code, product_code);
-                order->line_order[order->line_order_size].quantity = product_quantity;
-                order->line_order_size++;
-                option = yesOrNoFunction(ASK_ADD_PRODUCT_LINE_PRODUCT);
-            }while(option != 2);
-    }while(option != 2);
+        do {
+            newOrderChoosenProductCode(products, product_code);
+            do {
+                printf(ASK_ORDER_QUANTITY);
+                scanf("%d", &product_quantity);
+            } while (product_quantity < 0);
+            order->line_order = (OrderLine *) realloc(order->line_order,
+                                                      sizeof(OrderLine) * (order->line_order_size + 1));
+            strcpy(order->line_order[order->line_order_size].code, product_code);
+            order->line_order[order->line_order_size].quantity = product_quantity;
+            order->line_order_size++;
+            option = yesOrNoFunction(ASK_ADD_PRODUCT_LINE_PRODUCT);
+        } while (option != 2);
+    } while (option != 2);
 }
 
-void changeOrderLine(Order *order, Products *products){
+void changeOrderLine(Order *order, Products *products) {
     int option, i;
-    do{
+    do {
         option = menuRead(MSG_CHANGE_ORDER_LINE, 0, 3);
         switch (option) {
             case 0:
@@ -329,34 +374,34 @@ void changeOrderLine(Order *order, Products *products){
                 addLineProduct(order, products);
                 break;
         }
-    }while(option != 0);
+    } while (option != 0);
 }
 
-void saveLineOrderChanges(Orders *order, int position, Order temp){
+void saveLineOrderChanges(Orders *order, int position, Order temp) {
     int i;
     order->order[position].order_date = temp.order_date;
     order->order[position].line_order_size = temp.line_order_size;
     order->order[position].line_order = realloc(order->order[position].line_order,
                                                 sizeof(Orders) * order->order[position].line_order_size);
-    for (i = 0; i < order->order[position].line_order_size; i++){
+    for (i = 0; i < order->order[position].line_order_size; i++) {
         strcpy(order->order[position].line_order[i].code, temp.line_order[i].code);
         order->order[position].line_order[i].quantity = temp.line_order[i].quantity;
     }
 }
 
-void changeOrderData(Orders *order, int position, int id, Products *products){
+void changeOrderData(Orders *order, int position, int id, Products *products) {
     int option, i;
     Order temp;
     temp.order_date = order->order[position].order_date;
     temp.order_id = order->order[position].order_id;
     temp.nif = order->order[position].nif;
     temp.line_order_size = order->order[position].line_order_size;
-    temp.line_order = (OrderLine *)malloc(sizeof(OrderLine) * temp.line_order_size);
-    for (i = 0; i < temp.line_order_size; i++){
+    temp.line_order = (OrderLine *) malloc(sizeof(OrderLine) * temp.line_order_size);
+    for (i = 0; i < temp.line_order_size; i++) {
         strcpy(temp.line_order[i].code, order->order[position].line_order[i].code);
-        temp.line_order[i].quantity =  order->order[position].line_order[i].quantity;
+        temp.line_order[i].quantity = order->order[position].line_order[i].quantity;
     }
-    do{
+    do {
         option = menuRead(MSG_CHANGE_ORDER_DATA, 0, 2);
         switch (option) {
             case 1:
@@ -366,67 +411,75 @@ void changeOrderData(Orders *order, int position, int id, Products *products){
                 changeOrderLine(&temp, products);
                 break;
         }
-    }while(option != 0);
+    } while (option != 0);
     saveLineOrderChanges(order, position, temp);
 }
 
-void editOrders(Orders *order, Products *products){
-    int id, i, verify;
+void editOrders(Orders *order, Products *products) {
+    int id, i, verify, nif;
     system("cls || clear");
-    listOrders(order);
-    do{
+    printf(ASK_CUSTOMER_NIF);
+    scanf("%d", &nif);
+    listPerNifOrders(order, nif);
+    do {
         printf(ASK_ORDER_ID);
         scanf("%d", &id);
         system("cls || clear");
         if (id == 0)
             break;
-        verify = verifyOrderId(order, id);
-        if (verify == 1){
+        verify = verifyOrderId(order, id, nif);
+        if (verify == 1) {
             for (i = 0; i < order->counter; i++) {
-                if (order->order[i].order_id == id){
+                if (order->order[i].order_id == id) {
                     changeOrderData(order, i, id, products);
                 }
             }
         } else
             errorMessage(MSG_ERROR_MESSAGE);
-    }while(verify != 1);
+    } while (verify != 1);
 }
 
-void removeOrder(Orders *orders, int id){
+void removeOrder(Orders *orders, int id) {
     int i, j;
-    for (i = 0; i < orders->counter; i++){
-        if (orders->order[i].order_id == id){
+    for (i = 0; i < orders->counter; i++) {
+        if (orders->order[i].order_id == id) {
             orders->order[i].order_id = orders->order[i + 1].order_id;
             orders->order[i].nif = orders->order[i + 1].nif;
             orders->order[i].order_date.day = orders->order[i + 1].order_date.day;
             orders->order[i].order_date.month = orders->order[i + 1].order_date.month;
             orders->order[i].order_date.year = orders->order[i + 1].order_date.year;
             orders->order[i].line_order_size = orders->order[i + 1].line_order_size;
-            orders->order[i].line_order = (OrderLine *) realloc(orders->order[i].line_order,
-                                                                sizeof(OrderLine)*orders->order[i + 1].line_order_size);
-            for (j = 0; j < orders->order[i + 1].line_order_size; j++){
-                strcpy(orders->order[i].line_order[j].code,
-                       orders->order[i + 1].line_order[j].code);
-                orders->order[i].line_order[j].quantity =
-                        orders->order[i + 1].line_order[j].quantity;
+            if (orders->order[i + 1].line_order_size < 200) {
+                orders->order[i].line_order = (OrderLine *) realloc(orders->order[i].line_order,
+                                                                    sizeof(OrderLine) *
+                                                                    orders->order[i + 1].line_order_size);
+
+                for (j = 0; j < orders->order[i + 1].line_order_size; j++) {
+                    strcpy(orders->order[i].line_order[j].code,
+                           orders->order[i + 1].line_order[j].code);
+                    orders->order[i].line_order[j].quantity =
+                            orders->order[i + 1].line_order[j].quantity;
+                }
             }
         }
     }
     --orders->counter;
 }
 
-void removeOrders(Orders *order){
-    int id, verify;
+void removeOrders(Orders *order) {
+    int id, verify, nif;
     system("cls || clear");
-    listOrders(order);
-    do{
+    printf(ASK_CUSTOMER_NIF);
+    scanf(" %d", &nif);
+    listPerNifOrders(order, nif);
+    do {
         printf(ASK_ORDER_ID);
         scanf(" %d", &id);
         system("cls || clear");
         if (id == 0)
             break;
-        verify = verifyOrderId(order, id);
-        if (verify == 1){
+        verify = verifyOrderId(order, id, nif);
+        if (verify == 1) {
             removeOrder(order, id);
         } else
             errorMessage(MSG_ERROR_MESSAGE);
@@ -461,16 +514,16 @@ void exportOrders(Orders *order) {
         printf(ERROR_IN_FILES);
         pressAnyKeyToContinueFunction();
     } else {
-        fwrite(&order->counter, sizeof (int), 1, fp);
+        fwrite(&order->counter, sizeof(int), 1, fp);
         for (i = 0; i < order->counter; i++) {
-            fwrite(&order->order[i].nif, sizeof (int), 1, fp);
-            fwrite(&order->order[i].order_date.day, sizeof (int), 1, fp);
-            fwrite(&order->order[i].order_date.month, sizeof (int), 1, fp);
-            fwrite(&order->order[i].order_date.year, sizeof (int), 1, fp);
-            fwrite(&order->order[i].line_order_size, sizeof (int), 1, fp);
+            fwrite(&order->order[i].nif, sizeof(int), 1, fp);
+            fwrite(&order->order[i].order_date.day, sizeof(int), 1, fp);
+            fwrite(&order->order[i].order_date.month, sizeof(int), 1, fp);
+            fwrite(&order->order[i].order_date.year, sizeof(int), 1, fp);
+            fwrite(&order->order[i].line_order_size, sizeof(int), 1, fp);
             for (j = 0; j < order->order[i].line_order_size; j++) {
-                fwrite(&order->order[i].line_order[j].code, sizeof (char)*COD_PRODUCT_SIZE, 1, fp);
-                fwrite(&order->order[i].line_order[j].quantity, sizeof (int), 1, fp);
+                fwrite(&order->order[i].line_order[j].code, sizeof(char) * COD_PRODUCT_SIZE, 1, fp);
+                fwrite(&order->order[i].line_order[j].quantity, sizeof(int), 1, fp);
             }
         }
         fclose(fp);
@@ -499,22 +552,22 @@ void importOrders(Orders *order) {
         printf(ERROR_IN_FILES);
         pressAnyKeyToContinueFunction();
     } else {
-        fread(&c, sizeof (int), 1, fp);
+        fread(&c, sizeof(int), 1, fp);
         for (i = 0; i < c; i++) {
             order->order = realloc(order->order,
-                                   sizeof (Order) * (order->counter + 1));
+                                   sizeof(Order) * (order->counter + 1));
             order->order[i].order_id = (order->counter + 1);
-            fread(&order->order[i].nif, sizeof (int), 1, fp);
-            fread(&order->order[i].order_date.day, sizeof (int), 1, fp);
-            fread(&order->order[i].order_date.month, sizeof (int), 1, fp);
-            fread(&order->order[i].order_date.year, sizeof (int), 1, fp);
-            fread(&order->order[i].line_order_size, sizeof (int), 1, fp);
-            order->order[i].line_order = malloc(1 * sizeof (OrderLine));
+            fread(&order->order[i].nif, sizeof(int), 1, fp);
+            fread(&order->order[i].order_date.day, sizeof(int), 1, fp);
+            fread(&order->order[i].order_date.month, sizeof(int), 1, fp);
+            fread(&order->order[i].order_date.year, sizeof(int), 1, fp);
+            fread(&order->order[i].line_order_size, sizeof(int), 1, fp);
+            order->order[i].line_order = malloc(1 * sizeof(OrderLine));
             for (j = 0; j < order->order[i].line_order_size; j++) {
                 order->order[i].line_order = realloc(order->order[i].line_order,
-                        sizeof(OrderLine)*(j + 1));
-                fread(&order->order[i].line_order[j].code, sizeof (char)*COD_PRODUCT_SIZE, 1, fp);
-                fread(&order->order[i].line_order[j].quantity, sizeof (int), 1, fp);
+                                                     sizeof(OrderLine) * (j + 1));
+                fread(&order->order[i].line_order[j].code, sizeof(char) * COD_PRODUCT_SIZE, 1, fp);
+                fread(&order->order[i].line_order[j].quantity, sizeof(int), 1, fp);
             }
             order->counter++;
         }
