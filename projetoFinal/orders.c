@@ -41,12 +41,14 @@ void listAvailableProducts(Products *product) {
     int i;
     printf("\n\n\t\t\tList Of Products\n\t\t\t__________________________________");
     for (i = 0; i < product->counter; i++) {
-        printf("\n\n\t\t\tProduct Id      : %s", product->product[i].cod_Produto);
-        printf("\n\t\t\tName            : %s", product->product[i].name);
-        printf("\n\t\t\tPrice           : %f", product->product[i].price);
-        printf("\n\t\t\tDimensions      : %dx%dx%d", product->product[i].dimension.height,
-               product->product[i].dimension.lenght, product->product[i].dimension.width);
-        printf("\n\t\t\t__________________________________");
+        if(product->product[i].state != 0) {
+            printf("\n\n\t\t\tProduct Id      : %s", product->product[i].cod_Produto);
+            printf("\n\t\t\tName            : %s", product->product[i].name);
+            printf("\n\t\t\tPrice           : %f", product->product[i].price);
+            printf("\n\t\t\tDimensions      : %dx%dx%d", product->product[i].dimension.height,
+                   product->product[i].dimension.lenght, product->product[i].dimension.width);
+            printf("\n\t\t\t__________________________________");
+        }
     }
 }
 
@@ -64,7 +66,8 @@ int newOrderId(Orders *order) {
 int verifyChoosenProduct(char code[COD_PRODUCT_SIZE], Products *product) {
     int i;
     for (i = 0; i < product->counter; i++) {
-        if (strcmp(product->product[i].cod_Produto, code) == 0) {
+        if (strcmp(product->product[i].cod_Produto, code) == 0 &&
+            product->product[i].state != 0) {
             return 1;
         }
     }
@@ -152,7 +155,8 @@ int verifyCustomerNif(Customers *customers, int customerNif) {
     } else {
 
         for (i = 0; i < customers->counter; i++) {
-            if (customerNif == customers->customers[i].nif) {
+            if (customerNif == customers->customers[i].nif &&
+                customers->customers[i].state != 0) {
                 return 1;
             }
         }
