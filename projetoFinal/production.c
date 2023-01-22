@@ -62,13 +62,11 @@ void exportRankedCustomers(Customers *customer, int counter, int nif[MAX_CLIENTS
                 printf(SUCCESS_IN_FILES);
                 pressAnyKeyToContinueFunction();
             }
-            break;
-            break;
     }
 }
 
 void listRankCustomers(Orders *order, Date date, Customers *customer) {
-    int i, j, k, nif[MAX_CLIENTS], count[MAX_CLIENTS], counter,tempNif,tempCount;
+    int i, j, k, nif[MAX_CLIENTS], count[MAX_CLIENTS], counter, tempNif, tempCount;
     nif[0] = 0;
     struct tm t = {.tm_year = date.year, .tm_mon = date.month, .tm_mday = date.day};
     t.tm_mday += 5;
@@ -358,6 +356,43 @@ int sortOrder(const void *aa, const void *bb) {
     }
 }
 
+void exportRankOrders(Orders *temp) {
+    int option;
+
+    option = menuRead(MSG_EXPORT_RANKED_DATA, 0, 1);
+
+    switch (option) {
+        case 0:
+            break;
+        case 1:
+            FILE *fp;
+            int i,j;
+            char fn[100];
+            askFileName(fn);
+            fp = fopen(fn, "w");
+            if (fp == NULL) {
+                printf(ERROR_IN_FILES);
+                pressAnyKeyToContinueFunction();
+            } else {
+                for (i = 0; i < temp->counter; i++) {
+                    fprintf(fp, "Order Id - %d;Client Nif - Date - %d;%dx%dx%d",
+                            temp->order[i].order_id,
+                            temp->order[i].nif,
+                            temp->order[i].order_date.day,
+                            temp->order[i].order_date.month,
+                            temp->order[i].order_date.year);
+                    for (j = 0; j < temp->order[i].line_order_size; j++) {
+                        fprintf(fp, "\nProduct Id - %s;Quantity - %d", temp->order[i].line_order[j].code, temp->order[i].line_order[j].quantity);
+                    }
+                    fprintf(fp,"\n\n");
+                }
+                fclose(fp);
+                printf(SUCCESS_IN_FILES);
+                pressAnyKeyToContinueFunction();
+            }
+    }
+}
+
 void listRankOrders(Orders *order) {
     Orders *temp;
     int i, j;
@@ -379,23 +414,18 @@ void listRankOrders(Orders *order) {
         }
     }
     qsort(temp->order, temp->counter, sizeof (Order), sortOrder);
-    if (temp->counter != 0) {
-        printf("\n\n\t\t\tList Of Orders (By date)\n\t\t\t________________________");
-        for (i = 0; i < temp->counter; i++) {
-            printf("\n\n\t\t\tOrder Id             : %d", temp->order[i].order_id);
-            printf("\n\t\t\tClient Nif           : %d", temp->order[i].nif);
-            printf("\n\t\t\tDate                 : %d-%d-%d", temp->order[i].order_date.day, temp->order[i].order_date.month, temp->order[i].order_date.year);
-            printf("\n\t\t\t__________________________________\n");
-            for (j = 0; j < temp->order[i].line_order_size; j++) {
-                printf("\n\t\t\tProduct Id - %s\n\t\t\tQuantity - %d\n", temp->order[i].line_order[j].code, temp->order[i].line_order[j].quantity);
-            }
-            printf("\t\t\t__________________________________");
+    printf("\n\n\t\t\tList Of Orders (By date)\n\t\t\t________________________");
+    for (i = 0; i < temp->counter; i++) {
+        printf("\n\n\t\t\tOrder Id             : %d", temp->order[i].order_id);
+        printf("\n\t\t\tClient Nif           : %d", temp->order[i].nif);
+        printf("\n\t\t\tDate                 : %d-%d-%d", temp->order[i].order_date.day, temp->order[i].order_date.month, temp->order[i].order_date.year);
+        printf("\n\t\t\t__________________________________\n");
+        for (j = 0; j < temp->order[i].line_order_size; j++) {
+            printf("\n\t\t\tProduct Id - %s\n\t\t\tQuantity - %d\n", temp->order[i].line_order[j].code, temp->order[i].line_order[j].quantity);
         }
-        pressAnyKeyToContinueFunctionListVersion();
-    } else {
-        printf("\n\t\t\tNo orders were found");
-        pressAnyKeyToContinueFunctionListVersion();
+        printf("\t\t\t__________________________________");
     }
+    exportRankOrders(temp);
     free(temp->order);
     free(temp);
 }
@@ -403,6 +433,41 @@ void listRankOrders(Orders *order) {
 int sortCustomerPerAddress(const void *aa, const void *bb) {
     const Customer *a = aa, *b = bb;
     return strcmp(a->address, b->address);
+}
+
+void exportRankedCustomersPerAddress(Customers *temp) {
+    int option;
+
+    option = menuRead(MSG_EXPORT_RANKED_DATA, 0, 1);
+
+    switch (option) {
+        case 0:
+            break;
+        case 1:
+            FILE *fp;
+            int i;
+            char fn[100];
+            askFileName(fn);
+            fp = fopen(fn, "w");
+            if (fp == NULL) {
+                printf(ERROR_IN_FILES);
+                pressAnyKeyToContinueFunction();
+            } else {
+                fprintf(fp, "Client Id;Name;Address;Nif;Country;State\n\n");
+                for (i = 0; i < temp->counter; i++) {
+                    fprintf(fp, "%d;%s;%s;%d;%s;%s\n",
+                            temp->customers[i].id,
+                            temp->customers[i].name,
+                            temp->customers[i].address,
+                            temp->customers[i].nif,
+                            temp->customers[i].country,
+                            temp->customers[i].state == 1 ? "Active" : "Inactive");
+                }
+                fclose(fp);
+                printf(SUCCESS_IN_FILES);
+                pressAnyKeyToContinueFunction();
+            }
+    }
 }
 
 void listRankCustomersPerAddress(Customers *customers) {
@@ -420,23 +485,18 @@ void listRankCustomersPerAddress(Customers *customers) {
         temp->customers[i].state = customers->customers[i].state;
     }
     qsort(temp->customers, temp->counter, sizeof (Customer), sortCustomerPerAddress);
-    if (temp->counter != 0) {
-        printf("\n\n\t\t\tCustomers by Address\n\t\t\t________________________");
-        for (i = 0; i < temp->counter; i++) {
+    printf("\n\n\t\t\tCustomers by Address\n\t\t\t________________________");
+    for (i = 0; i < temp->counter; i++) {
 
-            printf("\n\n\t\t\tClient Id : %d", temp->customers[i].id);
-            printf("\n\t\t\tName      : %s", temp->customers[i].name);
-            printf("\n\t\t\tAddress   : %s", temp->customers[i].address);
-            printf("\n\t\t\tNif       : %d", temp->customers[i].nif);
-            printf("\n\t\t\tCountry   : %s", temp->customers[i].country);
-            printf("\n\t\t\tState     : %s", temp->customers[i].state == 1 ? "Active" : "Inactive");
-            printf("\n\t\t\t__________________________________");
-        }
-        pressAnyKeyToContinueFunctionListVersion();
-    } else {
-        printf("\n\t\t\tNo customer were found");
-        pressAnyKeyToContinueFunctionListVersion();
+        printf("\n\n\t\t\tClient Id : %d", temp->customers[i].id);
+        printf("\n\t\t\tName      : %s", temp->customers[i].name);
+        printf("\n\t\t\tAddress   : %s", temp->customers[i].address);
+        printf("\n\t\t\tNif       : %d", temp->customers[i].nif);
+        printf("\n\t\t\tCountry   : %s", temp->customers[i].country);
+        printf("\n\t\t\tState     : %s", temp->customers[i].state == 1 ? "Active" : "Inactive");
+        printf("\n\t\t\t__________________________________");
     }
+    exportRankedCustomersPerAddress(temp);
     free(temp->customers);
     free(temp);
 }
