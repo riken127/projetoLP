@@ -27,8 +27,97 @@ Date askDate() {
     return insertedDate;
 }
 
-void listRankCustomers() {
-    printf("b");
+void exportRankedCustomers(Customers *customer, int counter, int nif[MAX_CLIENTS], int count[MAX_CLIENTS]) {
+    int option;
+
+    option = menuRead(MSG_EXPORT_RANKED_DATA, 0, 1);
+
+    switch (option) {
+        case 0:
+            break;
+        case 1:
+            FILE *fp;
+            int i;
+            char fn[100];
+            askFileName(fn);
+            fp = fopen(fn, "w");
+            if (fp == NULL) {
+                printf(ERROR_IN_FILES);
+                pressAnyKeyToContinueFunction();
+            } else {
+                fprintf(fp, "Client Id;Name;Address;Nif;Country;Orders;State\n\n");
+                for (i = 0; i < counter; i++) {
+                    if (nif[i] == customer->customers[i].nif) {
+                        fprintf(fp, "%d;%s;%s;%d;%s;%d;%s\n",
+                                customer->customers[i].id,
+                                customer->customers[i].name,
+                                customer->customers[i].address,
+                                nif[i],
+                                customer->customers[i].country,
+                                count[i],
+                                customer->customers[i].state == 1 ? "Active" : "Inactive");
+                    }
+                }
+                fclose(fp);
+                printf(SUCCESS_IN_FILES);
+                pressAnyKeyToContinueFunction();
+            }
+            break;
+            break;
+    }
+}
+
+void listRankCustomers(Orders *order, Date date, Customers *customer) {
+    int i, j, k, nif[MAX_CLIENTS], count[MAX_CLIENTS], counter,tempNif,tempCount;
+    nif[0] = 0;
+    struct tm t = {.tm_year = date.year, .tm_mon = date.month, .tm_mday = date.day};
+    t.tm_mday += 5;
+    mktime(&t);
+    printf("\n\t\t\tRanked Customers for %d-%d-%d\n\t\t\t__________________________________", date.day, date.month, date.year);
+    for (i = 0; i < order->counter; i++) {
+        if (order->order[i].order_date.day >= date.day && order->order[i].order_date.month >= date.month && order->order[i].order_date.year >= date.year ||
+                order->order[i].order_date.day <= t.tm_mday && order->order[i].order_date.month <= t.tm_mon && order->order[i].order_date.year <= t.tm_year) {
+            for (j = 0; j < customer->counter; j++) {
+                if (order->order[i].nif == customer->customers[j].nif) {
+                    if (nif[j] == 0) {
+                        nif[j] = customer->customers[j].nif;
+                        count[j] = 1;
+                        counter++;
+                    } else {
+                        count[j] = count[j] + 1;
+                    }
+                }
+            }
+        }
+    }
+    for (int i = 0; i < counter - 1; i++) {
+        int Imin = i;
+        for (int j = i + 1; j < counter; j++) {
+            if (count[j] > count[Imin]) {
+                Imin = j;
+            }
+        }
+        tempCount = count[Imin];
+        count[Imin] = count[i];
+        count[i] = tempCount;
+
+        tempNif = nif[Imin];
+        nif[Imin] = nif[i];
+        nif[i] = tempNif;
+    }
+    for (i = 0; i < customer->counter; i++) {
+        if (nif[i] == customer->customers[i].nif) {
+            printf("\n\n\t\t\tClient Id : %d", nif[i]);
+            printf("\n\t\t\tName      : %s", customer->customers[i].name);
+            printf("\n\t\t\tAddress   : %s", customer->customers[i].address);
+            printf("\n\t\t\tNif       : %d", customer->customers[i].nif);
+            printf("\n\t\t\tCountry   : %s", customer->customers[i].country);
+            printf("\n\t\t\tOrders    : %d", count[i]);
+            printf("\n\t\t\tState     : %s", customer->customers[i].state == 1 ? "Active" : "Inactive");
+            printf("\n\t\t\t__________________________________");
+        }
+    }
+    exportRankedCustomers(*(&customer), counter, nif, count);
 }
 
 void exportRankedProducts(char cod[MAX_PRODUCTS][COD_PRODUCT_SIZE], char name[MAX_PRODUCTS][MAX_NAME_CHARS], double price[MAX_PRODUCTS], int height[MAX_PRODUCTS], int lenght[MAX_PRODUCTS], int width[MAX_PRODUCTS], int quantity[MAX_PRODUCTS], int count) {
@@ -68,7 +157,7 @@ void exportRankedProducts(char cod[MAX_PRODUCTS][COD_PRODUCT_SIZE], char name[MA
     }
 }
 
-void listRankProducts(Materials *material, Orders *order, Products *product, Date date) {
+void listRankProducts(Orders *order, Products *product, Date date) {
     int i, j, k, f, quantity[MAX_PRODUCTS], count = 0, tempQuantity, height[MAX_PRODUCTS], lenght[MAX_PRODUCTS], width[MAX_PRODUCTS];
     double price[MAX_PRODUCTS];
     char cod[MAX_PRODUCTS][COD_PRODUCT_SIZE], name[MAX_PRODUCTS][MAX_NAME_CHARS], tempCod[MAX_PRODUCTS];
@@ -111,7 +200,7 @@ void listRankProducts(Materials *material, Orders *order, Products *product, Dat
 
         strcpy(tempCod, cod[Imin]);
         strcpy(cod[Imin], cod[i]);
-        strcpy(cod[i], tempCod);       
+        strcpy(cod[i], tempCod);
     }
 
     for (i = 0; i < order->counter; i++) {
@@ -122,7 +211,7 @@ void listRankProducts(Materials *material, Orders *order, Products *product, Dat
                     if (strcmp(order->order[i].line_order[j].code, product->product[k].cod_Produto) == 0) {
                         for (f = 0; f < count; f++) {
                             if (strcmp(cod[f], order->order[i].line_order[j].code) == 0) {
-                                strcpy(name[f],product->product[k].name);
+                                strcpy(name[f], product->product[k].name);
                                 price[f] = product->product[k].price;
                                 height[f] = product->product[k].dimension.height;
                                 lenght[f] = product->product[k].dimension.lenght;
@@ -138,12 +227,12 @@ void listRankProducts(Materials *material, Orders *order, Products *product, Dat
         printf("\n\n\t\t\tProduct Code       : %s", cod[i]);
         printf("\n\t\t\tName               : %s", name[i]);
         printf("\n\t\t\tPrice              : %f", price[i]);
-        printf("\n\t\t\tDimensions         : %dx%dx%d",height[i],lenght[i],width[i]);
+        printf("\n\t\t\tDimensions         : %dx%dx%d", height[i], lenght[i], width[i]);
         printf("\n\t\t\tQuantity           : %d", quantity[i]);
         printf("\n\t\t\t__________________________________");
     }
 
-    exportRankedProducts(cod,name,price,height,lenght,width,quantity,count);
+    exportRankedProducts(cod, name, price, height, lenght, width, quantity, count);
 }
 
 void exportRankedMaterials(char cod[MAX_MATERIALS][COD_MATERIAL_SIZE], char description[MAX_MATERIALS][MAX_DESCRIPTION_SIZE], int quantity[MAX_MATERIALS], int unit[MAX_MATERIALS], int count) {
@@ -360,10 +449,10 @@ int listMenu(Materials *material, Orders *order, Products *product, Date date, C
         case 0:
             break;
         case 1:
-            listRankCustomers();
+            listRankCustomers(*(&order), date, *(&customers));
             break;
         case 2:
-            listRankProducts(*(&material), *(&order), *(&product), date);
+            listRankProducts(*(&order), *(&product), date);
             break;
         case 3:
             listRankMaterials(*(&material), *(&order), *(&product), date);
