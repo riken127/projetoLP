@@ -29,7 +29,7 @@
 //function definition
 Date askDate();
 void listRankCustomers();
-void exportRankedProducts();
+void exportRankedProducts(char cod[MAX_PRODUCTS][COD_PRODUCT_SIZE], char name[MAX_PRODUCTS][MAX_NAME_CHARS], double price[MAX_PRODUCTS], int height[MAX_PRODUCTS], int lenght[MAX_PRODUCTS], int width[MAX_PRODUCTS], int quantity[MAX_PRODUCTS], int count);
 void listRankProducts(Materials *material,Orders *order, Products *product, Date date);
 void exportRankedMaterials(char cod[MAX_MATERIALS][COD_MATERIAL_SIZE], char description[MAX_MATERIALS][MAX_DESCRIPTION_SIZE], int unit[MAX_MATERIALS], int quantity[MAX_MATERIALS], int count);
 void listRankMaterials(Materials *material, Orders *order, Products *product, Date date);

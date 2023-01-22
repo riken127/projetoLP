@@ -31,7 +31,7 @@ void listRankCustomers() {
     printf("b");
 }
 
-void exportRankedProducts() {
+void exportRankedProducts(char cod[MAX_PRODUCTS][COD_PRODUCT_SIZE], char name[MAX_PRODUCTS][MAX_NAME_CHARS], double price[MAX_PRODUCTS], int height[MAX_PRODUCTS], int lenght[MAX_PRODUCTS], int width[MAX_PRODUCTS], int quantity[MAX_PRODUCTS], int count) {
     int option;
 
     option = menuRead(MSG_EXPORT_RANKED_DATA, 0, 1);
@@ -40,13 +40,38 @@ void exportRankedProducts() {
         case 0:
             break;
         case 1:
+            FILE *fp;
+            int i;
+            char fn[100];
+            askFileName(fn);
+            fp = fopen(fn, "w");
+            if (fp == NULL) {
+                printf(ERROR_IN_FILES);
+                pressAnyKeyToContinueFunction();
+            } else {
+                fprintf(fp, "Product Code;Name;Price;Dimensions;Quantity\n\n");
+                for (i = 0; i < count; i++) {
+                    fprintf(fp, "%s;%s;%f;%dx%dx%d;%d\n",
+                            cod[i],
+                            name[i],
+                            price[i],
+                            height[i],
+                            lenght[i],
+                            width[i],
+                            quantity[i]);
+                }
+                fclose(fp);
+                printf(SUCCESS_IN_FILES);
+                pressAnyKeyToContinueFunction();
+            }
             break;
     }
 }
 
 void listRankProducts(Materials *material, Orders *order, Products *product, Date date) {
-    int i, j, k, f, quantity[MAX_PRODUCTS], count = 0;
-    char cod[MAX_PRODUCTS][COD_PRODUCT_SIZE];
+    int i, j, k, f, quantity[MAX_PRODUCTS], count = 0, tempQuantity, height[MAX_PRODUCTS], lenght[MAX_PRODUCTS], width[MAX_PRODUCTS];
+    double price[MAX_PRODUCTS];
+    char cod[MAX_PRODUCTS][COD_PRODUCT_SIZE], name[MAX_PRODUCTS][MAX_NAME_CHARS], tempCod[MAX_PRODUCTS];
     struct tm t = {.tm_year = date.year, .tm_mon = date.month, .tm_mday = date.day};
     t.tm_mday += 5;
     mktime(&t);
@@ -60,41 +85,65 @@ void listRankProducts(Materials *material, Orders *order, Products *product, Dat
             for (j = 0; j < order->order[i].line_order_size; j++) {
                 for (k = 0; k < product->counter; k++) {
                     if (strcmp(order->order[i].line_order[j].code, product->product[k].cod_Produto) == 0) {
-                        printf("\n\t\t\tProduct Id - %s\n\t\t\tQuantity - %d\n", order->order[i].line_order[j].code,
-                                order->order[i].line_order[j].quantity);
 
                         if (quantity[k] == 0) {
-                            strcpy(cod[k], order->order[i].line_order[j].code);
                             quantity[k] = order->order[i].line_order[j].quantity;
                             count++;
                         } else {
-                            strcpy(cod[k], order->order[i].line_order[j].code);
                             quantity[k] = quantity[k] + order->order[i].line_order[j].quantity;
                         }
+                        strcpy(cod[k], order->order[i].line_order[j].code);
                     }
                 }
             }
         }
     }
+    for (int i = 0; i < count - 1; i++) {
+        int Imin = i;
+        for (int j = i + 1; j < count; j++) {
+            if (quantity[j] > quantity[Imin]) {
+                Imin = j;
+            }
+        }
+        tempQuantity = quantity[Imin];
+        quantity[Imin] = quantity[i];
+        quantity[i] = tempQuantity;
+
+        strcpy(tempCod, cod[Imin]);
+        strcpy(cod[Imin], cod[i]);
+        strcpy(cod[i], tempCod);       
+    }
+
     for (i = 0; i < order->counter; i++) {
         if (order->order[i].order_date.day >= date.day && order->order[i].order_date.month >= date.month && order->order[i].order_date.year >= date.year ||
                 order->order[i].order_date.day <= t.tm_mday && order->order[i].order_date.month <= t.tm_mon && order->order[i].order_date.year <= t.tm_year) {
             for (j = 0; j < order->order[i].line_order_size; j++) {
                 for (k = 0; k < product->counter; k++) {
                     if (strcmp(order->order[i].line_order[j].code, product->product[k].cod_Produto) == 0) {
-
-                        printf("\n\n\t\t\tProduct Id      : %s", product->product[f].cod_Produto);
-                        printf("\n\t\t\tName            : %s", product->product[f].name);
-                        printf("\n\t\t\tPrice           : %f", product->product[f].price);
-                        printf("\n\t\t\tDimensions      : %dx%dx%d", product->product[f].dimension.height, product->product[f].dimension.lenght, product->product[f].dimension.width);
-                        printf("\n\t\t\t_______________________________________");
+                        for (f = 0; f < count; f++) {
+                            if (strcmp(cod[f], order->order[i].line_order[j].code) == 0) {
+                                strcpy(name[f],product->product[k].name);
+                                price[f] = product->product[k].price;
+                                height[f] = product->product[k].dimension.height;
+                                lenght[f] = product->product[k].dimension.lenght;
+                                width[f] = product->product[k].dimension.width;
+                            }
+                        }
                     }
                 }
             }
         }
     }
+    for (i = 0; i < count; i++) {
+        printf("\n\n\t\t\tProduct Code       : %s", cod[i]);
+        printf("\n\t\t\tName               : %s", name[i]);
+        printf("\n\t\t\tPrice              : %f", price[i]);
+        printf("\n\t\t\tDimensions         : %dx%dx%d",height[i],lenght[i],width[i]);
+        printf("\n\t\t\tQuantity           : %d", quantity[i]);
+        printf("\n\t\t\t__________________________________");
+    }
 
-    exportRankedProducts();
+    exportRankedProducts(cod,name,price,height,lenght,width,quantity,count);
 }
 
 void exportRankedMaterials(char cod[MAX_MATERIALS][COD_MATERIAL_SIZE], char description[MAX_MATERIALS][MAX_DESCRIPTION_SIZE], int quantity[MAX_MATERIALS], int unit[MAX_MATERIALS], int count) {
@@ -154,17 +203,13 @@ void listRankMaterials(Materials *material, Orders *order, Products *product, Da
 
                                     if (quantity[d] == 0) {
                                         quantity[d] = order->order[i].line_order[j].quantity * product->product[k].line_product[f].quantity;
-                                        strcpy(cod[d], material->material[d].cod_Material);
-                                        strcpy(description[d], material->material[d].description);
-                                        unit[d] = material->material[k].unit;
                                         count++;
                                     } else {
                                         quantity[d] = quantity[d] + order->order[i].line_order[j].quantity * product->product[k].line_product[f].quantity;
-                                        strcpy(cod[d], material->material[d].cod_Material);
-                                        strcpy(description[d], material->material[d].description);
-                                        unit[d] = material->material[k].unit;
                                     }
-
+                                    strcpy(cod[d], material->material[d].cod_Material);
+                                    strcpy(description[d], material->material[d].description);
+                                    unit[d] = material->material[k].unit;
                                 }
                             }
                         }
@@ -380,7 +425,7 @@ void listMaterials(Materials *material, Orders *order, Products *product, Custom
             }
             if (count == 0) {
                 errorMessage(NO_ORDERS_FOUND_TO_THAT_DATE_MESSAGE);
-            }else{
+            } else {
                 option = listMenu(*(&material), *(&order), *(&product), date, *(&customer));
             }
         } while (option != 0);
