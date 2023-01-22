@@ -30,7 +30,8 @@ Date askDate() {
 void listRankCustomers() {
     printf("b");
 }
-void exportRankedProducts(){
+
+void exportRankedProducts() {
     int option;
 
     option = menuRead(MSG_EXPORT_RANKED_DATA, 0, 1);
@@ -42,6 +43,7 @@ void exportRankedProducts(){
             break;
     }
 }
+
 void listRankProducts(Materials *material, Orders *order, Products *product, Date date) {
     int i, j, k, f;
     struct tm t = {.tm_year = date.year, .tm_mon = date.month, .tm_mday = date.day};
@@ -55,11 +57,11 @@ void listRankProducts(Materials *material, Orders *order, Products *product, Dat
                 for (k = 0; k < product->counter; k++) {
                     if (strcmp(order->order[i].line_order[j].code, product->product[k].cod_Produto) == 0) {
                         //for (f = 0; f < product->product[k].line_product_size; ++f) {
-                                printf("\n\n\t\t\tProduct Id      : %s", product->product[k].cod_Produto);
-                                printf("\n\t\t\tName            : %s", product->product[k].name);
-                                printf("\n\t\t\tPrice           : %f", product->product[k].price);
-                                printf("\n\t\t\tDimensions      : %dx%dx%d", product->product[k].dimension.height, product->product[k].dimension.lenght, product->product[k].dimension.width);
-                                printf("\n\t\t\t_______________________________________");
+                        printf("\n\n\t\t\tProduct Id      : %s", product->product[k].cod_Produto);
+                        printf("\n\t\t\tName            : %s", product->product[k].name);
+                        printf("\n\t\t\tPrice           : %f", product->product[k].price);
+                        printf("\n\t\t\tDimensions      : %dx%dx%d", product->product[k].dimension.height, product->product[k].dimension.lenght, product->product[k].dimension.width);
+                        printf("\n\t\t\t_______________________________________");
                         //}
                     }
                 }
@@ -143,57 +145,58 @@ void listRankMaterials(Materials *material, Orders *order, Products *product, Da
                     }
                 }
             }
-
-            for (int i = 0; i < count - 1; i++) {
-                int Imin = i;
-                for (int j = i + 1; j < count; j++) {
-                    if (quantity[j] > quantity[Imin]) {
-                        Imin = j;
-                    }
-                }
-                tempQuantity = quantity[Imin];
-                quantity[Imin] = quantity[i];
-                quantity[i] = tempQuantity;
-
-                tempUnit = unit[Imin];
-                unit[Imin] = unit[i];
-                unit[i] = tempUnit;
-
-                strcpy(tempCod, cod[Imin]);
-                strcpy(cod[Imin], cod[i]);
-                strcpy(cod[i], tempCod);
-
-                strcpy(tempDescription, description[Imin]);
-                strcpy(description[Imin], description[i]);
-                strcpy(description[i], tempDescription);
-            }
-
-            for (d = 0; d < count; d++) {
-                printf("\n\n\t\t\tMaterial Code   : %s", cod[d]);
-                printf("\n\t\t\tDescription     : %s", description[d]);
-                printf("\n\t\t\tQuantity        : %d", quantity[d]);
-                printf("\n\t\t\tUnit            : %d", unit[d]);
-                printf("\n\t\t\t__________________________________");
-            }
         }
     }
+    for (int i = 0; i < count - 1; i++) {
+        int Imin = i;
+        for (int j = i + 1; j < count; j++) {
+            if (quantity[j] > quantity[Imin]) {
+                Imin = j;
+            }
+        }
+        tempQuantity = quantity[Imin];
+        quantity[Imin] = quantity[i];
+        quantity[i] = tempQuantity;
+
+        tempUnit = unit[Imin];
+        unit[Imin] = unit[i];
+        unit[i] = tempUnit;
+
+        strcpy(tempCod, cod[Imin]);
+        strcpy(cod[Imin], cod[i]);
+        strcpy(cod[i], tempCod);
+
+        strcpy(tempDescription, description[Imin]);
+        strcpy(description[Imin], description[i]);
+        strcpy(description[i], tempDescription);
+    }
+
+    for (d = 0; d < count; d++) {
+        printf("\n\n\t\t\tMaterial Code   : %s", cod[d]);
+        printf("\n\t\t\tDescription     : %s", description[d]);
+        printf("\n\t\t\tQuantity        : %d", quantity[d]);
+        printf("\n\t\t\tUnit            : %d", unit[d]);
+        printf("\n\t\t\t__________________________________");
+    }
+
     exportRankedMaterials(cod, description, quantity, unit, count);
 }
 //quick sort
 int sortOrder(const void *aa, const void *bb){
     const Order *a = aa, *b = bb;
     if (a->order_date.day == b->order_date.day &&
-        a->order_date.month == b->order_date.month &&
-        a->order_date.year == b->order_date.year){
+            a->order_date.month == b->order_date.month &&
+            a->order_date.year == b->order_date.year) {
         return 0;
-    }else if (a->order_date.day <= b->order_date.day &&
-        a->order_date.month <= b->order_date.month &&
-        a->order_date.year <= b->order_date.year){
+    } else if (a->order_date.day <= b->order_date.day &&
+            a->order_date.month <= b->order_date.month &&
+            a->order_date.year <= b->order_date.year) {
         return -1;
-    }else {
+    } else {
         return +1;
     }
 }
+
 void listRankOrders(Orders *order) {
     Orders *temp;
     int i, j;
