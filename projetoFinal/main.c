@@ -1,3 +1,13 @@
+/**
+ * 
+ * @file Main.c
+ * @author João Pereira, Henrique Noronha, Ângelo Lopes
+ * @date 16 Janeiro 2023
+ * @brief Main file
+ * 
+ * Main file containing all the structs and the Main function.
+ */
+
 // Macro and Library definition
 #include "menus.h"
 #include "general.h"

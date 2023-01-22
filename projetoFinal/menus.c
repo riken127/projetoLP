@@ -1,6 +1,12 @@
-//
-// Created by riken on 16-01-2023.
-//
+/**
+ * 
+ * @file menus.c
+ * @author João Pereira, Henrique Noronha, Ângelo Lopes
+ * @date 16 Janeiro 2023
+ * @brief Menus file
+ * 
+ * File containing all the general menus of the program.
+ */
 
 #include "menus.h"
 #include "clients.h"
@@ -20,18 +26,21 @@
 
 
 /**
+ * Admin menu.
  * This menu is divided into three sub-menus, it loops until the integer
  * [option] given by the user is equal to zero. All the structs are parameters 
  * because the admin can alter information in all of those structs.
- * @param *customer The pointer customer points at the struct Customers, which
+ * 
+ * @param customer The pointer customer points at the struct Customers, which
  * the customers are stored in it.
- * @param **order The pointer order points at the Orders Customers, which
+ * @param order The pointer order points at the Orders Customers, which
  * the product orders are stored in it.
- * @param **product The pointer product points at the struct Products, which
+ * @param product The pointer product points at the struct Products, which
  * the Products are stored in it.
- * @param **material The pointer material points at the struct Materials, which
+ * @param material The pointer material points at the struct Materials, which
  * the materials are stored in it.
  */
+
 void adminMenu(Customers *customer, Orders **order,
         Products **product, Materials **material) {
     int option;
@@ -58,9 +67,17 @@ void adminMenu(Customers *customer, Orders **order,
 }
 
 /**
- * This menu loops until the integer
- * [option] given by the user is equal to zero.
+ * The menu about the clients.
+ * This menu loops until the integer [option] given by the user is equal to zero.
+ * 
+ * @param customer The pointer customer points at the struct Customers, which
+ * the customers are stored in it.
+ * @param product The pointer product points at the struct Products, which
+ * the Products are stored in it.
+ * @param order The pointer order points at the Orders Customers, which
+ * the product orders are stored in it.
  */
+
 void clientMenu(Customers *customer, Products **product,
                 Orders **order) {
     int option;
@@ -88,6 +105,21 @@ void clientMenu(Customers *customer, Products **product,
     } while (option != 0);
 }
 
+/**
+ * This menu is about the Importation of the data from a existing .bin file.
+ * This menu needs all structs because all the information an be imported.
+ * 
+ * @param customer The pointer customer points at the struct Customers, which
+ * the customers are stored in it.
+ * @param product The pointer product points at the struct Products, which
+ * the Products are stored in it.
+ * @param order The pointer order points at the Orders Customers, which
+ * the product orders are stored in it.
+ * @param material The pointer material points at the struct Materials, which
+ * the materials are stored in it.
+ */
+
+
 void importMenu(Customers *customer, Orders **order,
         Products **product, Materials **material) {
     int option;
@@ -112,6 +144,20 @@ void importMenu(Customers *customer, Orders **order,
         }
     } while (option != 0);
 }
+
+/**
+ * This menu is about the Exportation of the data to a .bin file.
+ * This menu needs all structs because all the information an be exported.
+ * 
+ * @param customer The pointer customer points at the struct Customers, which
+ * the customers are stored in it.
+ * @param product The pointer product points at the struct Products, which
+ * the Products are stored in it.
+ * @param order The pointer order points at the Orders Customers, which
+ * the product orders are stored in it.
+ * @param material The pointer material points at the struct Materials, which
+ * the materials are stored in it.
+ */
 
 void exportMenu(Customers *customer, Orders **order,
         Products **product, Materials **material) {
@@ -138,11 +184,21 @@ void exportMenu(Customers *customer, Orders **order,
     } while (op != 0);
 }
 
-/*
+/**
  * This is the main menu, it's divided in two sides, the customer side, and the
  * admin side, it loops until the integer [option] given by the user is equal to
  * zero.
+ * 
+ * @param customer The pointer customer points at the struct Customers, which
+ * the customers are stored in it.
+ * @param product The pointer product points at the struct Products, which
+ * the Products are stored in it.
+ * @param order The pointer order points at the Orders Customers, which
+ * the product orders are stored in it.
+ * @param material The pointer material points at the struct Materials, which
+ * the materials are stored in it.
  */
+
 void mainMenu(Customers *customer, Products **product,
         Orders **order, Materials **material) {
     int option;
