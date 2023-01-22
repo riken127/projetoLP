@@ -33,7 +33,20 @@
 
 #define MAX_FN_CHARS 100
 
-#define ASK_CUSTOMER_NIF "\n\t\t\tPlease type your nif"
+#define ASK_CUSTOMER_NIF "\n\t\t\tPlease type your nif: "
+
+#define ASK_ORDER_ID "\n\t\t\tPlease enter your order id: "
+
+#define MSG_CHANGE_ORDER_DATA "\n\t\t\t[1] - Change order date.\n" \
+                              "\t\t\t[2] - Change order products.\n"
+#define MSG_CHANGE_ORDER_LINE "\n\t\t\t[1] - Edit a product in the order.\n" \
+                              "\t\t\t[2] - Delete a product in the order.\n" \
+                              "\t\t\t[3] - Add a product in the order.\n "
+#define ASK_EDIT_ORDER "\n\t\t\tDo you wish to edit another product?"
+
+#define ASK_DELETE_PRODUCT_LINE_PRODUCT "\n\t\t\tDo you wish to remove another product?"
+
+#define ASK_ADD_PRODUCT_LINE_PRODUCT "\n\t\t\tDo you wish to add another product?"
 
 #define NIF_ERROR_MSG "Typed nif does not exist!"
 
@@ -43,21 +56,25 @@
 
 #define ASK_ANOTHER_PRODUCT "\n\t\t\tDo you want to add another product?[y/n] - "
 
+#define NO_ORDERS_FOUND "\n\t\t\tNo orders were found"
 
+#define NO_ORDERS_FOUND_BY_GIVEN_NIF "\n\t\t\tNo orders made by that nif"
 //function definition
 int verifyExistenceOfClientesAndProducts(Customers *customer, Products *product);
 int verifyCustomerOrders(int nif, Orders *orders);
 void greetCustomer(Customers *customer, int nif);
 void listAvailableProducts(Products *product);
 int newOrderId(Orders *order);
-int newOrderCustomerId(Customers *customer, int nif);
 void newOrderChoosenProductCode(Products *product, char code[COD_PRODUCT_SIZE]);
 Date newOrderChoosenDate();
 int newOrderQuantity();
 int newOrder(Customers *customer, int nif, Products *product, Orders *order);
-int getCustomerId(int nif, Customers *customer);
 void doOrder(Customers *customer, Products *product, Orders *order);
 void listOrders(Orders *order);
+void listPerNif(Orders *orders);
+void listPerNifOrders(Orders *order, int nif);
+void editOrders(Orders *order, Products *products);
+void removeOrders(Orders *order);
 void askFileName(char fileName[MAX_FN_CHARS]);
 void exportOrders(Orders *order);
 void importOrders(Orders *order);

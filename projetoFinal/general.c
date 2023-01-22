@@ -1,6 +1,12 @@
-//
-// Created by r1ken on 19-01-2023.
-//
+/**
+ * 
+ * @file general.c
+ * @author João Pereira, Henrique Noronha, Ângelo Lopes
+ * @date 16 Janeiro 2023
+ * @brief Source file general
+ * 
+ * Source file containing all the general functions.
+ */
 
 #include "general.h"
 #include <string.h>
@@ -46,7 +52,7 @@ int menuRead(char message[], int min, int max) {
  * as a parameter, and then waits for the user to press a key, if so, the screen
  * is cleaned and the function ends.
  *
- * @param message[] Vector which the error message is going to be stored.
+ * @param message Vector which the error message is going to be stored.
  */
 void errorMessage(const char message[]) {
     system("cls || clear");
@@ -84,6 +90,8 @@ int yesOrNoFunction(const char *message) {
 /**
  * These functions make it so when a function is over, the user can press any
  * key to continue with the program.
+ * 
+ * The function below this one works the same way, just that it is used to the lists.
  */
 
 void pressAnyKeyToContinueFunction() {

@@ -27,6 +27,7 @@
  * @return count Receives the number that decides if the Id has been successfully
  * checked, 1 if the Id exits, 0 if not.
  */
+
 int verifyCustomersId(Customers *customer, int requestedId) {
     int i = 0, count = 0;
     for (i = 0; i < customer->counter; i++) {
@@ -165,8 +166,9 @@ void saveCustomer(char name[], char address[], int nif, char country[], int id,
  */
 
 /**
+ * The function below takes a given customer and edits its data.
  * 
- * @param customer
+ * @param customer The customer to edit.
  */
 void editCustomers(Customers *customer) {
     int id, i, verify;
@@ -188,12 +190,14 @@ void editCustomers(Customers *customer) {
     } while (verify != 1);
 }
 
-/*
- * Bellow function records a customer, it gets the customer struct as an argument and
- * then goes tru every field function so that the data is passed to the variables, at the end,
- * all the data that was written goes on the saveCustomer function where the user is created and
- * then the program asks the user tru the yesOrNoFunction if the user wants to add another user,
- * if so the loop continues.
+/**
+ * The funciton below records a customer, gets the customers struct as an argument
+ * and then goes through every field function so that the data is passed to the
+ * variables, at the end, all the data that was written goes on the saveCustomer
+ * function where the user is created and then the program asks the user through
+ * the yesOrNoFunction if the user wants to add another user, if so the loop continues.
+ * 
+ * @param customer Receives the customer struct.
  */
 
 
@@ -219,12 +223,18 @@ void recordCustomers(Customers *customer) {
     } while (option != 2);
 }
 
-/*
- * The Bellow function edit's a line in the struct array. It receives the struct array,
- * the current id of the customer, and the position in the struct array, it then passes all the
- * user information to some local variables and asks the user what field does he want to change,
- * when the user exits all the changes made are saved.
+/**
+ * The function below edits a line in the struct array. It receives the struct
+ * array, the current id of the customer, and the position in the struct array,
+ * it then passes all the user information to some local variables and asks the
+ * user what field does he want to change, when the user exits, all the changes
+ * made are saved.
+ * 
+ * @param customer Customer struct.
+ * @param pos Position that determines which customer is being changed.
+ * @param id Id of the customer.
  */
+
 void changeCustomerData(Customers *customer, int pos, int id) {
     int option, nif;
     char name[MAX_NAME_CHARS], address[MAX_ADDRESS_CHARS],
@@ -265,6 +275,16 @@ void changeCustomerData(Customers *customer, int pos, int id) {
     saveCustomer(name, address, nif, country, id, *(&customer), pos);
 }
 
+/**
+ * The function below takes a Customers nif and verifies if that customer has a
+ * order. If it has, it returns 1, if not, returns 0.
+ * 
+ * @param nif Nif of the customer.
+ * @param orders Orders struct.
+ * @return 1 Verification was a success.
+ * @return 0 Verification was a failure.
+ */
+
 int verifyCustomerOrders(int nif, Orders *orders) {
     int i, j;
     for (i = 0; i < orders->counter; i++) {
@@ -276,11 +296,16 @@ int verifyCustomerOrders(int nif, Orders *orders) {
     return 0;
 }
 
-/*
- * The bellow function deletes a user in the struct array. It receives the struct and
+/**
+ * The function below deletes a user in the struct array. It receives the struct and
  * the amount of users by parameter then asks the user for an integer and loops
- * tru the struct trying to find the given id, if found, the user is deleted, if
- * not an error message is displayed.
+ * through the struct trying to find the given id, if found, the user is deleted,
+ * if not an error message is displayed.
+ * 
+ * @param customer Customers struct.
+ * @param orders Orders struct.
+ * @return customer->counter Means that nothing happened.
+ * @return customer->counter-- Means that the customer was deleted.
  */
 
 int deleteCustomers(Customers *customer, Orders *orders) {
@@ -327,10 +352,12 @@ int deleteCustomers(Customers *customer, Orders *orders) {
         return customer->counter--;
 }
 
-/*
- * The bellow function displays all available customers if possible, if not a message appears saying
- * that no customers where found, the list will appear until the user presses any keu, then the list will
- * be closed.
+/**
+ * The function below displays all available customers if possible, if not, a
+ * message appears saying that no customers where found, the list will appear
+ * until the user presses any key, then the list will be closed.
+ * 
+ * @param customer Pointer to the struct customer.
  */
 void listCustomers(Customers *customer) {
     int i;
@@ -352,9 +379,13 @@ void listCustomers(Customers *customer) {
     pressAnyKeyToContinueFunctionListVersion();
 }
 
-/*
- * The bellow function exports all the customer data, it does so by looping tru the struct array
- * and saving all the customer fields separated by a comma.
+
+
+/**
+ * The function bellow exports all the customer data, it does so by looping through
+ * the struct array and saving all the customer fields separated by a comma.
+ * 
+ * @param customer Pointer to the struct customer.
  */
 void exportCustomers(Customers *customer) {
     FILE *fp;
@@ -381,11 +412,14 @@ void exportCustomers(Customers *customer) {
     }
 }
 
-/*
- * The bellow function imports customers to the program, it does so by asking the user for the file name,
- * then it passes all the data in the file to a string, and reallocates one more position (until the end of the file),
- * then it parses the string tru the commas, after every user is written to the struct a success message appears and file
- * pointer closes.
+/**
+ * The function below imports customers to the program, it does so by asking the
+ * user for the file name, then it passes all the data in the file to a string,
+ * and reallocates one more position (until the end of the file), then it parses
+ * the string through the commas, after every user is written to the struct a success
+ * message appears and file pointer closes.
+ * 
+ * @param customer Pointer to the customers struct.
  */
 void importCustomers(Customers *customer) {
     FILE *fp;
@@ -418,9 +452,12 @@ void importCustomers(Customers *customer) {
     }
 }
 
-/*
- * The bellow menu manages the customers, it loops until the integer [option] given by
+/**
+ * The menu below manages the customers, it loops until the integer [option] given by
  * the user is equal to zero.
+ * 
+ * @param customer
+ * @param orders
  */
 void customerManagementMenu(Customers *customer, Orders *orders) {
     int option;

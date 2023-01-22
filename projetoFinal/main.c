@@ -1,3 +1,13 @@
+/**
+ * 
+ * @file Main.c
+ * @author João Pereira, Henrique Noronha, Ângelo Lopes
+ * @date 16 Janeiro 2023
+ * @brief Main file
+ * 
+ * Main file containing all the structs and the Main function.
+ */
+
 // Macro and Library definition
 #include "menus.h"
 #include "general.h"
@@ -9,7 +19,8 @@
  *
  * @param argc Number of arguments passed.
  * @param argv The list of arguments passed.
- *
+ * 
+ * @return EXIT_SUCCESS if success, another number in case of an error.
  * @return 0 if success, another number in case of an error.
  */
 

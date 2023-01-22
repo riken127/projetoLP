@@ -538,12 +538,15 @@ void deleteProduct(Products *product, char code[COD_PRODUCT_SIZE], Orders *order
                 product->product[i].price = product->product[i + 1].price;
                 product->product[i].dimension = product->product[i + 1].dimension;
                 product->product[i].line_product_size = product->product[i + 1].line_product_size;
-                product->product[i].line_product = (LineProduct *) realloc(product->product[i].line_product,
-                        sizeof (LineProduct) *
-                        product->product[i + 1].line_product_size);
-                for (j = 0; j < product->product[i + 1].line_product_size; j++) {
-                    strcpy(product->product[i].line_product[j].code, product->product[i + 1].line_product[j].code);
-                    product->product[i].line_product[j].quantity = product->product[i + 1].line_product[j].quantity;
+                if (product->product[i + 1].line_product_size < 200) {
+                    product->product[i].line_product = (LineProduct *) realloc(product->product[i].line_product,
+                                                                               sizeof(LineProduct) *
+                                                                               product->product[i +
+                                                                                                1].line_product_size);
+                    for (j = 0; j < product->product[i + 1].line_product_size; j++) {
+                        strcpy(product->product[i].line_product[j].code, product->product[i + 1].line_product[j].code);
+                        product->product[i].line_product[j].quantity = product->product[i + 1].line_product[j].quantity;
+                    }
                 }
                 product->counter--;
             } else {
@@ -552,7 +555,7 @@ void deleteProduct(Products *product, char code[COD_PRODUCT_SIZE], Orders *order
         }
     }
 
-    printf("\n\t\t\tPRODUCT DELETED SUCCESSFULLY");
+    printf(SUCCESS_IN_DELETING);
 }
 
 /*
@@ -677,9 +680,6 @@ void editProduct(Materials *material, Products *product, Orders *orders) {
                     count++;
                     continue;
                 }
-            }
-            if (count == product->counter) {
-                printf("\n\t\t\tERROR!");
             }
         }
     } else {

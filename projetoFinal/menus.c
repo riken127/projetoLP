@@ -1,11 +1,18 @@
-//
-// Created by riken on 16-01-2023.
-//
+/**
+ * 
+ * @file menus.c
+ * @author João Pereira, Henrique Noronha, Ângelo Lopes
+ * @date 16 Janeiro 2023
+ * @brief Menus file
+ * 
+ * File containing all the general menus of the program.
+ */
 
 #include "menus.h"
 #include "clients.h"
 #include "production.h"
 #include "products.h"
+#include <stdio.h>
 //macro definition
 
 #define MSG_MAIN_MENU "\n\t\t\t========= Main Menu =========\n\n\t\t\t[1] - User.\n\t\t\t[2] - Admin.\n\t\t\t[3] - Import.\n\t\t\t[4] - Export.\n\t\t\t[0] - Quit.\n\t\t\t_____________________________"
@@ -13,24 +20,27 @@
   "\n\t\t\t=============== Admin Menu ===============\n\n\t\t\t[1] - Clients Management.\n\t\t\t[2] - Products & Materials Management.\n\t\t\t[3] - Production "   \
   "Management.\n\t\t\t[0] - Quit.\n\t\t\t__________________________________________"
 #define MSG_CLIENT_MENU                                                        \
-  "\n\t\t\t========= Client Menu =========\n\n\t\t\t[1] - Do order.\n\t\t\t[2] - List orders.\n\t\t\t[0] - Quit.\n\t\t\t_______________________________"
+  "\n\t\t\t========= Client Menu =========\n\n\t\t\t[1] - Do order.\n\t\t\t[2] - List orders.\n\t\t\t[3] - Edit orders.\n\t\t\t[4] - Remove orders.\n\t\t\t[0] - Quit.\n\t\t\t_______________________________"
 #define MSG_IMPORT_MENU "\n\t\t\t========= Import Menu =========\n\n\t\t\t[1] - Clients.\n\t\t\t[2] - Products & Materials\n\t\t\t[3] - Orders.\n\t\t\t[0] - Quit.\n\t\t\t_______________________________"
 #define MSG_EXPORT_MENU "\n\t\t\t========= Export Menu =========\n\n\t\t\t[1] - Clients.\n\t\t\t[2] - Products & Materials\n\t\t\t[3] - Orders.\n\t\t\t[0] - Quit.\n\t\t\t_______________________________"
 
 
 /**
+ * Admin menu.
  * This menu is divided into three sub-menus, it loops until the integer
  * [option] given by the user is equal to zero. All the structs are parameters 
  * because the admin can alter information in all of those structs.
- * @param *customer The pointer customer points at the struct Customers, which
+ * 
+ * @param customer The pointer customer points at the struct Customers, which
  * the customers are stored in it.
- * @param **order The pointer order points at the Orders Customers, which
+ * @param order The pointer order points at the Orders Customers, which
  * the product orders are stored in it.
- * @param **product The pointer product points at the struct Products, which
+ * @param product The pointer product points at the struct Products, which
  * the Products are stored in it.
- * @param **material The pointer material points at the struct Materials, which
+ * @param material The pointer material points at the struct Materials, which
  * the materials are stored in it.
  */
+
 void adminMenu(Customers *customer, Orders **order,
         Products **product, Materials **material) {
     int option;
@@ -48,7 +58,7 @@ void adminMenu(Customers *customer, Orders **order,
                 productsMaterialsManagementMenu(*product, *material, *order);
                 break;
             case 3:
-                productionManagementMenu(order, material, product);
+                productionManagementMenu(order, material, product, customer);
                 break;
             default:
                 break;
@@ -57,11 +67,19 @@ void adminMenu(Customers *customer, Orders **order,
 }
 
 /**
- * This menu loops until the integer
- * [option] given by the user is equal to zero.
+ * The menu about the clients.
+ * This menu loops until the integer [option] given by the user is equal to zero.
+ * 
+ * @param customer The pointer customer points at the struct Customers, which
+ * the customers are stored in it.
+ * @param product The pointer product points at the struct Products, which
+ * the Products are stored in it.
+ * @param order The pointer order points at the Orders Customers, which
+ * the product orders are stored in it.
  */
+
 void clientMenu(Customers *customer, Products **product,
-        Orders **order) {
+                Orders **order) {
     int option;
 
     do {
@@ -73,13 +91,34 @@ void clientMenu(Customers *customer, Products **product,
                 doOrder(*(&customer), *product, *order);
                 break;
             case 2:
-                listOrders(*order);
+                listPerNif(*order);
+                break;
+            case 3:
+                editOrders(*order, *product);
+                break;
+            case 4:
+                removeOrders(*order);
                 break;
             default:
                 break;
         }
     } while (option != 0);
 }
+
+/**
+ * This menu is about the Importation of the data from a existing .bin file.
+ * This menu needs all structs because all the information an be imported.
+ * 
+ * @param customer The pointer customer points at the struct Customers, which
+ * the customers are stored in it.
+ * @param product The pointer product points at the struct Products, which
+ * the Products are stored in it.
+ * @param order The pointer order points at the Orders Customers, which
+ * the product orders are stored in it.
+ * @param material The pointer material points at the struct Materials, which
+ * the materials are stored in it.
+ */
+
 
 void importMenu(Customers *customer, Orders **order,
         Products **product, Materials **material) {
@@ -106,6 +145,20 @@ void importMenu(Customers *customer, Orders **order,
     } while (option != 0);
 }
 
+/**
+ * This menu is about the Exportation of the data to a .bin file.
+ * This menu needs all structs because all the information an be exported.
+ * 
+ * @param customer The pointer customer points at the struct Customers, which
+ * the customers are stored in it.
+ * @param product The pointer product points at the struct Products, which
+ * the Products are stored in it.
+ * @param order The pointer order points at the Orders Customers, which
+ * the product orders are stored in it.
+ * @param material The pointer material points at the struct Materials, which
+ * the materials are stored in it.
+ */
+
 void exportMenu(Customers *customer, Orders **order,
         Products **product, Materials **material) {
     int op;
@@ -131,11 +184,21 @@ void exportMenu(Customers *customer, Orders **order,
     } while (op != 0);
 }
 
-/*
+/**
  * This is the main menu, it's divided in two sides, the customer side, and the
  * admin side, it loops until the integer [option] given by the user is equal to
  * zero.
+ * 
+ * @param customer The pointer customer points at the struct Customers, which
+ * the customers are stored in it.
+ * @param product The pointer product points at the struct Products, which
+ * the Products are stored in it.
+ * @param order The pointer order points at the Orders Customers, which
+ * the product orders are stored in it.
+ * @param material The pointer material points at the struct Materials, which
+ * the materials are stored in it.
  */
+
 void mainMenu(Customers *customer, Products **product,
         Orders **order, Materials **material) {
     int option;

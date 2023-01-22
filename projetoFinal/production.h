@@ -27,14 +27,16 @@
 #define MAX_MATERIALS 9999
 //function definition
 Date askDate();
-void listRankClients();
+void listRankCustomers();
 void exportRankedProducts();
 void listRankProducts(Materials *material,Orders *order, Products *product, Date date);
 void exportRankedMaterials(char cod[MAX_MATERIALS][COD_MATERIAL_SIZE], char description[MAX_MATERIALS][MAX_DESCRIPTION_SIZE], int unit[MAX_MATERIALS], int quantity[MAX_MATERIALS], int count);
 void listRankMaterials(Materials *material, Orders *order, Products *product, Date date);
-int sortOrder(Order *a, Order *b);
+int sortOrder(const void *aa, const void *bb);
 void listRankOrders(Orders *order);
-int listMenu(Materials *material, Orders *order, Products *product, Date date);
-void listMaterials(Materials *material, Orders *order, Products *product);
-void productionManagementMenu(Orders **order, Materials **material, Products **product);
+int sortCustomerPerAddress(const void *aa, const void *bb);
+void listRankCustomersPerAddress(Customers *customers);
+int listMenu(Materials *material, Orders *order, Products *product, Date date, Customers *customers);
+void listMaterials(Materials *material, Orders *order, Products *product, Customers *customers);
+void productionManagementMenu(Orders **order, Materials **material, Products **product, Customers *customers);
 #endif //PROJECT_PRODUCTION_H
