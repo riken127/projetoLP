@@ -727,6 +727,7 @@ void listMaterials(Materials *material, Orders *order, Products *product, Custom
             }
             if (count == 0) {
                 errorMessage(NO_ORDERS_FOUND_TO_THAT_DATE_MESSAGE);
+                option = 0;
             } else {
                 option = listMenu(*(&material), *(&order), *(&product), date, *(&customer));
             }

@@ -12,7 +12,7 @@
 #ifndef PROJECT_PRODUCTION_H
 #define PROJECT_PRODUCTION_H
 //macro  definition
-#define MSG_MENU_PRODUCTION "\n\t\t\t========= Production Management Menu =========\n\n\t\t\t[1] - List materials.\n\t\t\t[0] - Quit.\n\t\t\t______________________________________________"
+#define MSG_MENU_PRODUCTION "\n\t\t\t========= Production Management Menu =========\n\n\t\t\t[1] - Lists.\n\t\t\t[0] - Quit.\n\t\t\t______________________________________________"
 
 #define MSG_LIST_MENU "\n\n\t\t\t[1] - Rank Clients.\n\t\t\t[2] - Rank Products.\n\t\t\t[3] - Rank Materials.\n\t\t\t[4] - Rank by Date.\n\t\t\t[5] - Rank by Address.\n\t\t\t[0] - Quit.\n\t\t\t__________________________________"
 
