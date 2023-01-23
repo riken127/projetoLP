@@ -136,6 +136,20 @@ typedef struct{
     int counter;
 }Materials;
 
+typedef struct{
+    int quantity;
+    units unit;
+    char description[MAX_DESCRIPTION_SIZE];
+    char cod[COD_MATERIAL_SIZE];
+}ProductionMaterials;
+
+typedef struct{
+    int quantity;
+    Dimensions dimension;
+    double price;
+    char cod[COD_PRODUCT_SIZE];
+    char name[MAX_NAME_CHARS];
+}ProductionProducts;
 int menuRead(char message[], int min, int max);
 void errorMessage(const char message[]);
 int yesOrNoFunction(const char *message);
