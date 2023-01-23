@@ -389,10 +389,12 @@ void changeOrderDate(Date *order_date) {
 }
 
 /**
- * This function function edits a line product, it firstly prints all of the
+ * This function edits a line product, it firstly prints all of the
  * products present in the selected order and then asks the user to select one of
- * the codes, after that a simple verification is made, and the quantity is given to the actual
- * product, then the program asks the user if he wants to edit another product, if so, the loop continues.
+ * the codes, after that a simple verification is made, and the quantity is given
+ * to the actual product, then the program asks the user if he wants to edit another
+ * product, if so, the loop continues.
+ * 
  * @param order Pointer to the order struct.
  */
 void editLineProduct(Order *order) {
@@ -429,6 +431,7 @@ void editLineProduct(Order *order) {
  * products present in the selected order and then asks the user to select one of
  * the codes, after that a simple verification is made and, if the product exists, it's
  * deleted and the loop continues.
+ * 
  * @param order Pointer o the order struct.
  */
 void removeLineProduct(Order *order) {
@@ -461,11 +464,14 @@ void removeLineProduct(Order *order) {
     } while (position != -1);
 }
 /**
- * This function adds a product to a line product, it starts by listing the products of the current line product
- * and then asking the user for a product code, then a simple verification is made to see if the product exists, if so
- * the function asks for a quantity and then reallocates memory to order line with one more position and then copy's the
- * data of the temporary variables to the order line struct, after that, the function asks the user if he wants to add another
- * product, the loop continues until the user says no.
+ * This function adds a product to a line product, it starts by listing the products
+ * of the current line product and then asking the user for a product code, then
+ * a simple verification is made to see if the product exists, if so, the function
+ * asks for a quantity and then reallocates memory to order line with one more position
+ * and then copies the data of the temporary variables to the order line struct,
+ * after that, the function asks the user if he wants to add another product, the
+ * loop continues until the user says no.
+ * 
  * @param order Pointer to the order struct
  * @param products Pointer to the product struct
  */
@@ -494,8 +500,9 @@ void addLineProduct(Order *order, Products *products) {
     } while (option != 2);
 }
 /**
- *This function is a menu to the management of the order line
+ * This function is a menu to the management of the order line
  * in here you can edit a product, delete a product, or add a product.
+ * 
  * @param order Pointer to the order struct
  * @param products Pointer to the product struct
  */
@@ -520,6 +527,7 @@ void changeOrderLine(Order *order, Products *products) {
 }
 /**
  * The bellow function saves all the changes made to an order.
+ * 
  * @param order Pointer to the order struct
  * @param position position of the edited order
  * @param temp temporary product
