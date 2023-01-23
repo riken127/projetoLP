@@ -10,6 +10,7 @@
 
 #ifndef PROJETOLP_CLIENTS_H
 #define PROJETOLP_CLIENTS_H
+//library definition
 #include "orders.h"
 #include "general.h"
 //macro definition

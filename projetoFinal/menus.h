@@ -13,7 +13,7 @@
 
 #include "general.h"
 
-
+//function definition
 void adminMenu(Customers *customer, Orders **order, Products **product, Materials **material);
 void clientMenu(Customers *customer, Products **product, Orders **order);
 void importMenu(Customers *customer, Orders **order,

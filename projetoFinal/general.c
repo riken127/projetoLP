@@ -7,7 +7,7 @@
  * 
  * Source file containing all the general functions.
  */
-
+//library definition
 #include "general.h"
 #include <string.h>
 #include <stdio.h>

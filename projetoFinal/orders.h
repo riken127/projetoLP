@@ -48,19 +48,13 @@
 
 #define ASK_ADD_PRODUCT_LINE_PRODUCT "\n\t\t\tDo you wish to add another product?"
 
-#define NIF_ERROR_MSG "Typed nif does not exist!"
-
-#define SUCCESS_IN_LOADING_ORDERS "\nOrders where loaded successfully!"
-
-#define ERROR_IN_LOADING_ORDERS "\nAn error has occures while loading the orders! :/"
-
 #define ASK_ANOTHER_PRODUCT "\n\t\t\tDo you want to add another product?[y/n] - "
 
 #define NO_ORDERS_FOUND "\n\t\t\tNo orders were found"
 
 #define NO_ORDERS_FOUND_BY_GIVEN_NIF "\n\t\t\tNo orders made by that nif"
 //function definition
-int verifyExistenceOfClientesAndProducts(Customers *customer, Products *product);
+int verifyExistenceOfClientsAndProducts(Customers *customer, Products *product);
 int verifyCustomerOrders(int nif, Orders *orders);
 void greetCustomer(Customers *customer, int nif);
 void listAvailableProducts(Products *product);

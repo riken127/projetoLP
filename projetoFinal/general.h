@@ -62,7 +62,7 @@
 #define ERROR_IN_FILES "\n\t\t\tAn error has occurred"
 
 #define SUCCESS_IN_FILES "\n\t\t\tOperation success"
-
+//struct definition
 typedef struct {
     int id;
     char name[MAX_NAME_CHARS];

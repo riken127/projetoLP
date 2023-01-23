@@ -24,7 +24,7 @@
  * @return 1 If verified.
  */
 
-int verifyExistenceOfClientesAndProducts(Customers *customer, Products *product) {
+int verifyExistenceOfClientsAndProducts(Customers *customer, Products *product) {
     if (customer->counter != 0) {
         if (product->counter != 0) {
             return 1;
@@ -237,7 +237,7 @@ int verifyCustomerNif(Customers *customers, int customerNif) {
 
 void doOrder(Customers *customer, Products *product, Orders *order) {
     int customerNif, verify;
-    verify = verifyExistenceOfClientesAndProducts(*(&customer), *(&product));
+    verify = verifyExistenceOfClientsAndProducts(*(&customer), *(&product));
     if (verify == 1) {
         do {
             customerNif = menuRead(ASK_CUSTOMER_NIF, NIF_MIN_SIZE, NIF_MAX_SIZE);
@@ -373,7 +373,7 @@ int verifyProductOrderLine(LineProduct product, Order order) {
 }
 
 /**
- * This fucntion receives a orders date and changes it.
+ * This function receives a orders date and changes it.
  * 
  * @param order_date Pointer to the Date struct.
  */
@@ -388,8 +388,13 @@ void changeOrderDate(Date *order_date) {
     system("cls || clear");
 }
 
-//NAO SEI O QUE E ISTO DEIXO PARA AMANHA PARA VER COM VCS
-
+/**
+ * This function function edits a line product, it firstly prints all of the
+ * products present in the selected order and then asks the user to select one of
+ * the codes, after that a simple verification is made, and the quantity is given to the actual
+ * product, then the program asks the user if he wants to edit another product, if so, the loop continues.
+ * @param order Pointer to the order struct.
+ */
 void editLineProduct(Order *order) {
     int i, position;
     LineProduct product;
@@ -419,7 +424,13 @@ void editLineProduct(Order *order) {
     } while (position != -1);
 
 }
-
+/**
+ * This function removes a line product, it firstly prints all of the
+ * products present in the selected order and then asks the user to select one of
+ * the codes, after that a simple verification is made and, if the product exists, it's
+ * deleted and the loop continues.
+ * @param order Pointer o the order struct.
+ */
 void removeLineProduct(Order *order) {
     int i, position;
     LineProduct product;
@@ -449,7 +460,15 @@ void removeLineProduct(Order *order) {
         }
     } while (position != -1);
 }
-
+/**
+ * This function adds a product to a line product, it starts by listing the products of the current line product
+ * and then asking the user for a product code, then a simple verification is made to see if the product exists, if so
+ * the function asks for a quantity and then reallocates memory to order line with one more position and then copy's the
+ * data of the temporary variables to the order line struct, after that, the function asks the user if he wants to add another
+ * product, the loop continues until the user says no.
+ * @param order Pointer to the order struct
+ * @param products Pointer to the product struct
+ */
 void addLineProduct(Order *order, Products *products) {
     int i, product_quantity;
     char product_code[COD_PRODUCT_SIZE];
@@ -474,7 +493,12 @@ void addLineProduct(Order *order, Products *products) {
         } while (option != 2);
     } while (option != 2);
 }
-
+/**
+ *This function is a menu to the management of the order line
+ * in here you can edit a product, delete a product, or add a product.
+ * @param order Pointer to the order struct
+ * @param products Pointer to the product struct
+ */
 void changeOrderLine(Order *order, Products *products) {
     int option, i;
     do {
@@ -494,7 +518,12 @@ void changeOrderLine(Order *order, Products *products) {
         }
     } while (option != 0);
 }
-
+/**
+ * The bellow function saves all the changes made to an order.
+ * @param order Pointer to the order struct
+ * @param position position of the edited order
+ * @param temp temporary product
+ */
 void saveLineOrderChanges(Orders *order, int position, Order temp) {
     int i;
     order->order[position].order_date = temp.order_date;
@@ -507,13 +536,12 @@ void saveLineOrderChanges(Orders *order, int position, Order temp) {
     }
 }
 
-//ACABA AQUI
 
 /**
  * This function edits an order.
  * 
  * @param order Pointer to the orders struct.
- * @param position Position of the orden in the struct.
+ * @param position Position of the order in the struct.
  * @param id Id of the order.
  * @param products Pointer to the products struct.
  */
