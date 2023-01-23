@@ -1,16 +1,23 @@
-//
-// Created by r1ken on 12-12-2022.
-//
+/**
+ * 
+ * @file production.c
+ * @author João Pereira, Henrique Noronha, Ângelo Lopes
+ * @date 16 Janeiro 2023
+ * @brief Productions file
+ * 
+ * File containing all the funtions about the productions.
+ */
 #include "production.h"
 #include <stdio.h>
 #include <time.h>
 #include <string.h>
 #include <stdlib.h>
 
-/*
- * Bellow function ask the user for a date and verifies if the date is valid, if so then the date
- * is returned.
+/**
+ * This function asks the user for a date and verifies if the date is valid, if so,
+ * then the date is returned.
  */
+
 Date askDate() {
     Date insertedDate;
     do {
@@ -26,6 +33,16 @@ Date askDate() {
 
     return insertedDate;
 }
+
+/**
+ * This function exports the customers by the amount of orders they have requested.
+ * 
+ * @param customer Pointer to the customers struct
+ * @param counter Local variable for counting.
+ * @param nif Nif of the customers
+ * @param count Number of customers
+ */
+
 
 void exportRankedCustomers(Customers *customer, int counter, int nif[MAX_CLIENTS], int count[MAX_CLIENTS]) {
     int option;
@@ -64,6 +81,16 @@ void exportRankedCustomers(Customers *customer, int counter, int nif[MAX_CLIENTS
             }
     }
 }
+
+/**
+ * This function lists the customers by the amount of orders they have requested.
+ * It then asks the user if he wants to export the data, if so, the exportRankCustomers
+ * function is called.
+ * 
+ * @param order Pointer to the orders struct.
+ * @param date Date value.
+ * @param customer Pointer to the customers struct.
+ */
 
 void listRankCustomers(Orders *order, Date date, Customers *customer) {
     int i, j, counter = 0, tempNif = 0, tempCount = 0;
@@ -123,6 +150,20 @@ void listRankCustomers(Orders *order, Date date, Customers *customer) {
     free(count);
 }
 
+/**
+ * This function exports the Products by the amount of that product that were requested.
+ * 
+ * @param cod Vector that stores the Quantity and Size of the product
+ * @param name Name of the product
+ * @param price Price of the product
+ * @param height Height of the product
+ * @param lenght Lenght of the product
+ * @param width Width of the product
+ * @param quantity Quantity of the product
+ * @param count Local variable for counting
+ */
+
+
 void exportRankedProducts(ProductionProducts *pp, int count) {
     int option;
 
@@ -159,6 +200,16 @@ void exportRankedProducts(ProductionProducts *pp, int count) {
             break;
     }
 }
+
+/**
+ * This function lists the products by the amount of products that were requested.
+ * It then asks the user if he wants to export the data, if so, the exportRankProducts
+ * function is called.
+ * 
+ * @param order Pointer to the orders struct
+ * @param product Pointer to the products struct
+ * @param date Date value
+ */
 
 void listRankProducts(Orders *order, Products *product, Date date) {
     int i, j, k, f, count = 0, tempQuantity;
@@ -244,6 +295,17 @@ void listRankProducts(Orders *order, Products *product, Date date) {
     free(tempCod);
 }
 
+/**
+ * This function exports the Materials by the amount of that Material that was requested.
+ * 
+ * @param cod Vector that stores the Quantity and Size of the Material
+ * @param description Vector that stores the MAximum number and Maximum Description
+ * Size of the Material
+ * @param quantity Quantity of the Material
+ * @param unit Units of that Material
+ * @param count Local variable for counting
+ */
+
 void exportRankedMaterials(ProductionMaterials  *rm, int count) {
     int option;
 
@@ -277,6 +339,18 @@ void exportRankedMaterials(ProductionMaterials  *rm, int count) {
             break;
     }
 }
+
+/**
+ * This function lists the products by the amount of Materials that were requested.
+ * It then asks the user if he wants to export the data, if so, the exportRankMaterials
+ * function is called.
+ * 
+ * @param material Pointer to the materials struct
+ * @param order Pointer to the orders struct
+ * @param product Pointer to the products struct
+ * @param date Date value
+ */
+
 
 void listRankMaterials(Materials *material, Orders *order, Products *product, Date date) {
     int i, j, k, d, f, count = 0, tempQuantity, tempUnit;
@@ -355,7 +429,14 @@ void listRankMaterials(Materials *material, Orders *order, Products *product, Da
     free(tempCod);
     free(tempDescription);
 }
-//quick sort
+
+/**
+ * Function that quickly sorts the struct Orders by Date.
+ * 
+ * @param aa Value 1
+ * @param bb Value 2
+ * @return The sort value.
+ */
 
 int sortOrder(const void *aa, const void *bb) {
     const Order *a = aa, *b = bb;
@@ -371,6 +452,12 @@ int sortOrder(const void *aa, const void *bb) {
         return +1;
     }
 }
+
+/**
+ * Exports the list of Orders.
+ * 
+ * @param temp
+ */
 
 void exportRankOrders(Orders *temp) {
     int option;
@@ -411,6 +498,14 @@ void exportRankOrders(Orders *temp) {
     }
 }
 
+/**
+ * This funciton lists the orders by date, from the newest to the oldest. 
+ * It then asks the user if he wants to export the data, if so, the exportRankOrders
+ * function is called.
+ * 
+ * @param order Pointer to the orders struct
+ */
+
 void listRankOrders(Orders *order) {
     Orders *temp;
     int i, j;
@@ -448,10 +543,24 @@ void listRankOrders(Orders *order) {
     free(temp);
 }
 
+/**
+ * This function sorts the customer per Address.
+ * 
+ * @param aa Value 1
+ * @param bb Value 2
+ * @return The sort value.
+ */
+
 int sortCustomerPerAddress(const void *aa, const void *bb) {
     const Customer *a = aa, *b = bb;
     return strcmp(a->address, b->address);
 }
+
+/**
+ * Exports the listed customers.
+ * 
+ * @param temp Temporary value.
+ */
 
 void exportRankedCustomersPerAddress(Customers *temp) {
     int option;
@@ -488,6 +597,14 @@ void exportRankedCustomersPerAddress(Customers *temp) {
     }
 }
 
+/**
+ * This function list the customers by the address that they have.
+ * It then asks the user if he wants to export the data, if so, the exportRankCustomersPerAddress
+ * function is called.
+ * 
+ * @param customers
+ */
+
 void listRankCustomersPerAddress(Customers *customers) {
     Customers *temp;
     int i;
@@ -519,6 +636,18 @@ void listRankCustomersPerAddress(Customers *customers) {
     free(temp);
 }
 
+/**
+ * Menu that has all the listings possible.
+ * 
+ * @param material Pointer to the materials struct
+ * @param order Pointer to the orders struct
+ * @param product Pointer to the products struct
+ * @param date Date value
+ * @param customers Pointer to the customers struct
+ * @return 
+ */
+
+
 int listMenu(Materials *material, Orders *order, Products *product, Date date, Customers *customers) {
     int option;
 
@@ -547,15 +676,21 @@ int listMenu(Materials *material, Orders *order, Products *product, Date date, C
     return option;
 }
 
-/*
- * Bellow function lists all needed materials in a range of 5 days, firstly it verifies if
- * the order->counter is equal to zero, if so a message appear saying that no orders where
+/**
+ * This function lists all needed materials in a range of 5 days, firstly it verifies if
+ * the order->counter is equal to zero, if so a message appears saying that no orders where
  * found, if not, it will ask the user for a date and for his nif, then it will pass the date
  * to a time.h data struct and add 5 days to the given date, it will then loop in the orders and verify
  * if the order is in the reach of both dates (initial date and the 5 days after date), then it will compare
  * the material codes present in the order to the material  codes present in the material struct, if the codes are equal
  * it will list all the material information + the quantity of the product in a certain order.
+ * 
+ * @param material Pointer to the materials struct.
+ * @param order Pointer to the orders struct.
+ * @param product Pointer to the products struct.
+ * @param customer Pointer to the customers struct.
  */
+
 void listMaterials(Materials *material, Orders *order, Products *product, Customers *customer) {
     Date date;
     int i, j, k, d, f, option = 1, count = 0;
@@ -602,9 +737,15 @@ void listMaterials(Materials *material, Orders *order, Products *product, Custom
 
 }
 
-/*
- * Bellow menu is where the listMaterials function can be found.
+/**
+ * This menu is where the listMaterials function can be found.
+ * 
+ * @param order
+ * @param material
+ * @param product
+ * @param customers
  */
+
 void productionManagementMenu(Orders **order, Materials **material, Products **product, Customers *customers) {
     int option;
 
