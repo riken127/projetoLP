@@ -66,7 +66,10 @@ void exportRankedCustomers(Customers *customer, int counter, int nif[MAX_CLIENTS
 }
 
 void listRankCustomers(Orders *order, Date date, Customers *customer) {
-    int i, j, nif[MAX_CLIENTS], count[MAX_CLIENTS], counter = 0, tempNif, tempCount = 0;
+    int i, j, counter = 0, tempNif = 0, tempCount = 0;
+    int *nif, *count;
+    nif = (int *)calloc(customer->counter, sizeof(int));
+    count = (int *)calloc(customer->counter, sizeof(int));
     nif[0] = 0;
     struct tm t = {.tm_year = date.year, .tm_mon = date.month, .tm_mday = date.day};
     t.tm_mday += 5;
@@ -116,6 +119,8 @@ void listRankCustomers(Orders *order, Date date, Customers *customer) {
         }
     }
     exportRankedCustomers(*(&customer), counter, nif, count);
+    free(nif);
+    free(count);
 }
 
 void exportRankedProducts(char cod[MAX_PRODUCTS][COD_PRODUCT_SIZE], char name[MAX_PRODUCTS][MAX_NAME_CHARS], double price[MAX_PRODUCTS], int height[MAX_PRODUCTS], int lenght[MAX_PRODUCTS], int width[MAX_PRODUCTS], int quantity[MAX_PRODUCTS], int count) {
